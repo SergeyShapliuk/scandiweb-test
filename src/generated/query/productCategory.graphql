@@ -1,0 +1,30 @@
+
+ query CategoryProduct{
+    categories {
+      name
+      products {
+        id
+        name
+        inStock
+        attributes {
+          name
+          items {
+            id
+            value
+            displayValue
+          }
+        }
+        gallery
+        prices {
+          currency {
+            symbol
+            label
+          }
+          amount
+        }
+      }
+    }
+  }
+
+
+

@@ -7,6 +7,7 @@
   "extends": [
     "airbnb",
     "prettier"
+
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -48,6 +49,7 @@
       "error"
     ],
     "prettier/prettier": "error",
+    "default-param-last" : "off",
     "jsx-a11y/label-has-for": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react/prop-types": 0,

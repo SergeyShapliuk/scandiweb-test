@@ -1,16 +1,30 @@
 import React from 'react';
 
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import ReactDOM from 'react-dom/client';
-
 import './index.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { store } from './store/rootStore/rootReducer';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/',
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
 );
 

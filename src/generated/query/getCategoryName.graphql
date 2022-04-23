@@ -1,0 +1,10 @@
+
+  query getProductCategoriesName{
+    category {
+      name
+    }
+    categories {
+      name
+    }
+  }
+

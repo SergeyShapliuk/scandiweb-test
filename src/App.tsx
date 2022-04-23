@@ -1,27 +1,51 @@
-import React from 'react';
+import React, { ComponentType, ErrorInfo, PureComponent } from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { connect } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { compose } from 'redux';
+
+import Header from './components/header/Header';
+import CategoryProducts from './components/products/CategoryProducts';
+import { initializeApp } from './store/mainReducer/mainReducer';
+import { RootStateType } from './store/rootStore/rootReducer';
+import ProductPage from './views/product/ProductPage';
+
+type MapStateToProps = {
+  initialized: boolean;
+};
+type AppType = MapStateToProps;
+
+class App extends PureComponent<any, AppType> {
+  componentDidMount() {
+    this.props.initializeApp();
+    console.log('compdidm');
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.log(error, info);
+  }
+
+  render() {
+    if (!this.props.initialized) {
+      return <div>Loading.........</div>;
+    }
+    return (
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<>All Product</>} />
+          <Route path="/:productsName" element={<CategoryProducts />} />
+          <Route path="/products/:productsId" element={<ProductPage />} />
+          <Route path="/cart" element={<div />} />
+        </Routes>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  initialized: state.main.initialized,
+});
+export default compose<ComponentType>(connect(mapStateToProps, { initializeApp }))(App);

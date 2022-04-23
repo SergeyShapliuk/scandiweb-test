@@ -1,0 +1,15 @@
+.productList{
+    font-size: 42px;
+    font-family: Raleway;
+    font-weight: 400;
+    line-height: 160%;
+    padding-bottom: 80px;
+    margin-left:101px;
+    color:#1D1F22;
+
+
+}
+.list{
+    display: flex;
+    flex-wrap: wrap;
+}
