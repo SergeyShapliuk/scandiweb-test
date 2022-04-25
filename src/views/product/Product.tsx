@@ -3,33 +3,36 @@ import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import cart from '../../assets/image/cart-white.svg';
-import { Products } from '../../generated/graphql';
 
 import s from './Product.module.css';
 
-type ProductType = {
-  data: Products;
+type ProductTypes = {
+  product: any;
 };
 
-class Product extends PureComponent<ProductType> {
+class Product extends PureComponent<ProductTypes> {
   render() {
-    const { data } = this.props;
-    console.log('product', data);
+    const { product } = this.props;
+    console.log(product.name);
     return (
-      <div key={data.id} className={s.item}>
-        <NavLink className={s.itemLink} to={`/products/${data.id}`}>
-          <img className={s.itemImage} src={data.gallery && data.gallery[0]} alt="item" />
-          {!data.inStock && <p className={s.outStock}> OUT OF STOCK</p>}
-          <p className={s.itemName}>{data.name}</p>
+      <div className={s.item}>
+        <NavLink className={s.itemLink} to={`/products/${product.id}`}>
+          <img
+            className={s.itemImage}
+            src={product.gallery && product.gallery[0]}
+            alt="item"
+          />
+          {!product.inStock && <p className={s.outStock}> OUT OF STOCK</p>}
+          <p className={s.itemName}>{product.name}</p>
           <p className={s.itemPrice}>
-            {data.prices.map(
+            {product.prices.map(
               (prc: any) => prc.currency.symbol && `${prc.currency.symbol} ${prc.amount}`,
             )}
           </p>
         </NavLink>
-        {data.inStock && (
-          <div id={data.id} className={s.addBtn}>
-            <img src={cart} id={data.id} className={s.btnSvg} alt="addToCart" />
+        {product.inStock && (
+          <div id={product.id} className={s.addBtn}>
+            <img src={cart} id={product.id} className={s.btnSvg} alt="addToCart" />
           </div>
         )}
       </div>

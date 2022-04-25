@@ -16,9 +16,9 @@ export interface WithQueryProps {
 }
 export const withQuery = <P extends object>(Component: ComponentType<P>) =>
   function foo(props: any) {
-    const queryCategoryName = useGetProductCategoriesNameQuery(props);
-    const queryCategoryProduct = useCategoryProductQuery(props);
-    const allProducts = useAllCategoryQuery(props);
+    const queryCategoryName = useGetProductCategoriesNameQuery();
+    const queryCategoryProduct = useCategoryProductQuery();
+    const allProducts = useAllCategoryQuery();
 
     return (
       <Component

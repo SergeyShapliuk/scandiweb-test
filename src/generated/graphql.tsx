@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | undefined;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
@@ -45,7 +45,7 @@ export enum CacheControlScope {
 export type Category = {
   __typename?: 'Category';
   name?: Maybe<Scalars['String']>;
-  products: Array<Maybe<Product>>;
+  products: Array<Maybe<ProductType>>;
 };
 
 export type CategoryInput = {
@@ -64,7 +64,7 @@ export type Price = {
   currency: Currency;
 };
 
-export type Product = {
+export type ProductType = {
   __typename?: 'Product';
   attributes?: Maybe<Array<Maybe<AttributeSet>>>;
   brand: Scalars['String'];
@@ -76,13 +76,12 @@ export type Product = {
   name: Scalars['String'];
   prices: Array<Price>;
 };
-
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
   category?: Maybe<Category>;
   currencies?: Maybe<Array<Maybe<Currency>>>;
-  product?: Maybe<Product>;
+  product?: Maybe<ProductType>;
 };
 
 export type QueryCategoryArgs = {
@@ -133,6 +132,41 @@ export type GetProductCategoriesNameQuery = {
   categories?: Array<{ __typename?: 'Category'; name?: string | null } | null> | null;
 };
 
+export type GetProductQueryVariables = Exact<{
+  productId: Scalars['String'];
+}>;
+
+export type GetProductQuery = {
+  __typename?: 'Query';
+  product?: {
+    __typename?: 'Product';
+    id: string;
+    name: string;
+    inStock?: boolean | null;
+    gallery?: Array<string | null> | null;
+    description: string;
+    category: string;
+    brand: string;
+    attributes?: Array<{
+      __typename?: 'AttributeSet';
+      id: string;
+      name?: string | null;
+      type?: string | null;
+      items?: Array<{
+        __typename?: 'Attribute';
+        displayValue?: string | null;
+        value?: string | null;
+        id: string;
+      } | null> | null;
+    } | null> | null;
+    prices: Array<{
+      __typename?: 'Price';
+      amount: number;
+      currency: { __typename?: 'Currency'; label: string; symbol: string };
+    }>;
+  } | null;
+};
+
 export type CategoryProductQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CategoryProductQuery = {
@@ -163,6 +197,32 @@ export type CategoryProductQuery = {
       }>;
     } | null>;
   } | null> | null;
+};
+export type CategoryProductType = {
+  __typename?: 'Category';
+  name?: string | null;
+  products: Array<{
+    __typename?: 'Product';
+    id: string;
+    name: string;
+    inStock?: boolean | null;
+    gallery?: Array<string | null> | null;
+    attributes?: Array<{
+      __typename?: 'AttributeSet';
+      name?: string | null;
+      items?: Array<{
+        __typename?: 'Attribute';
+        id: string;
+        value?: string | null;
+        displayValue?: string | null;
+      } | null> | null;
+    } | null> | null;
+    prices: Array<{
+      __typename?: 'Price';
+      amount: number;
+      currency: { __typename?: 'Currency'; symbol: string; label: string };
+    }>;
+  } | null>;
 };
 
 export const AllCategoryDocument = gql`
@@ -292,6 +352,77 @@ export type GetProductCategoriesNameLazyQueryHookResult = ReturnType<
 export type GetProductCategoriesNameQueryResult = Apollo.QueryResult<
   GetProductCategoriesNameQuery,
   GetProductCategoriesNameQueryVariables
+>;
+export const GetProductDocument = gql`
+  query getProduct($productId: String!) {
+    product(id: $productId) {
+      id
+      name
+      inStock
+      gallery
+      description
+      category
+      attributes {
+        id
+        name
+        type
+        items {
+          displayValue
+          value
+          id
+        }
+      }
+      prices {
+        currency {
+          label
+          symbol
+        }
+        amount
+      }
+      brand
+    }
+  }
+`;
+
+/**
+ * __useGetProductQuery__
+ *
+ * To run a query within a React component, call `useGetProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useGetProductQuery(
+  baseOptions: Apollo.QueryHookOptions<GetProductQuery, GetProductQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetProductQuery, GetProductQueryVariables>(
+    GetProductDocument,
+    options,
+  );
+}
+export function useGetProductLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetProductQuery, GetProductQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetProductQuery, GetProductQueryVariables>(
+    GetProductDocument,
+    options,
+  );
+}
+export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
+export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
+export type GetProductQueryResult = Apollo.QueryResult<
+  GetProductQuery,
+  GetProductQueryVariables
 >;
 export const CategoryProductDocument = gql`
   query CategoryProduct {

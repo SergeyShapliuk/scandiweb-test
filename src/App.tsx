@@ -7,20 +7,22 @@ import { Route, Routes } from 'react-router-dom';
 import { compose } from 'redux';
 
 import Header from './components/header/Header';
-import CategoryProducts from './components/products/CategoryProducts';
+import CategoryProductsQuery from './components/products/CategoryProductsQuery';
+import ProductPageQuery from './components/products/ProductPageQuery';
 import { initializeApp } from './store/mainReducer/mainReducer';
 import { RootStateType } from './store/rootStore/rootReducer';
-import ProductPage from './views/product/ProductPage';
 
 type MapStateToProps = {
   initialized: boolean;
 };
-type AppType = MapStateToProps;
+type AppType = {
+  initializeApp: () => void;
+};
+export type AppTypes = MapStateToProps & AppType;
 
-class App extends PureComponent<any, AppType> {
+class App extends PureComponent<AppTypes> {
   componentDidMount() {
     this.props.initializeApp();
-    console.log('compdidm');
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
@@ -35,9 +37,9 @@ class App extends PureComponent<any, AppType> {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<>All Product</>} />
-          <Route path="/:productsName" element={<CategoryProducts />} />
-          <Route path="/products/:productsId" element={<ProductPage />} />
+          <Route path="/" element={<div>All product</div>} />
+          <Route path="/:productsName" element={<CategoryProductsQuery />} />
+          <Route path="/products/:productsId" element={<ProductPageQuery />} />
           <Route path="/cart" element={<div />} />
         </Routes>
       </div>
@@ -48,4 +50,8 @@ class App extends PureComponent<any, AppType> {
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   initialized: state.main.initialized,
 });
-export default compose<ComponentType>(connect(mapStateToProps, { initializeApp }))(App);
+export default compose<ComponentType>(
+  connect<MapStateToProps, {}, {}, RootStateType>(mapStateToProps, {
+    initializeApp,
+  }),
+)(App);

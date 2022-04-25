@@ -1,21 +1,24 @@
 import React, { PureComponent } from 'react';
 
+import { CategoryProductType } from '../generated/graphql';
+
 import Product from './product/Product';
 import s from './ProductList.module.css';
 
-type ProductsListType = {
-  data: any;
+export type ProductsListType = {
+  data: CategoryProductType;
 };
+
 class ProductsList extends PureComponent<ProductsListType> {
   render() {
-    console.log('productList');
     const { data } = this.props;
+    console.log('productList', data);
     return (
       <div className={s.productList}>
         <div>{data.name}</div>
         <div className={s.list}>
-          {data.products.map((m: any) => (
-            <Product data={m} />
+          {data.products.map(m => (
+            <Product product={m} key={m?.name} />
           ))}
         </div>
       </div>

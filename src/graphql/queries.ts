@@ -1,35 +1,6 @@
 import { gql } from '@apollo/client';
 
-const getAllProducts = () => gql`
-  query {
-    category {
-      name
-      products {
-        id
-        name
-        inStock
-        attributes {
-          name
-          items {
-            id
-            value
-            displayValue
-          }
-        }
-        gallery
-        prices {
-          currency {
-            symbol
-            label
-          }
-          amount
-        }
-      }
-    }
-  }
-`;
-
-const getProductCategories = gql`
+export const getProductCategories = gql`
   query {
     categories {
       name
@@ -58,15 +29,35 @@ const getProductCategories = gql`
   }
 `;
 
-const getProductCategoriesName = () => gql`
-  query getProductCategoriesName {
-    category {
-      name
+export const getProduct = (productId: string) => gql`
+query {
+  product(id: "${productId}") {
+     id
+     name
+     inStock
+     gallery
+     description
+     category
+     attributes {
+       id
+       name
+       type
+       items {
+         displayValue
+         value
+         id
+       }
+     }
+     prices {
+     currency{
+      label
+      symbol
     }
-    categories {
-      name
-    }
-  }
+       amount
+     }
+     brand
+   }
+}
 `;
 
 // const getProductAttributes = itemName => gql`
@@ -86,70 +77,32 @@ const getProductCategoriesName = () => gql`
 //                 }
 //               `;
 //
-// const getProduct = productId => gql`
-// query {
-//   product(id: "${productId}") {
-//     id
-//     name
-//     inStock
-//     gallery
-//     description
-//     category
-//     attributes {
 
-//       name
-//       items {
-//         id
-//         value
-//         displayValue
-//       }
+// const getCurrencies = () => gql`
+//   query {
+//     currencies {
+//       label
+//       symbol
 //     }
-//     prices {
-//       amount
-//       currency{
-//           label
-//           symbol
-//       }
-//     }
-//     brand
 //   }
-// }
 // `;
-
-const getCurrencies = () => gql`
-  query {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
-
-const getPrices = () => gql`
-  query {
-    category {
-      name
-      products {
-        name
-        id
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-      }
-    }
-  }
-`;
-
-export {
-  getAllProducts,
-  getProductCategories,
-  getProductCategoriesName,
-  // getProductAttributes,
-  // getProduct,
-  getCurrencies,
-  getPrices,
-};
+//
+// const getPrices = () => gql`
+//   query {
+//     category {
+//       name
+//       products {
+//         name
+//         id
+//         prices {
+//           currency {
+//             label
+//             symbol
+//           }
+//           amount
+//         }
+//       }
+//     }
+//   }
+// `;
+//
