@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
-export type Maybe<T> = T | undefined;
+export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
@@ -76,6 +76,7 @@ export type ProductType = {
   name: Scalars['String'];
   prices: Array<Price>;
 };
+
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
@@ -130,6 +131,17 @@ export type GetProductCategoriesNameQuery = {
   __typename?: 'Query';
   category?: { __typename?: 'Category'; name?: string | null } | null;
   categories?: Array<{ __typename?: 'Category'; name?: string | null } | null> | null;
+};
+
+export type GetCurrenciesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetCurrenciesQuery = {
+  __typename?: 'Query';
+  currencies?: Array<{
+    __typename?: 'Currency';
+    label: string;
+    symbol: string;
+  } | null> | null;
 };
 
 export type GetProductQueryVariables = Exact<{
@@ -352,6 +364,59 @@ export type GetProductCategoriesNameLazyQueryHookResult = ReturnType<
 export type GetProductCategoriesNameQueryResult = Apollo.QueryResult<
   GetProductCategoriesNameQuery,
   GetProductCategoriesNameQueryVariables
+>;
+export const GetCurrenciesDocument = gql`
+  query getCurrencies {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
+
+/**
+ * __useGetCurrenciesQuery__
+ *
+ * To run a query within a React component, call `useGetCurrenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrenciesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrenciesQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetCurrenciesQuery, GetCurrenciesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCurrenciesQuery, GetCurrenciesQueryVariables>(
+    GetCurrenciesDocument,
+    options,
+  );
+}
+export function useGetCurrenciesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCurrenciesQuery,
+    GetCurrenciesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCurrenciesQuery, GetCurrenciesQueryVariables>(
+    GetCurrenciesDocument,
+    options,
+  );
+}
+export type GetCurrenciesQueryHookResult = ReturnType<typeof useGetCurrenciesQuery>;
+export type GetCurrenciesLazyQueryHookResult = ReturnType<
+  typeof useGetCurrenciesLazyQuery
+>;
+export type GetCurrenciesQueryResult = Apollo.QueryResult<
+  GetCurrenciesQuery,
+  GetCurrenciesQueryVariables
 >;
 export const GetProductDocument = gql`
   query getProduct($productId: String!) {

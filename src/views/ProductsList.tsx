@@ -12,7 +12,7 @@ export type ProductsListType = {
 class ProductsList extends PureComponent<ProductsListType> {
   render() {
     const { data } = this.props;
-    console.log('productList', data);
+    console.log('productListttt', data);
     return (
       <div className={s.productList}>
         <div>{data.name}</div>

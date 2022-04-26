@@ -78,15 +78,15 @@ query {
 //               `;
 //
 
-// const getCurrencies = () => gql`
-//   query {
-//     currencies {
-//       label
-//       symbol
-//     }
-//   }
-// `;
-//
+export const getCurrencies = gql`
+  query {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
+
 // const getPrices = () => gql`
 //   query {
 //     category {

@@ -1,16 +1,111 @@
 .currency{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 65px;
+  margin-left: -230px;
+  background-color: #5ece7b;
 
-  width: 12px;
-  height: 29px;
-  left: 10px;
-  top: 0px;
-  font-family: 'Raleway';
+}
+/*.actionsContainer{*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  width: 65px;*/
+/*}*/
+/*.currencySwitcher{*/
+/*  position: relative;*/
+/*}*/
+/*.currencySwitcherValue{*/
+/*  font-weight: 500;*/
+/*  font-size: 18px;*/
+/*  line-height: 29px;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.currencySwitcherValue:hover {*/
+/*  opacity: .7;*/
+/*}*/
+/*.currencyArrow{*/
+/*  position: absolute;*/
+/*  width: 5px;*/
+/*  height: 5px;*/
+/*  top: 13px;*/
+/*  left: 22px;*/
+/*  transform: rotate(135deg);*/
+/*  background-color: black;*/
+/*}*/
+/*.actions-currency-arrow::after {*/
+/*  display: block;*/
+/*  content: '';*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*  border-width: 1px 1px 0 0;*/
+/*  border-style: solid;*/
+/*}*/
+/*.currenciesList{*/
+/*  display: none;*/
+/*  position: absolute;*/
+/*  top: 30px;*/
+/*  left: -20px;*/
+
+/*  width: 114px;*/
+/*  min-height: 169px;*/
+/*  padding-left: 20px;*/
+/*  padding-top: 20px;*/
+/*  background-color: #FFFFFF;*/
+/*}*/
+/*.open{*/
+
+/*}*/
+.currencyButton{
+  position:relative;
+  font-family: Raleway;
+  font-weight:500;
+  font-size:20px;
+  margin-right:20px;
+  line-height: 160%;
+  border:none;
+  background-color: #FFF;
+  cursor: pointer;
+  transition:all 250ms;
+}
+
+.currencyButton:hover{
+  transform:scale(1.06)
+}
+
+.currencyOptions{
+  position:absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  background-color: #FFF;
+  z-index:10;
+  box-shadow:0px 4px 35px rgba(168,172,176,0.19);
+}
+
+.optionsButton{
+  padding:20px 0;
+  font-family:Raleway;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
-  line-height: 160%;
-  display: flex;
-  align-items: flex-end;
-  color: #1D1F22;
+  line-height:160%;
+  border:none;
+  background-color: #FFF;
+  cursor:pointer;
+  transition:  all 250ms;
+}
 
+.optionsButton:hover{
+  color: #ffffff;
+  background-color: #5ece7b;
+
+}
+
+
+.down{
+  width:10px;
+  margin-bottom:0px;
+  height:10px;
 }

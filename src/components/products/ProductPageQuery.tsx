@@ -3,6 +3,7 @@ import React, { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import { ProductType } from '../../generated/graphql';
 import { withRouter, WithRouterProps } from '../../services/Hoc';
 import { getProduct } from '../../services/selectors';
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
@@ -11,10 +12,10 @@ import { RootStateType } from '../../store/rootStore/rootReducer';
 import ProductPage from '../../views/product/ProductPage';
 
 type MapStateToProps = {
-  // productPage: ProductType;
+  productPage: ProductType;
 };
 type ProductPageQueryType = {
-  // getProductPage: (productsId: string) => void;
+  getProductPage: (productsId: string) => void;
 };
 interface Params {
   productsId: string;
@@ -23,21 +24,22 @@ export type ProductPageQueryTypes = WithQueryProps &
   WithRouterProps<Params> &
   MapStateToProps &
   ProductPageQueryType;
-class ProductPageQuery extends PureComponent<ProductPageQueryTypes> {
-  render() {
-    const { loading, error, data } = this.props.allProducts;
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+class ProductPageQuery extends PureComponent<any, ProductPageQueryTypes> {
+  componentDidMount() {
     const { params } = this.props.match;
-    console.log('ProductPageQuery', data);
+    console.log('comdidmount');
+    console.log('comdidmountparams', params.productsId);
+    this.props.getProductPage(params.productsId);
+  }
+
+  render() {
+    const product = this.props.productPage;
+    console.log('productPage', product);
     return (
-      data && (
-        <>
-          {' '}
-          {data.category?.products.map(
-            m => m?.id === params.productsId && <ProductPage key={m.id} product={m} />,
-          )}
-        </>
+      product.id && (
+        <div>
+          <ProductPage product={product} />
+        </div>
       )
     );
   }

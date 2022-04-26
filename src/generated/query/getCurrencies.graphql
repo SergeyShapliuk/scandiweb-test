@@ -1,0 +1,8 @@
+
+  query getCurrencies{
+    currencies {
+      label
+      symbol
+    }
+  }
+

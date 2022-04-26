@@ -13,12 +13,19 @@ class Navbar extends PureComponent<any> {
     if (error) return <p>Error :(</p>;
     return (
       <div className={s.navBar}>
-        {data &&
-          data.categories?.map((m: any) => (
-            <NavLink to={`/${m.name}`} key={m.name}>
-              {m.name.toUpperCase()}
-            </NavLink>
-          ))}
+        <ul className={s.list}>
+          {data &&
+            data.categories?.map((m: any) => (
+              <li key={m.name} className={s.item}>
+                <NavLink
+                  to={`/${m.name}`}
+                  className={navData => (navData.isActive ? s.active : s.item)}
+                >
+                  {m.name.toUpperCase()}
+                </NavLink>
+              </li>
+            ))}
+        </ul>
       </div>
     );
   }

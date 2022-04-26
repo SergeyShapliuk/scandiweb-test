@@ -1,4 +1,8 @@
 import { gql } from 'apollo-boost';
+import { Dispatch } from 'redux';
+
+import { client } from '../components/AppoloClient';
+import { setProduct } from '../store/mainReducer/mainReducer';
 
 export default gql`
   query productsCategory($categoryName: String!) {
@@ -55,4 +59,34 @@ export const getProductCategories = (categoryName: string) => gql`
       }
     }
   }
+`;
+export const getProduct = (productId: string) => gql`
+query {
+  product(id: "${productId}") {
+     id
+     name
+     inStock
+     gallery
+     description
+     category
+     attributes {
+       id
+       name
+       type
+       items {
+         displayValue
+         value
+         id
+       }
+     }
+     prices {
+     currency{
+      label
+      symbol
+    }
+       amount
+     }
+     brand
+   }
+}
 `;

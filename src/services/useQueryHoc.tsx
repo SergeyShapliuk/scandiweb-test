@@ -3,9 +3,11 @@ import { ComponentType } from 'react';
 import {
   AllCategoryQueryHookResult,
   CategoryProductQueryHookResult,
+  GetCurrenciesQueryHookResult,
   GetProductCategoriesNameQueryHookResult,
   useAllCategoryQuery,
   useCategoryProductQuery,
+  useGetCurrenciesQuery,
   useGetProductCategoriesNameQuery,
 } from '../generated/graphql';
 
@@ -13,12 +15,14 @@ export interface WithQueryProps {
   queryCategoryName: GetProductCategoriesNameQueryHookResult;
   queryCategoryProduct: CategoryProductQueryHookResult;
   allProducts: AllCategoryQueryHookResult;
+  getCurrencies: GetCurrenciesQueryHookResult;
 }
 export const withQuery = <P extends object>(Component: ComponentType<P>) =>
   function foo(props: any) {
     const queryCategoryName = useGetProductCategoriesNameQuery();
     const queryCategoryProduct = useCategoryProductQuery();
     const allProducts = useAllCategoryQuery();
+    const getCurrencies = useGetCurrenciesQuery();
 
     return (
       <Component
@@ -27,6 +31,7 @@ export const withQuery = <P extends object>(Component: ComponentType<P>) =>
         queryCategoryName={queryCategoryName}
         queryCategoryProduct={queryCategoryProduct}
         allProducts={allProducts}
+        getCurrencies={getCurrencies}
       />
     );
   };
