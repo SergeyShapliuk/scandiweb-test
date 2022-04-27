@@ -1,13 +1,28 @@
-import React, { PureComponent } from 'react';
+import React, { ComponentType, PureComponent } from 'react';
 
-import arrowIcon from '../../assets/image/arrow.svg';
-import { withQuery } from '../../services/useQueryHoc';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import { GetCurrenciesQuery } from '../../generated/graphql';
+import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
+import { changeCurrencies } from '../../store/mainReducer/mainReducer';
+import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './Currency.module.css';
 
-class Currency extends PureComponent<any> {
-  private currencyWrapperRef: any = React.createRef();
+type MapStateToProps = {
+  currency: string;
+};
+type OwnPropsType = {
+  data: GetCurrenciesQuery;
+};
+type CurrencyType = {
+  data: GetCurrenciesQuery;
+  changeCurrencies: (currency: string) => void;
+};
 
+type CurrencyTypes = MapStateToProps & CurrencyType & OwnPropsType & WithQueryProps;
+class Currency extends PureComponent<CurrencyTypes> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -15,9 +30,15 @@ class Currency extends PureComponent<any> {
     };
   }
 
-  // onBtnClick = () => {
-  //   this.setState(prev => ({ showCurrencies: !prev.showCurrencies }));
-  // };
+  onBtnClick = () => {
+    // @ts-ignore
+    this.setState(prevState => ({ showCurrencies: !prevState.showCurrencies }));
+  };
+
+  changeCurrency = (e: any) => {
+    this.props.changeCurrencies(e.currentTarget.value);
+    this.setState({ showCurrencies: false });
+  };
   // openCurrencies = () => {
   //   this.props.setIsOpenCurrencies(!this.props.isOpenCurrencies);
   // };
@@ -33,8 +54,8 @@ class Currency extends PureComponent<any> {
     console.log('currince', data);
     // @ts-ignore
     const { showCurrencies } = this.state;
-    const { currencies } = data;
-    // const { isOpenCurrencies } = this.props;
+    const { currency } = this.props;
+    console.log('currency', currency);
     return (
       // <div className={s.currency}>
       //   <div className={s.actionsContainer}>
@@ -54,34 +75,39 @@ class Currency extends PureComponent<any> {
       //   {/* <span>$</span> */}
       // </div>
       <div className={s.currency}>
-        <div ref={this.currencyWrapperRef}>
-          <div className={s.currencyButton} onClick={() => {}} aria-hidden>
-            {/* {currencies.id} */}
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            <img className={s.down} src={arrowIcon} alt="" />
-            <span className={s.currencyArrow} />
-          </div>
-          {showCurrencies && (
-            <div className={s.currencyOptions}>
-              {currencies.map((currency: any, index: any) => (
-                // eslint-disable-next-line react/button-has-type
-                <button
-                  className={s.optionsButton}
-                  key={index.id}
-                  id={currency.symbol}
-                  // onClick={this.changeCurrency}
-                >
-                  {currency.symbol}
-                  &#160;
-                  {currency.label}
-                </button>
-              ))}
-            </div>
-          )}
+        {/* <div ref={this.currencyWrapperRef}> */}
+
+        <div className={s.currencyButton} onClick={this.onBtnClick} aria-hidden>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          {currency}
+
+          <div className={showCurrencies ? s.up : s.down} />
         </div>
+        {data && showCurrencies && (
+          <div className={s.currencyOptions}>
+            {data.currencies?.map(c => (
+              // eslint-disable-next-line react/button-has-type
+              <button
+                className={s.optionsButton}
+                // value={currency?.symbol}
+                id={c?.symbol}
+                value={c?.symbol}
+                onClick={this.changeCurrency}
+              >
+                {c?.symbol} {c?.label}
+              </button>
+            ))}
+          </div>
+        )}
+        {/* </div> */}
       </div>
     );
   }
 }
-
-export default withQuery(Currency);
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  currency: state.main.currency,
+});
+export default compose<ComponentType>(
+  connect(mapStateToProps, { changeCurrencies }),
+  withQuery,
+)(Currency);

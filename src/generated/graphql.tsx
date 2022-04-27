@@ -76,7 +76,16 @@ export type ProductType = {
   name: Scalars['String'];
   prices: Array<Price>;
 };
-
+export type ProductCartType = {
+  attributes?: Maybe<Array<Maybe<AttributeSet>>>;
+  brand: Scalars['String'];
+  category: Scalars['String'];
+  gallery?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  prices: Array<Price>;
+  count: Scalars['Int'];
+};
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;

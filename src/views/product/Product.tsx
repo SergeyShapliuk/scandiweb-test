@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react';
 
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import cart from '../../assets/image/cart-white.svg';
+import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './Product.module.css';
 
+type MapStateToProps = {
+  currency: string;
+};
 type ProductTypes = {
   product: any;
-};
+} & MapStateToProps;
 
 class Product extends PureComponent<ProductTypes> {
   render() {
     const { product } = this.props;
+    const { currency } = this.props;
     console.log(product.name);
     return (
       <div className={s.item}>
@@ -26,7 +32,9 @@ class Product extends PureComponent<ProductTypes> {
           <p className={s.itemName}>{product.name}</p>
           <p className={s.itemPrice}>
             {product.prices.map(
-              (prc: any) => prc.currency.symbol && `${prc.currency.symbol} ${prc.amount}`,
+              (prc: any) =>
+                prc.currency.symbol === currency &&
+                `${prc.currency.symbol} ${prc.amount}`,
             )}
           </p>
         </NavLink>
@@ -39,5 +47,7 @@ class Product extends PureComponent<ProductTypes> {
     );
   }
 }
-
-export default Product;
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  currency: state.main.currency,
+});
+export default connect(mapStateToProps, {})(Product);

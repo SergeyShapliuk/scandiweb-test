@@ -12,7 +12,7 @@ class Header extends PureComponent<any> {
     return (
       <div className={s.header}>
         <Navbar />
-        <img src={logoIcon} alt="logo" />
+        <img src={logoIcon} className={s.logo} alt="logo" />
         <Currency />
         <Cart />
       </div>

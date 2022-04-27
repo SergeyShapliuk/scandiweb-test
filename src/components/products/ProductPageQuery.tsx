@@ -24,7 +24,7 @@ export type ProductPageQueryTypes = WithQueryProps &
   WithRouterProps<Params> &
   MapStateToProps &
   ProductPageQueryType;
-class ProductPageQuery extends PureComponent<any, ProductPageQueryTypes> {
+class ProductPageQuery extends PureComponent<ProductPageQueryTypes> {
   componentDidMount() {
     const { params } = this.props.match;
     console.log('comdidmount');

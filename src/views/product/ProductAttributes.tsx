@@ -2,20 +2,27 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 
-import { ProductType } from '../../generated/graphql';
-import { setAttribute } from '../../store/mainReducer/mainReducer';
+import { AttributeSet, ProductType } from '../../generated/graphql';
+import { addAttributes } from '../../store/mainReducer/mainReducer';
+import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './ProductAttributes.module.css';
 
+type MapStateToProps = {
+  attributes: AttributeSet[];
+};
 type ProductAttributesType = {
   product: ProductType;
+  addAttributes: (attribute: AttributeSet[]) => void;
 };
-class ProductAttributes extends PureComponent<ProductAttributesType> {
+type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
+
+class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   chooseAttribute = (ID: string, id: string) => {
     const attr = this.props.product.attributes?.find(item => item?.id === ID);
     const res = { ...attr, items: attr?.items?.filter(v => v?.id === id) };
-    // @ts-ignore
-    this.props.setAttribute(res);
+    console.log('res', res);
+    this.props.addAttributes(res);
   };
 
   render() {
@@ -64,4 +71,7 @@ class ProductAttributes extends PureComponent<ProductAttributesType> {
     ));
   }
 }
-export default connect(setAttribute)(ProductAttributes);
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  attributes: state.main.attributes,
+});
+export default connect(mapStateToProps, { addAttributes })(ProductAttributes);
