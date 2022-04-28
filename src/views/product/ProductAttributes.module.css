@@ -21,13 +21,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     width: 63px;
     height: 45px;
     border: 1px solid #1D1F22;
     margin-right: 10px;
     margin-bottom: 20px;
     cursor: pointer;
+    background-color: gold;
 }
 
 .attributeItem:hover {
@@ -35,11 +35,30 @@
     color: #A6A6A6;
 }
 
-.attributeItem.active {
-    background-color: red;
+.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 63px;
+    height: 45px;
+    border: 1px solid #c51111!important;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
     color: #fafafa;
 }
 
-.attributeItem.activeSwatch {
+.activeSwatch{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 63px;
+    height: 45px;
+    border: 1px solid #1D1F22;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
     outline: 2px solid red;
+    background-color: blueviolet;
 }

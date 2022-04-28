@@ -1,55 +1,58 @@
 import React, { PureComponent } from 'react';
 
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+
+import { ProductCartType } from '../../generated/graphql';
+import { clearCart } from '../../store/mainReducer/mainReducer';
+import { RootStateType } from '../../store/rootStore/rootReducer';
+import Cart from '../cart/Cart';
+
 import s from './CartModal.module.css';
 
-class CartModal extends PureComponent<any> {
-  handleViewBtn = () => {
-    // this.props.history.push('cart');
-    // this.props.handleModal();
-  };
+type MapStateToProps = {
+  productCart: ProductCartType[];
+};
+type CartModalType = MapStateToProps & {
+  clearCart: () => void;
+};
 
+class CartModal extends PureComponent<CartModalType> {
   checkOut = () => {
-    // if (this.props.products.length) {
-    //   this.props.clearCart();
-    //   this.props.handleModal();
-    //   this.props.history.push('/');
-    //   alert('products has been bought successfully');
-    // } else {
-    //   alert('add some product');
-    // }
+    if (this.props.productCart.length) {
+      this.props.clearCart();
+      // eslint-disable-next-line no-alert
+      alert('products has been bought successfully');
+    }
+    // eslint-disable-next-line no-alert
+    alert('add some product');
   };
 
   render() {
-    // const { products } = this.props;
+    const { productCart } = this.props;
     return (
       <div className={s.container}>
         <h4 className={s.title}>
           My Bag
           <span className={s.titleSpan}>
-            {/* {`, ${products.length} item${products.length === 1 ? '' : 's'}`} */}
+            {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
           </span>
         </h4>
-        {/* <CartProducts products={products} */}
-        {/*              price={price} */}
-        {/*              categories={categories} */}
-        {/*              incCount={incCount} */}
-        {/*              decCount={decCount} */}
-        {/*              deleteItem={deleteItem} */}
-        {/*              styles={styles} */}
-        {/*              totalSum={totalSum} */}
-        {/*              setTotalSum={setTotalSum} */}
-        {/* /> */}
+        <Cart />
         <div className={s.buttons}>
-          <button className={s.viewBtn} onClick={this.handleViewBtn}>
-            view bag
-          </button>
-          <button className={s.checkoutButton} onClick={this.checkOut}>
+          <NavLink to="/cart">
+            <span className={s.viewBtn}>view bag</span>
+          </NavLink>
+
+          <span className={s.checkoutButton} onClick={this.checkOut} aria-hidden>
             check out
-          </button>
+          </span>
         </div>
       </div>
     );
   }
 }
-
-export default CartModal;
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  productCart: state.main.productCart,
+});
+export default connect(mapStateToProps, { clearCart })(CartModal);

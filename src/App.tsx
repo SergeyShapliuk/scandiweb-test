@@ -11,6 +11,7 @@ import CategoryProductsQuery from './components/products/CategoryProductsQuery';
 import ProductPageQuery from './components/products/ProductPageQuery';
 import { initializeApp } from './store/mainReducer/mainReducer';
 import { RootStateType } from './store/rootStore/rootReducer';
+import Cart from './views/cart/Cart';
 
 type MapStateToProps = {
   initialized: boolean;
@@ -40,7 +41,7 @@ class App extends PureComponent<AppTypes> {
           <Route path="/" element={<div>All product</div>} />
           <Route path="/:productsName" element={<CategoryProductsQuery />} />
           <Route path="/products/:productsId" element={<ProductPageQuery />} />
-          <Route path="/cart" element={<div />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
     );

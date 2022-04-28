@@ -14,7 +14,7 @@ const initialState = {
   allProducts: {} as CategoryProductQuery,
   productPage: {} as ProductType,
   attributes: [] as AttributeSet[],
-  productCart: {} as ProductCartType,
+  productCart: [] as ProductCartType[],
   currency: '$' as string,
 };
 type InitialStateType = typeof initialState;
@@ -31,11 +31,27 @@ export const mainReducer = (
     case 'SET_PRODUCT':
       return { ...state, productPage: action.value };
     case 'SET_ATTRIBUTES':
-      return { ...state, attributes: action.attribute };
+      if (state.attributes.find(v => v.id === action.attribute.id)) {
+        return {
+          ...state,
+          attributes: state.attributes.map(val =>
+            val.id === action.attribute.id ? action.attribute : val,
+          ),
+        };
+      }
+      return {
+        ...state,
+        attributes: [...state.attributes, action.attribute],
+      };
     case 'SET_CURRENCY':
       return { ...state, currency: action.currency };
     case 'SET_PRODUCT_TO_CART':
-      return { ...state, productCart: action.product };
+      return {
+        ...state,
+        productCart: [...state.productCart, action.product],
+      };
+    case 'CLEAR_CART':
+      return { ...state, productCart: [] };
 
     default:
       return state;
@@ -47,12 +63,13 @@ export const setAllProducts = (value: CategoryProductQuery) =>
   ({ type: 'SET_ALL_PRODUCTS', value } as const);
 export const setProduct = (value: ProductType) =>
   ({ type: 'SET_PRODUCT', value } as const);
-export const setAttributes = (attribute: AttributeSet[]) =>
+export const setAttributes = (attribute: AttributeSet) =>
   ({ type: 'SET_ATTRIBUTES', attribute } as const);
 export const setCurrency = (currency: string) =>
   ({ type: 'SET_CURRENCY', currency } as const);
 export const setProductToCart = (product: ProductCartType) =>
   ({ type: 'SET_PRODUCT_TO_CART', product } as const);
+export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
 
 export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
   const data = await client.query({
@@ -78,13 +95,11 @@ export const changeCurrencies =
     dispatch(setCurrency(currency));
   };
 export const addAttributes =
-  (attribute: AttributeSet[]) => (dispatch: Dispatch<ActionsType>) => {
+  (attribute: AttributeSet) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAttributes(attribute));
   };
 export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     dispatch(setProductToCart(newProduct));
   };
 type ActionsType =
@@ -93,4 +108,5 @@ type ActionsType =
   | ReturnType<typeof setAllProducts>
   | ReturnType<typeof setAttributes>
   | ReturnType<typeof setCurrency>
-  | ReturnType<typeof setProductToCart>;
+  | ReturnType<typeof setProductToCart>
+  | ReturnType<typeof clearCart>;

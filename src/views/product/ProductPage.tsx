@@ -10,7 +10,7 @@ import ProductAttributes from './ProductAttributes';
 import s from './ProductPage.module.css';
 
 type MapStateToProps = {
-  productCart: ProductCartType;
+  productCart: ProductCartType[];
   attributes: AttributeSet[];
   currency: string;
 };
@@ -37,11 +37,10 @@ class ProductPage extends PureComponent<ProductPageTypes> {
   addToCart = () => {
     const { product, attributes, productCart } = this.props;
     if (attributes && attributes.length < (product.attributes?.length || 0)) {
-      console.log('atriibutes1', attributes);
-      console.log('atriibutes2', product.attributes);
+      console.log('atriibutes.reducer', attributes);
+      console.log('atriibutes.product.attributes', product.attributes);
       // eslint-disable-next-line no-alert
       alert('Please choose all attributes!');
-      return;
     }
     const newProduct: ProductCartType = {
       name: product?.name || '',
@@ -50,14 +49,16 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       gallery: product?.gallery || [],
       id: product.id || '',
       prices: product?.prices || [],
-      attributes: product.attributes || [],
+      attributes: attributes || [],
       count: 1,
     };
     const attributesValues = newProduct.attributes?.map(at =>
       at?.items?.map(v => v?.displayValue),
     );
-
-    if (productCart.id === newProduct.id) {
+    console.log('productPage.newProduct', newProduct);
+    console.log('productPage.attributesValues', attributesValues);
+    console.log('productCart ', productCart);
+    if (newProduct.id) {
       this.props.addProductCart(newProduct);
       console.log('newProduct', newProduct);
     } else {

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import logoIcon from '../../assets/image/logo.svg';
-import Cart from '../cart/Cart';
+import ModalContainer from '../cart/ModalContainer';
 import Currency from '../currency/Currency';
 import Navbar from '../navBar/Navbar';
 
@@ -14,7 +14,7 @@ class Header extends PureComponent<any> {
         <Navbar />
         <img src={logoIcon} className={s.logo} alt="logo" />
         <Currency />
-        <Cart />
+        <ModalContainer />
       </div>
     );
   }

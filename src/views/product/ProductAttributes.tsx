@@ -13,58 +13,84 @@ type MapStateToProps = {
 };
 type ProductAttributesType = {
   product: ProductType;
-  addAttributes: (attribute: AttributeSet[]) => void;
+  addAttributes: (attribute: AttributeSet) => void;
 };
 type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
 
 class ProductAttributes extends PureComponent<ProductAttributesTypes> {
-  chooseAttribute = (ID: string, id: string) => {
-    const attr = this.props.product.attributes?.find(item => item?.id === ID);
-    const res = { ...attr, items: attr?.items?.filter(v => v?.id === id) };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      itemId: '',
+    };
+  }
+
+  chooseAttribute = (nameId: string, itemId: string) => {
+    console.log('id', itemId);
+    console.log('ID', nameId);
+    const attr = this.props.product.attributes?.find(item => item?.id === nameId);
+    const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
+    console.log('attr', attr);
     console.log('res', res);
+    // @ts-ignore
     this.props.addAttributes(res);
+    this.setState({ itemId });
   };
 
   render() {
     const { product } = this.props;
-    console.log('attribute.name', product);
+    const { attributes } = this.props;
+
+    const { itemId }: any = this.state;
+
+    console.log(' itemId, nameId', itemId);
+    // console.log(isActive);
+    console.log('productAttributeComp', product);
+    console.log('stateProducytAttributeComp', attributes);
     return product.attributes?.map(m => (
-      <div key={m?.id} className={s.attributesContainer}>
+      <div key={m?.name} className={s.attributesContainer}>
         <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
         <div className={s.list}>
-          {m?.items?.map((a: any) =>
-            m.type === 'swatch' ? (
+          {m?.items?.map(
+            (a: any) => (
               <span
                 aria-hidden
+                key={a.id}
                 onClick={() => {
                   this.chooseAttribute(m?.id, a.id);
                 }}
-                className={`${s.attributeItem} ${
-                  product.attributes
-                    ?.find(it => it?.id === m?.id)
-                    ?.items?.find(itm => itm?.id === a.id)
-                    ? s.activeSwatch
-                    : null
-                }`}
+                className={itemId === a.id ? s.active : s.attributeItem}
+                // className={`${s.attributeItem} ${
+                //   product.attributes
+                //     ?.find(it => it?.id === m?.id)
+                //     ?.items?.find(itm => itm?.id === a.id)
+                //     ? s.active
+                //     : null
+                // }`}
                 style={{ backgroundColor: `${a.value}` }}
-              />
-            ) : (
-              <span
-                aria-hidden
-                className={`${s.attributeItem} ${
-                  product.attributes
-                    ?.find(it => it?.id === m?.id)
-                    ?.items?.find(itm => itm?.id === a.id)
-                    ? s.active
-                    : null
-                }`}
-                onClick={() => {
-                  this.chooseAttribute(m?.id, a.id);
-                }}
               >
-                {a.value}
+                {`${m.type !== 'swatch' ? a.value : ''}`} {itemId.id}
               </span>
             ),
+            // ) && (
+            //   <span
+            //     aria-hidden
+            //     key={a.id}
+            //     className={itemId === a.id ? s.active : s.attributeItem}
+            //     // className={`${s.attributeItem} ${
+            //     //   product.attributes
+            //     //     ?.find(it => it?.id === m?.id)
+            //     //     ?.items?.find(itm => itm?.id === a.id)
+            //     //     ? s.active
+            //     //     : s.attributeItem
+            //     // }`}
+            //     onClick={() => {
+            //       this.chooseAttribute(m?.id, a.id);
+            //     }}
+            //   >
+            //     {a.value}
+            //   </span>
+            // ),
           )}
         </div>
       </div>

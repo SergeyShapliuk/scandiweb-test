@@ -1,0 +1,204 @@
+.container {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+
+    /*position: absolute;*/
+    /*right: 87px;*/
+    /*top: 0;*/
+    /*min-width: 325px;*/
+    /*height: max-content;*/
+    /*color: #1D1F22;*/
+    /*background-color: #FFFFFF;*/
+    /*padding: 20px 13px;*/
+    /*z-index: 101;*/
+}
+
+.title {
+    font-family: Raleway,'sans-serif';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.titleSpan {
+    font-weight: 500;
+}
+
+.productItem {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    margin-top: 25px;
+}
+
+.brand,.name {
+    font-family: 'Raleway','sans-serif';
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 26px;
+}
+
+.price {
+    font-family: 'Raleway','sans-serif';
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 25px;
+    margin-top: 5px;
+    margin-bottom: 27px;
+}
+
+.attribute {
+    display: flex;
+    justify-content: space-around;
+    font-family: 'Source Sans Pro','sans-serif';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 10px;
+}
+
+.attributeItem {
+    min-width: 24px;
+    height: 24px;
+    border: 1px solid #A6A6A6;
+    padding: 0 2px;
+    margin: 2px;
+    text-align: center;
+    opacity: .7;
+}
+
+.active {
+    opacity: 1;
+    border-color: #1D1F22;
+}
+
+.gallery {
+    display: flex;
+    margin-left: 20px;
+}
+
+.countButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 137px;
+    margin-right: 10px;
+}
+
+.countBtn {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #1D1F22;
+    cursor: pointer;
+}
+
+.countBtn:hover {
+    outline: 1px solid black;
+}
+
+.plus {
+    display: inline-block;
+    background-color: inherit;
+    color: #1D1F22;
+    font-size: 18px;
+    padding-top: 1px;
+}
+
+.plus::before {
+    content: "+";
+}
+
+.minus {
+    display: inline-block;
+    width: 8px;
+    border-top: 2px solid #1D1F22;
+    padding-bottom: 3px;
+}
+
+
+.count {
+    font-family: 'Raleway','sans-serif';
+    font-weight: 500;
+}
+
+.imageWrapper {
+    width: 100%;
+}
+
+.image {
+    height: 137px;
+    width: 105px;
+}
+
+.deleteItem {
+    text-align: center;
+}
+
+.deleteBtn {
+    font-family: 'Roboto','sans-serif';
+    color: #1D1F22;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px dashed;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    opacity: .9;
+    color: red;
+}
+
+.totalSum {
+    display: flex;
+    justify-content: space-between;
+
+    font-family: 'Raleway','sans-serif';
+    font-weight: 700;
+    margin-top: 30px;
+}
+
+.totalTitle {
+    line-height: 18px;
+    padding-left: 5px;
+}
+
+.totalPrice {
+    line-height: 26px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.buttons button {
+    width: 140px;
+    height: 43px;
+    padding: 12px 27px;
+    font-family: 'Raleway', 'sans-serif';
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    opacity: .7;
+}
+
+.viewBtn {
+    border: 1px solid #1D1F22;
+    margin-left: 5px;
+}
+
+.checkoutButton {
+    color: #FFFFFF;
+    background-color: #5ECE7B;
+    margin-right: 5px;
+    border: none;
+}

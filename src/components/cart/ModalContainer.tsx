@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 
 import cartIcon from '../../assets/image/cart.svg';
-import { Modal } from '../modal/Modal';
+import CartModal from '../../views/cartModal/CartModal';
+import Modal from '../modal/Modal';
 
-import s from './Cart.module.css';
+import s from './ModalContainer.module.css';
 
-class Cart extends PureComponent<any> {
+class ModalContainer extends PureComponent {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -13,7 +14,7 @@ class Cart extends PureComponent<any> {
     };
   }
 
-  cartModal = () => {
+  cartModalHandler = () => {
     // @ts-ignore
     this.setState(prevState => ({ showModal: !prevState.showModal }));
   };
@@ -21,12 +22,15 @@ class Cart extends PureComponent<any> {
   render() {
     const { showModal }: any = this.state;
     return (
-      <div className={s.cart} onClick={this.cartModal} aria-hidden>
+      <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>
         <img src={cartIcon} alt="logo" />
         {showModal && (
-          <Modal>
-            <div>moooodaaal</div>
-            {/* {productCart ? <div className={s.cartCount}>{productCart}</div> : null} */}
+          <Modal
+            enableBackground
+            onClickBg={() => showModal(false)}
+            showModal={showModal}
+          >
+            <CartModal />
           </Modal>
         )}
       </div>
@@ -34,4 +38,4 @@ class Cart extends PureComponent<any> {
   }
 }
 
-export default Cart;
+export default ModalContainer;
