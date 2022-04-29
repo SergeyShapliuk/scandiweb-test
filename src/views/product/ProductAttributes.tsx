@@ -38,6 +38,8 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   };
 
   render() {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const { product } = this.props;
     const { attributes } = this.props;
 
@@ -45,56 +47,60 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
 
     console.log(' itemId, nameId', itemId);
     // console.log(isActive);
-    console.log('productAttributeComp', product);
-    console.log('stateProducytAttributeComp', attributes);
-    return product.attributes?.map(m => (
-      <div key={m?.name} className={s.attributesContainer}>
-        <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
-        <div className={s.list}>
-          {m?.items?.map(
-            (a: any) => (
-              <span
-                aria-hidden
-                key={a.id}
-                onClick={() => {
-                  this.chooseAttribute(m?.id, a.id);
-                }}
-                className={itemId === a.id ? s.active : s.attributeItem}
-                // className={`${s.attributeItem} ${
-                //   product.attributes
-                //     ?.find(it => it?.id === m?.id)
-                //     ?.items?.find(itm => itm?.id === a.id)
-                //     ? s.active
-                //     : null
-                // }`}
-                style={{ backgroundColor: `${a.value}` }}
-              >
-                {`${m.type !== 'swatch' ? a.value : ''}`} {itemId.id}
-              </span>
-            ),
-            // ) && (
-            //   <span
-            //     aria-hidden
-            //     key={a.id}
-            //     className={itemId === a.id ? s.active : s.attributeItem}
-            //     // className={`${s.attributeItem} ${
-            //     //   product.attributes
-            //     //     ?.find(it => it?.id === m?.id)
-            //     //     ?.items?.find(itm => itm?.id === a.id)
-            //     //     ? s.active
-            //     //     : s.attributeItem
-            //     // }`}
-            //     onClick={() => {
-            //       this.chooseAttribute(m?.id, a.id);
-            //     }}
-            //   >
-            //     {a.value}
-            //   </span>
-            // ),
-          )}
+    console.log('CartproductAttributeComp', product);
+    console.log('CartProducytAttributeComp', attributes);
+    return (
+      product.attributes?.length &&
+      product.attributes?.map(m => (
+        <div key={m?.name} className={s.attributesContainer}>
+          <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
+          <div className={s.list}>
+            {m?.items?.map(
+              (a: any) => (
+                <span
+                  aria-hidden
+                  key={a.id}
+                  onClick={() => {
+                    this.chooseAttribute(m?.id, a.id);
+                  }}
+                  className={itemId === a.id ? s.active : s.attributeItem}
+                  // className={`${s.attributeItem} ${
+                  //   product.attributes
+                  //     ?.find(it => it?.id === m?.id)
+                  //     ?.items?.find(itm => itm?.id === a.id)
+                  //     ? s.active
+                  //     : null
+                  // }`}
+                  style={{ backgroundColor: `${a.value}` }}
+                >
+                  sdfsdfsdfsdfsdfsdf
+                  {`${m.type !== 'swatch' ? a.value : ''}`} {itemId.id}
+                </span>
+              ),
+              // ) && (
+              //   <span
+              //     aria-hidden
+              //     key={a.id}
+              //     className={itemId === a.id ? s.active : s.attributeItem}
+              //     // className={`${s.attributeItem} ${
+              //     //   product.attributes
+              //     //     ?.find(it => it?.id === m?.id)
+              //     //     ?.items?.find(itm => itm?.id === a.id)
+              //     //     ? s.active
+              //     //     : s.attributeItem
+              //     // }`}
+              //     onClick={() => {
+              //       this.chooseAttribute(m?.id, a.id);
+              //     }}
+              //   >
+              //     {a.value}
+              //   </span>
+              // ),
+            )}
+          </div>
         </div>
-      </div>
-    ));
+      ))
+    );
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
