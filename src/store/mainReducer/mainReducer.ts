@@ -16,6 +16,7 @@ const initialState = {
   attributes: [] as AttributeSet[],
   productCart: [] as ProductCartType[],
   currency: '$' as string,
+  productCount: 0,
 };
 type InitialStateType = typeof initialState;
 
@@ -70,6 +71,7 @@ export const setCurrency = (currency: string) =>
 export const setProductToCart = (product: ProductCartType) =>
   ({ type: 'SET_PRODUCT_TO_CART', product } as const);
 export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
+export const setProductCount = () => ({ type: 'CLEAR_CART' } as const);
 
 export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
   const data = await client.query({

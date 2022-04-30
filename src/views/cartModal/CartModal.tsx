@@ -30,6 +30,7 @@ class CartModal extends PureComponent<CartModalType> {
 
   render() {
     const { productCart } = this.props;
+
     return (
       <div className={s.container}>
         <h4 className={s.title}>

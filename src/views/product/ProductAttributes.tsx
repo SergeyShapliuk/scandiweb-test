@@ -38,8 +38,6 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { product } = this.props;
     const { attributes } = this.props;
 
@@ -73,7 +71,6 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
                   // }`}
                   style={{ backgroundColor: `${a.value}` }}
                 >
-                  sdfsdfsdfsdfsdfsdf
                   {`${m.type !== 'swatch' ? a.value : ''}`} {itemId.id}
                 </span>
               ),

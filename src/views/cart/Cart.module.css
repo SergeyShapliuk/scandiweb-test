@@ -1,86 +1,195 @@
-.productItem{
+
+.cartContainer {
     display: flex;
     justify-content: space-between;
-    height: 50%;
+    height: 187px;
     color: #1d1f22;
+    margin-bottom: 20px;
 }
-.itemDescription{
+
+.itemsLeft {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.brand{
-    font-family: Raleway;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 27px;
+
+.itemLeft {
+    border: 1px black solid;
 }
-.name{
+
+
+.brand {
     font-family: Raleway;
-    font-size: 30px;
-    margin-top: 10px;
-    line-height: 27px;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 160%;
+    margin-top: 20px;
+    margin-bottom: 0px;
 }
-.price{
+
+.name {
     font-family: Raleway;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 12px;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 160%;
+    margin-top: 0px;
 }
+
+.price {
+    font-family: Raleway;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+    margin-top: 0;
+}
+
+
 .attributesContainer {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
+.attributesItem{
 
+}
 .title {
+    font-size: 2vw;
+    white-space: nowrap;
     font-family: Roboto Condensed;
     font-weight: 700;
-    font-size: 18px;
     line-height: 18px;
     margin-bottom: 8px;
+
+
 }
 
 .list {
     display: flex;
     padding-top: 10px;
 }
+
 .attributeItem {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 63px;
-    height: 45px;
-    border: 1px solid #1D1F22;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    background-color: gold;
+    justify-content: space-around;
+    font-family: 'Source Sans Pro', 'sans-serif';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+
+    border: 1px solid #A6A6A6;
+    padding: 0 4px;
+    margin: 2px;
+    /*min-width: 24px;*/
+    /*    height: 24px;*/
+    /*    border: 1px solid #A6A6A6;*/
+    /*    padding: 0 2px;*/
+    /*    margin: 2px;*/
+    /*    text-align: center;*/
+    /*    opacity: .7;*/
 }
+
+/*.attributeItem {*/
+/*    min-width: 24px;*/
+/*    height: 24px;*/
+/*    border: 1px solid #A6A6A6;*/
+/*    padding: 0 2px;*/
+/*    margin: 2px;*/
+/*    text-align: center;*/
+/*    opacity: .7;*/
+/*}*/
 
 .attributeItem:hover {
     border: 1px solid #A6A6A6;
     color: #A6A6A6;
 }
 
-.active{
+/*!*!*.active {*!*!*/
+/*!*!*    display: flex;*!*!*/
+/*!*!*    justify-content: center;*!*!*/
+/*!*!*    align-items: center;*!*!*/
+/*!*!*    width: 63px;*!*!*/
+/*!*!*    height: 45px;*!*!*/
+/*!*!*    border: 1px solid #c51111 !important;*!*!*/
+/*!*!*    margin-right: 10px;*!*!*/
+/*!*!*    margin-bottom: 20px;*!*!*/
+/*!*!*    cursor: pointer;*!*!*/
+/*!*!*    color: #fafafa;*!*!*/
+/*!*!*}*!*!*/
+
+.galleryContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 63px;
-    height: 45px;
-    border: 1px solid #c51111!important;
-    margin-right: 10px;
+    justify-content: flex-end;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    color: #1d1f22;
+}
+
+.button {
+    width: 24px;
+    margin-top: 20px;
     margin-bottom: 20px;
-    cursor: pointer;
-    color: #fafafa;
+    height: 24px;
+    box-sizing: border-box;
+    background: none;
+    border: 1px solid #1d1f22;
 }
-.gallery{
-display: flex;
+
+.value {
+    font-family: Raleway;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    color: #1d1f22;
 }
-.cartImgItem{
+
+.imageContainer {
+
+    /*display: block;*/
+    /*width: 10px;*/
+    /*height: 37px;*/
+    /*object-fit: contain;*/
+    /*margin-left: 10px;*/
+}
+
+.cartImgItem {
     display: block;
-    width: 141px;
-    height: 185px;
+    width: 105px;
+    height: 137px;
     object-fit: contain;
+    margin-left: 10px;
+}
+
+.arrowContainer {
+    position: relative;
+}
+
+.leftArrow {
+    position: absolute;
+    left: 35%;
+    cursor: pointer;
+}
+
+.leftArrow::after {
+    content: "<";
+    font-size: 20px;
+}
+
+.rightArrow {
+    position: absolute;
+    right: 35%;
+    cursor: pointer;
+}
+
+.rightArrow::after {
+    content: ">";
+    font-size: 20px;
 }

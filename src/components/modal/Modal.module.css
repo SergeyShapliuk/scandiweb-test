@@ -15,10 +15,10 @@
     right: 2%;
     width: 25%;
     height: 500px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
+    /*display: flex;*/
+    /*flex-flow: column;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     background: white;
     z-index: 21;
 }
