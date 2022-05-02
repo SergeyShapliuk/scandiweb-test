@@ -1,12 +1,19 @@
 import React, { PureComponent } from 'react';
 
+import { connect } from 'react-redux';
+
 import cartIcon from '../../assets/image/cart.svg';
+import { ProductCartType } from '../../generated/graphql';
+import { RootStateType } from '../../store/rootStore/rootReducer';
 import CartModal from '../../views/cartModal/CartModal';
 import Modal from '../modal/Modal';
 
 import s from './ModalContainer.module.css';
 
-class ModalContainer extends PureComponent {
+type MapStateToProps = {
+  productCart: ProductCartType[];
+};
+class ModalContainer extends PureComponent<MapStateToProps, {}> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -21,9 +28,16 @@ class ModalContainer extends PureComponent {
 
   render() {
     const { showModal }: any = this.state;
+    const { productCart } = this.props;
+    const countProduct = productCart.map(m => m.count);
+    const countProducts = countProduct.reduce(
+      (previousValue, currentValue) => previousValue + currentValue,
+      0,
+    );
     return (
       <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>
         <img src={cartIcon} alt="logo" />
+        {countProducts > 0 && <span className={s.countView}>{countProducts}</span>}
         {showModal && (
           <Modal
             enableBackground
@@ -37,5 +51,7 @@ class ModalContainer extends PureComponent {
     );
   }
 }
-
-export default ModalContainer;
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  productCart: state.main.productCart,
+});
+export default connect(mapStateToProps, {})(ModalContainer);

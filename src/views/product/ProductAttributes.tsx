@@ -22,6 +22,7 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     super(props);
     this.state = {
       itemId: '',
+      nameId: '',
     };
   }
 
@@ -35,15 +36,16 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     // @ts-ignore
     this.props.addAttributes(res);
     this.setState({ itemId });
+    this.setState({ nameId });
   };
 
   render() {
     const { product } = this.props;
     const { attributes } = this.props;
 
-    const { itemId }: any = this.state;
+    const { itemId, nameId }: any = this.state;
 
-    console.log(' itemId, nameId', itemId);
+    console.log(' itemId, nameId', itemId, nameId);
     // console.log(isActive);
     console.log('CartproductAttributeComp', product);
     console.log('CartProducytAttributeComp', attributes);
@@ -61,17 +63,17 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
                   onClick={() => {
                     this.chooseAttribute(m?.id, a.id);
                   }}
-                  className={itemId === a.id ? s.active : s.attributeItem}
-                  // className={`${s.attributeItem} ${
-                  //   product.attributes
-                  //     ?.find(it => it?.id === m?.id)
-                  //     ?.items?.find(itm => itm?.id === a.id)
-                  //     ? s.active
-                  //     : null
-                  // }`}
+                  // className={itemId === a.id ? s.active : s.attributeItem}
+                  className={`${s.attributeItem} ${
+                    attributes
+                      .find(it => it.id === m?.id)
+                      ?.items?.find(itm => itm?.id === a?.id)
+                      ? s.active
+                      : ''
+                  }`}
                   style={{ backgroundColor: `${a.value}` }}
                 >
-                  {`${m.type !== 'swatch' ? a.value : ''}`} {itemId.id}
+                  {`${m.type !== 'swatch' ? a.value : ''}`}
                 </span>
               ),
               // ) && (

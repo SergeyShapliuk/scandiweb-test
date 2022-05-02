@@ -51,9 +51,24 @@ export const mainReducer = (
         ...state,
         productCart: [...state.productCart, action.product],
       };
+    case 'SET_INC_PRODUCT_COUNT':
+      return {
+        ...state,
+        productCart: state.productCart.map(m =>
+          m.id === action.itemId ? { ...m, count: m.count + 1 } : m,
+        ),
+      };
+    case 'SET_DEC_PRODUCT_COUNT':
+      return {
+        ...state,
+        productCart: state.productCart.map(m =>
+          m.id === action.itemId ? { ...m, count: m.count - 1 } : m,
+        ),
+      };
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
-
+    case 'CLEAR_ATTRIBUTES':
+      return { ...state, attributes: [] };
     default:
       return state;
   }
@@ -70,8 +85,13 @@ export const setCurrency = (currency: string) =>
   ({ type: 'SET_CURRENCY', currency } as const);
 export const setProductToCart = (product: ProductCartType) =>
   ({ type: 'SET_PRODUCT_TO_CART', product } as const);
+export const setIncProductCount = (itemId: any) =>
+  ({ type: 'SET_INC_PRODUCT_COUNT', itemId } as const);
+export const setDecProductCount = (itemId: any) =>
+  ({ type: 'SET_DEC_PRODUCT_COUNT', itemId } as const);
 export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
-export const setProductCount = () => ({ type: 'CLEAR_CART' } as const);
+
+export const clearAttributes = () => ({ type: 'CLEAR_ATTRIBUTES' } as const);
 
 export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
   const data = await client.query({
@@ -104,6 +124,12 @@ export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setProductToCart(newProduct));
   };
+export const incProduct = (itemId: any) => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setIncProductCount(itemId));
+};
+export const decProduct = (itemId: any) => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setDecProductCount(itemId));
+};
 type ActionsType =
   | ReturnType<typeof setProduct>
   | ReturnType<typeof initializedSuccess>
@@ -111,4 +137,7 @@ type ActionsType =
   | ReturnType<typeof setAttributes>
   | ReturnType<typeof setCurrency>
   | ReturnType<typeof setProductToCart>
-  | ReturnType<typeof clearCart>;
+  | ReturnType<typeof clearCart>
+  | ReturnType<typeof setIncProductCount>
+  | ReturnType<typeof setDecProductCount>
+  | ReturnType<typeof clearAttributes>;

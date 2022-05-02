@@ -92,7 +92,11 @@
     cursor: pointer;
     transition: all 250ms;
 }
-
+.submitBtn:disabled{
+    background: #5ece7b;
+    opacity: .5;
+    cursor: initial;
+}
 
 .productDescription {
     margin-top: 40px;

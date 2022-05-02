@@ -1,181 +1,117 @@
+.cartBlock{
+    width: 100%;
+    height: 100%;
+
+}
 
 .cartContainer {
+    width: 100%;
+    max-height: 90%;
     display: flex;
-    justify-content: space-between;
-    height: 187px;
+    /*justify-content: space-between;*/
     color: #1d1f22;
     margin-bottom: 20px;
 }
 
-.itemsLeft {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.attributeContainer {
+    width: 50%;
+    line-height: 1.5em;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
 }
-
-.itemLeft {
-    border: 1px black solid;
-}
-
 
 .brand {
     font-family: Raleway;
     font-weight: 300;
-    font-size: 16px;
-    line-height: 160%;
+    font-size: 1em;
+
     margin-top: 20px;
-    margin-bottom: 0px;
 }
 
 .name {
     font-family: Raleway;
     font-weight: 300;
-    font-size: 16px;
-    line-height: 160%;
-    margin-top: 0px;
+    font-size: 1em;
+
 }
 
 .price {
     font-family: Raleway;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 120%;
-    margin-top: 0;
+    font-size: 1em;
+
 }
 
 
-.attributesContainer {
+.galleryBlock{
     display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+    /*justify-content: flex-end;*/
+    width: 50%;
+    background-color: #5ece7b;
 }
-.attributesItem{
-
-}
-.title {
-    font-size: 2vw;
-    white-space: nowrap;
-    font-family: Roboto Condensed;
-    font-weight: 700;
-    line-height: 18px;
-    margin-bottom: 8px;
-
-
-}
-
-.list {
-    display: flex;
-    padding-top: 10px;
-}
-
-.attributeItem {
-    display: flex;
-    justify-content: space-around;
-    font-family: 'Source Sans Pro', 'sans-serif';
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-
-    border: 1px solid #A6A6A6;
-    padding: 0 4px;
-    margin: 2px;
-    /*min-width: 24px;*/
-    /*    height: 24px;*/
-    /*    border: 1px solid #A6A6A6;*/
-    /*    padding: 0 2px;*/
-    /*    margin: 2px;*/
-    /*    text-align: center;*/
-    /*    opacity: .7;*/
-}
-
-/*.attributeItem {*/
-/*    min-width: 24px;*/
-/*    height: 24px;*/
-/*    border: 1px solid #A6A6A6;*/
-/*    padding: 0 2px;*/
-/*    margin: 2px;*/
-/*    text-align: center;*/
-/*    opacity: .7;*/
-/*}*/
-
-.attributeItem:hover {
-    border: 1px solid #A6A6A6;
-    color: #A6A6A6;
-}
-
-/*!*!*.active {*!*!*/
-/*!*!*    display: flex;*!*!*/
-/*!*!*    justify-content: center;*!*!*/
-/*!*!*    align-items: center;*!*!*/
-/*!*!*    width: 63px;*!*!*/
-/*!*!*    height: 45px;*!*!*/
-/*!*!*    border: 1px solid #c51111 !important;*!*!*/
-/*!*!*    margin-right: 10px;*!*!*/
-/*!*!*    margin-bottom: 20px;*!*!*/
-/*!*!*    cursor: pointer;*!*!*/
-/*!*!*    color: #fafafa;*!*!*/
-/*!*!*}*!*!*/
-
 .galleryContainer {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+background-color: #8d8f9a;
+
 }
 
 .counter {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     text-align: center;
-    font-style: normal;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 160%;
+    font-size: 2em;
+    line-height: 3em;
     color: #1d1f22;
+
+
 }
 
 .button {
-    width: 24px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    height: 24px;
-    box-sizing: border-box;
     background: none;
     border: 1px solid #1d1f22;
+    cursor: pointer;
 }
 
 .value {
     font-family: Raleway;
     font-weight: 500;
-    font-size: 16px;
-    line-height: 160%;
+    font-size: 0.5em;
     color: #1d1f22;
 }
 
 .imageContainer {
-
-    /*display: block;*/
-    /*width: 10px;*/
-    /*height: 37px;*/
-    /*object-fit: contain;*/
-    /*margin-left: 10px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    display: flex;
+    justify-content: center;
+    object-fit: contain;
+    background-color: #8d8f9a;
 }
 
 .cartImgItem {
-    display: block;
-    width: 105px;
-    height: 137px;
+    display: flex;
+    width: 70%;
+    /*height: 185px;*/
     object-fit: contain;
-    margin-left: 10px;
+    /*margin-left: 30%;*/
 }
-
 .arrowContainer {
     position: relative;
+
 }
 
 .leftArrow {
     position: absolute;
-    left: 35%;
+    width: 5%;
+    top: 90%;
+    left: 45%;
     cursor: pointer;
+    border: 1px black solid;
+
 }
 
 .leftArrow::after {
@@ -185,11 +121,29 @@
 
 .rightArrow {
     position: absolute;
-    right: 35%;
+    width: 5%;
+    top: 90%;
+    right: 40%;
+    border: 1px black solid;
     cursor: pointer;
 }
 
 .rightArrow::after {
     content: ">";
     font-size: 20px;
+}
+.totalSum {
+    /*display: flex;*/
+    background-color: gold;
+    /*justify-content: space-between;*/
+    /*margin-top: 50px;*/
+    padding-left: 10px;
+}
+
+.totalTitle {
+    font-size: 100%;
+}
+
+.totalPrice {
+    font-size: 32px;
 }

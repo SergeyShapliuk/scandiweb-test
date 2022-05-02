@@ -32,22 +32,24 @@ class CartModal extends PureComponent<CartModalType> {
     const { productCart } = this.props;
 
     return (
-      <div className={s.container}>
-        <h4 className={s.title}>
-          My Bag
-          <span className={s.titleSpan}>
-            {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
-          </span>
-        </h4>
-        <Cart />
-        <div className={s.buttons}>
-          <NavLink to="/cart">
-            <span className={s.viewBtn}>view bag</span>
-          </NavLink>
+      <div className={s.block}>
+        <div className={s.container}>
+          <h4 className={s.title}>
+            My Bag
+            <span className={s.titleSpan}>
+              {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
+            </span>
+          </h4>
+          <Cart />
+          <div className={s.buttons}>
+            <NavLink to="/cart">
+              <span className={s.viewBtn}>view bag</span>
+            </NavLink>
 
-          <span className={s.checkoutButton} onClick={this.checkOut} aria-hidden>
-            check out
-          </span>
+            <span className={s.checkoutButton} onClick={this.checkOut} aria-hidden>
+              check out
+            </span>
+          </div>
         </div>
       </div>
     );
