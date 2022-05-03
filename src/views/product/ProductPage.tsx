@@ -54,7 +54,7 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       gallery: product?.gallery,
       id: product.id,
       prices: product?.prices,
-      attributes,
+      attributes: product.attributes,
       count: 1,
     };
     const attributesValues = newProduct.attributes?.map(at =>

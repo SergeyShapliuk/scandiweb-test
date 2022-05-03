@@ -16,7 +16,7 @@ const initialState = {
   attributes: [] as AttributeSet[],
   productCart: [] as ProductCartType[],
   currency: '$' as string,
-  productCount: 0,
+  productsCount: 0,
 };
 type InitialStateType = typeof initialState;
 
@@ -54,16 +54,21 @@ export const mainReducer = (
     case 'SET_INC_PRODUCT_COUNT':
       return {
         ...state,
-        productCart: state.productCart.map(m =>
-          m.id === action.itemId ? { ...m, count: m.count + 1 } : m,
+        productCart: state.productCart.map((m, index) =>
+          index === action.index ? { ...m, count: m.count + 1 } : m,
         ),
       };
     case 'SET_DEC_PRODUCT_COUNT':
       return {
         ...state,
-        productCart: state.productCart.map(m =>
-          m.id === action.itemId ? { ...m, count: m.count - 1 } : m,
+        productCart: state.productCart.map((m, index) =>
+          index === action.index && m.count ? { ...m, count: m.count - 1 } : m,
         ),
+      };
+    case 'SET_PRODUCT_COUNT':
+      return {
+        ...state,
+        productsCount: action.count,
       };
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
@@ -85,10 +90,12 @@ export const setCurrency = (currency: string) =>
   ({ type: 'SET_CURRENCY', currency } as const);
 export const setProductToCart = (product: ProductCartType) =>
   ({ type: 'SET_PRODUCT_TO_CART', product } as const);
-export const setIncProductCount = (itemId: any) =>
-  ({ type: 'SET_INC_PRODUCT_COUNT', itemId } as const);
-export const setDecProductCount = (itemId: any) =>
-  ({ type: 'SET_DEC_PRODUCT_COUNT', itemId } as const);
+export const setIncProductCount = (index: any) =>
+  ({ type: 'SET_INC_PRODUCT_COUNT', index } as const);
+export const setDecProductCount = (index: any) =>
+  ({ type: 'SET_DEC_PRODUCT_COUNT', index } as const);
+export const setProductCount = (count: number) =>
+  ({ type: 'SET_PRODUCT_COUNT', count } as const);
 export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
 
 export const clearAttributes = () => ({ type: 'CLEAR_ATTRIBUTES' } as const);
@@ -109,7 +116,6 @@ export const getProductPage =
     });
     if (!data.loading) {
       dispatch(setProduct(data.data.product));
-      console.log('productReducer', data.data.product);
     }
   };
 export const changeCurrencies =
@@ -124,11 +130,14 @@ export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setProductToCart(newProduct));
   };
-export const incProduct = (itemId: any) => (dispatch: Dispatch<ActionsType>) => {
-  dispatch(setIncProductCount(itemId));
+export const incProduct = (index: number) => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setIncProductCount(index));
 };
-export const decProduct = (itemId: any) => (dispatch: Dispatch<ActionsType>) => {
-  dispatch(setDecProductCount(itemId));
+export const decProduct = (index: number) => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setDecProductCount(index));
+};
+export const getProductCount = (count: number) => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setProductCount(count));
 };
 type ActionsType =
   | ReturnType<typeof setProduct>
@@ -140,4 +149,5 @@ type ActionsType =
   | ReturnType<typeof clearCart>
   | ReturnType<typeof setIncProductCount>
   | ReturnType<typeof setDecProductCount>
+  | ReturnType<typeof setProductCount>
   | ReturnType<typeof clearAttributes>;

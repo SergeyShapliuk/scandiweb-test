@@ -6,7 +6,7 @@ import Carousel from '../../components/carousel/Carousel';
 import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
 import { decProduct, incProduct } from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
-import ProductAttributes from '../product/ProductAttributes';
+// import ProductAttributes from '../product/ProductAttributes';
 
 import s from './Cart.module.css';
 
@@ -15,24 +15,27 @@ type MapStateToProps = {
   currency: string;
   attributes: AttributeSet[];
   productPage: ProductType;
+  productsCount: number;
 };
 type MapStateToDispatch = {
-  incProduct: (itemId: any) => void;
-  decProduct: (itemId: any) => void;
+  incProduct: (index: number) => void;
+  decProduct: (index: number) => void;
 };
-class Cart extends PureComponent<MapStateToProps & MapStateToDispatch> {
-  increment = (itemId: any) => {
-    this.props.incProduct(itemId);
+
+class Cart extends PureComponent<
+  MapStateToProps & MapStateToDispatch & { showModal: boolean }
+> {
+  increment = (index: number) => {
+    this.props.incProduct(index);
   };
 
-  decrement = (itemId: any) => {
-    this.props.decProduct(itemId);
+  decrement = (index: number, count: number) => {
+    if (count >= 0) this.props.decProduct(index);
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    const { productCart, currency, attributes, productPage } = this.props;
+    const { productCart, currency, attributes, productPage, showModal, productsCount } =
+      this.props;
     const itId = attributes.map(atr => atr.items?.map(it => it?.id).map(c => c));
     const itName = attributes.map(atr => atr.name);
     console.log('itId', itId);
@@ -40,10 +43,11 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch> {
     console.log('CartProductsCurrency', currency);
     console.log('CartProductsproductCart', productCart);
     console.log('CartProductsattribute', attributes);
-    console.log('CartProductsPage', productPage);
+
     // @ts-ignore
     return (
       <div className={s.cartBlock}>
+        {!showModal && <div>Cart</div>}
         {productCart.map((item, index) => (
           <div className={s.cartContainer}>
             <div className={s.attributeContainer}>
@@ -58,44 +62,38 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch> {
                     }`,
                 )}
               </div>
-              <ProductAttributes product={productPage} />
-              {/* <div className={s.attributesContainer}> */}
-              {/*  {productPage.attributes?.map(m => ( */}
-              {/*    <div key={m?.id} className={s.attributesItem}> */}
-              {/*      <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2> */}
-              {/*      <div className={s.list}> */}
-              {/*        {m?.items?.map(a => ( */}
-              {/*          <span */}
-              {/*            aria-hidden */}
-              {/*            key={a?.id} */}
-              {/*            // onClick={() => { */}
-              {/*            //   this.chooseAttribute(m?.id, a.id); */}
-              {/*            // }} */}
-              {/*            className={s.attributeItem} */}
-              {/*            // className={`${s.attributeItem} ${ */}
-              {/*            //   product.attributes */}
-              {/*            //     ?.find(it => it?.id === m?.id) */}
-              {/*            //     ?.items?.find(itm => itm?.id === a.id) */}
-              {/*            //     ? s.active */}
-              {/*            //     : null */}
-              {/*            // }`} */}
-              {/*            style={{ backgroundColor: `${a?.value}` }} */}
-              {/*          > */}
-              {/*            {`${m.type !== 'swatch' ? a?.value : ''}`} */}
-              {/*          </span> */}
-              {/*        ))} */}
-              {/*      </div> */}
-              {/*    </div> */}
-              {/*  ))} */}
-              {/* </div> */}
+              {productCart[index].attributes?.map(m => (
+                <div key={m?.name} className={s.attributesContainer}>
+                  <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
+                  <div className={s.list}>
+                    {m?.items?.map((a: any) => (
+                      <button
+                        type="button"
+                        key={a.id}
+                        disabled={showModal}
+                        className={`${s.attributeItem} ${
+                          attributes
+                            .find(it => it.id === m?.id)
+                            ?.items?.find(itm => itm?.id === a?.id)
+                            ? s.active
+                            : ''
+                        }`}
+                        style={{ backgroundColor: `${a.value}` }}
+                      >
+                        {`${m.type !== 'swatch' ? a.value : ''}`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {/* <ProductAttributes product={productCart} showModal={showModal} /> */}
             </div>
             <div className={s.galleryBlock}>
               <div className={s.galleryContainer}>
                 <div className={s.counter}>
                   <button
                     type="button"
-                    id={item.id}
-                    onClick={() => this.increment(item.id)}
+                    onClick={() => this.increment(index)}
                     className={s.button}
                   >
                     +
@@ -103,38 +101,32 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch> {
                   <span className={s.value}>{item.count}</span>
                   <button
                     type="button"
-                    id={item.id}
-                    onClick={() => this.decrement(item.id)}
+                    onClick={() => this.decrement(index, item.count)}
                     className={s.button}
                   >
                     -
                   </button>
                 </div>
-                <Carousel>
-                  {item.gallery?.map(image => (
-                    <img src={image} alt={productPage.name} />
-                  ))}
-                </Carousel>
-                {/* <div className={s.imageContainer}> */}
-                {/*  <div className={s.arrowContainer}> */}
-                {/* {item.gallery?.map((img: any) => ( */}
-                {/*    <img */}
-                {/*      src={item.gallery && item.gallery[0]} */}
-                {/*      className={s.cartImgItem} */}
-                {/*      alt={productPage.name} */}
-                {/*    /> */}
-                {/*    /!* ))} *!/ */}
-
-                {/*    <span className={s.leftArrow} /> */}
-                {/*    <span className={s.rightArrow} /> */}
-                {/*  </div> */}
-                {/* </div> */}
+                {!showModal ? (
+                  <Carousel>
+                    {item.gallery?.map(image => (
+                      <img src={image} alt={productPage.name} />
+                    ))}
+                  </Carousel>
+                ) : (
+                  <img
+                    src={item.gallery && item.gallery[0]}
+                    className={s.image}
+                    alt={productPage.name}
+                  />
+                )}
               </div>
             </div>
           </div>
         ))}
-        <div className={s.totalSum}>
-          <span className={s.totalTitle}>Total</span>
+        <div className={s.total}>
+          <div>Quantity: {productsCount}</div>
+          <div className={s.totalTitle}>Total: {}</div>
           <span className={s.totalPrice}>
             {/* {`${currencyConverter(price)}${this.props.totalSum.toFixed(2)}`} */}
           </span>
@@ -148,5 +140,9 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   currency: state.main.currency,
   attributes: state.main.attributes,
   productPage: state.main.productPage,
+  productsCount: state.main.productsCount,
 });
-export default connect(mapStateToProps, { incProduct, decProduct })(Cart);
+export default connect(mapStateToProps, {
+  incProduct,
+  decProduct,
+})(Cart);

@@ -13,9 +13,11 @@ type MapStateToProps = {
 };
 type ProductAttributesType = {
   product: ProductType;
+
   addAttributes: (attribute: AttributeSet) => void;
 };
-type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
+type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
+  ProductAttributesType;
 
 class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   constructor(props: any) {
@@ -40,62 +42,41 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   };
 
   render() {
-    const { product } = this.props;
-    const { attributes } = this.props;
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const { product, attributes, showModal } = this.props;
 
     const { itemId, nameId }: any = this.state;
 
     console.log(' itemId, nameId', itemId, nameId);
-    // console.log(isActive);
     console.log('CartproductAttributeComp', product);
     console.log('CartProducytAttributeComp', attributes);
     return (
       product.attributes?.length &&
-      product.attributes?.map(m => (
+      product.attributes.map(m => (
         <div key={m?.name} className={s.attributesContainer}>
           <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
           <div className={s.list}>
-            {m?.items?.map(
-              (a: any) => (
-                <span
-                  aria-hidden
-                  key={a.id}
-                  onClick={() => {
-                    this.chooseAttribute(m?.id, a.id);
-                  }}
-                  // className={itemId === a.id ? s.active : s.attributeItem}
-                  className={`${s.attributeItem} ${
-                    attributes
-                      .find(it => it.id === m?.id)
-                      ?.items?.find(itm => itm?.id === a?.id)
-                      ? s.active
-                      : ''
-                  }`}
-                  style={{ backgroundColor: `${a.value}` }}
-                >
-                  {`${m.type !== 'swatch' ? a.value : ''}`}
-                </span>
-              ),
-              // ) && (
-              //   <span
-              //     aria-hidden
-              //     key={a.id}
-              //     className={itemId === a.id ? s.active : s.attributeItem}
-              //     // className={`${s.attributeItem} ${
-              //     //   product.attributes
-              //     //     ?.find(it => it?.id === m?.id)
-              //     //     ?.items?.find(itm => itm?.id === a.id)
-              //     //     ? s.active
-              //     //     : s.attributeItem
-              //     // }`}
-              //     onClick={() => {
-              //       this.chooseAttribute(m?.id, a.id);
-              //     }}
-              //   >
-              //     {a.value}
-              //   </span>
-              // ),
-            )}
+            {m?.items?.map((a: any) => (
+              <button
+                type="button"
+                key={a.id}
+                disabled={showModal}
+                onClick={() => {
+                  this.chooseAttribute(m?.id, a.id);
+                }}
+                className={`${s.attributeItem} ${
+                  attributes
+                    .find(it => it.id === m?.id)
+                    ?.items?.find(itm => itm?.id === a?.id)
+                    ? s.active
+                    : ''
+                }`}
+                style={{ backgroundColor: `${a.value}` }}
+              >
+                {`${m.type !== 'swatch' ? a.value : ''}`}
+              </button>
+            ))}
           </div>
         </div>
       ))

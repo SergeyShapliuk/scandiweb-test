@@ -41,7 +41,7 @@ class App extends PureComponent<AppTypes> {
           <Route path="/" element={<div>All product</div>} />
           <Route path="/:productsName" element={<CategoryProductsQuery />} />
           <Route path="/products/:productsId" element={<ProductPageQuery />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart showModal={false} />} />
         </Routes>
       </div>
     );

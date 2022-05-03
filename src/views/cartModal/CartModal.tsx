@@ -15,6 +15,8 @@ type MapStateToProps = {
 };
 type CartModalType = MapStateToProps & {
   clearCart: () => void;
+  onClickBg: () => void;
+  showModal: boolean;
 };
 
 class CartModal extends PureComponent<CartModalType> {
@@ -29,7 +31,7 @@ class CartModal extends PureComponent<CartModalType> {
   };
 
   render() {
-    const { productCart } = this.props;
+    const { productCart, onClickBg, showModal } = this.props;
 
     return (
       <div className={s.block}>
@@ -40,10 +42,12 @@ class CartModal extends PureComponent<CartModalType> {
               {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
             </span>
           </h4>
-          <Cart />
+          <Cart showModal={showModal} />
           <div className={s.buttons}>
             <NavLink to="/cart">
-              <span className={s.viewBtn}>view bag</span>
+              <button type="button" onClick={onClickBg} className={s.viewBtn}>
+                view bag
+              </button>
             </NavLink>
 
             <span className={s.checkoutButton} onClick={this.checkOut} aria-hidden>
