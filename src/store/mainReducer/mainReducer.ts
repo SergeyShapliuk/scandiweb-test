@@ -17,6 +17,7 @@ const initialState = {
   productCart: [] as ProductCartType[],
   currency: '$' as string,
   productsCount: 0,
+  totalSum: 0,
 };
 type InitialStateType = typeof initialState;
 
@@ -70,6 +71,18 @@ export const mainReducer = (
         ...state,
         productsCount: action.count,
       };
+    case 'SET_TOTAL_SUM':
+      return {
+        ...state,
+        totalSum: state.productCart
+          .map(
+            v =>
+              (v.prices.find(val => val.currency.symbol === state.currency)?.amount ||
+                0) * v.count,
+          )
+          .reduce((acc, it) => (acc || 0) + (it || 0), 0),
+      };
+
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
@@ -99,6 +112,7 @@ export const setProductCount = (count: number) =>
 export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
 
 export const clearAttributes = () => ({ type: 'CLEAR_ATTRIBUTES' } as const);
+export const setTotalSum = () => ({ type: 'SET_TOTAL_SUM' } as const);
 
 export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
   const data = await client.query({
@@ -124,10 +138,14 @@ export const changeCurrencies =
   };
 export const addAttributes =
   (attribute: AttributeSet) => (dispatch: Dispatch<ActionsType>) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     dispatch(setAttributes(attribute));
   };
 export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     dispatch(setProductToCart(newProduct));
   };
 export const incProduct = (index: number) => (dispatch: Dispatch<ActionsType>) => {
@@ -138,6 +156,9 @@ export const decProduct = (index: number) => (dispatch: Dispatch<ActionsType>) =
 };
 export const getProductCount = (count: number) => (dispatch: Dispatch<ActionsType>) => {
   dispatch(setProductCount(count));
+};
+export const getTotalSum = () => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(setTotalSum());
 };
 type ActionsType =
   | ReturnType<typeof setProduct>
@@ -150,4 +171,5 @@ type ActionsType =
   | ReturnType<typeof setIncProductCount>
   | ReturnType<typeof setDecProductCount>
   | ReturnType<typeof setProductCount>
-  | ReturnType<typeof clearAttributes>;
+  | ReturnType<typeof clearAttributes>
+  | ReturnType<typeof setTotalSum>;

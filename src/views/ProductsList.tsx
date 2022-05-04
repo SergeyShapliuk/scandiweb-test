@@ -7,18 +7,19 @@ import s from './ProductList.module.css';
 
 export type ProductsListType = {
   data: CategoryProductType;
+  name: string;
 };
 
 class ProductsList extends PureComponent<ProductsListType> {
   render() {
-    const { data } = this.props;
+    const { data, name } = this.props;
     console.log('productListttt', data);
     return (
       <div className={s.productList}>
         <div>{data.name}</div>
         <div className={s.list}>
           {data.products.map(m => (
-            <Product product={m} key={m?.name} />
+            <Product product={m} name={name} key={m?.id} />
           ))}
         </div>
       </div>

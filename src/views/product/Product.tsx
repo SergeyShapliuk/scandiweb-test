@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { compose } from 'redux';
 
 import cart from '../../assets/image/cart-white.svg';
+import { ProductType } from '../../generated/graphql';
+import { addProductCart } from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './Product.module.css';
@@ -11,18 +14,27 @@ import s from './Product.module.css';
 type MapStateToProps = {
   currency: string;
 };
-type ProductTypes = {
-  product: any;
-} & MapStateToProps;
 
-class Product extends PureComponent<ProductTypes> {
+type ProductTypes = {
+  addProductCart: (product: ProductType) => void;
+  product: ProductType;
+  name: string;
+};
+
+class Product extends PureComponent<ProductTypes & MapStateToProps> {
+  setProductId = (product: ProductType) => {
+    console.log(product);
+    this.props.addProductCart(product);
+  };
+
   render() {
-    const { product } = this.props;
-    const { currency } = this.props;
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const { product, currency, name } = this.props;
     console.log(product.name);
     return (
       <div className={s.item}>
-        <NavLink className={s.itemLink} to={`/products/${product.id}`}>
+        <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>
           <img
             className={s.itemImage}
             src={product.gallery && product.gallery[0]}
@@ -39,9 +51,16 @@ class Product extends PureComponent<ProductTypes> {
           </p>
         </NavLink>
         {product.inStock && (
-          <div id={product.id} className={s.addBtn}>
+          <button
+            type="button"
+            onClick={() => this.setProductId(product)}
+            aria-hidden
+            value={product.id}
+            id={product.id}
+            className={s.addBtn}
+          >
             <img src={cart} id={product.id} className={s.btnSvg} alt="addToCart" />
-          </div>
+          </button>
         )}
       </div>
     );
@@ -50,4 +69,4 @@ class Product extends PureComponent<ProductTypes> {
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   currency: state.main.currency,
 });
-export default connect(mapStateToProps, {})(Product);
+export default compose<any>(connect(mapStateToProps, { addProductCart }))(Product);

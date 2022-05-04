@@ -13,7 +13,6 @@ type MapStateToProps = {
 };
 type ProductAttributesType = {
   product: ProductType;
-
   addAttributes: (attribute: AttributeSet) => void;
 };
 type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
@@ -51,6 +50,7 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     console.log(' itemId, nameId', itemId, nameId);
     console.log('CartproductAttributeComp', product);
     console.log('CartProducytAttributeComp', attributes);
+    console.log('CartProducytAttributeComp', showModal);
     return (
       product.attributes?.length &&
       product.attributes.map(m => (
@@ -61,7 +61,6 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
               <button
                 type="button"
                 key={a.id}
-                disabled={showModal}
                 onClick={() => {
                   this.chooseAttribute(m?.id, a.id);
                 }}

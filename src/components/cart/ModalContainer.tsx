@@ -53,13 +53,6 @@ class ModalContainer extends PureComponent<
     const { showModal }: any = this.state;
     const { productCart, productsCount } = this.props;
     console.log(productCart);
-    // const count = productCart
-    //   .map(m => m.count)
-    //   .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-    // const productsCount = count.reduce(
-    //   (previousValue, currentValue) => previousValue + currentValue,
-    //   0,
-    // );
     return (
       <div>
         <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>

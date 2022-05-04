@@ -23,7 +23,9 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
         <div>
           {data.categories?.map(
             m =>
-              m?.name === params.productsName && <ProductsList key={m.name} data={m} />,
+              m?.name === params.productsName && (
+                <ProductsList name={m.name} key={m.name} data={m} />
+              ),
           )}
         </div>
       )

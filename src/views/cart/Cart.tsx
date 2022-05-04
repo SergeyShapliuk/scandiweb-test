@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 
 import Carousel from '../../components/carousel/Carousel';
 import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
-import { decProduct, incProduct } from '../../store/mainReducer/mainReducer';
+import {
+  addAttributes,
+  decProduct,
+  getTotalSum,
+  incProduct,
+} from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 // import ProductAttributes from '../product/ProductAttributes';
 
@@ -16,15 +21,33 @@ type MapStateToProps = {
   attributes: AttributeSet[];
   productPage: ProductType;
   productsCount: number;
+  totalSum: number;
 };
 type MapStateToDispatch = {
   incProduct: (index: number) => void;
   decProduct: (index: number) => void;
+  getTotalSum: () => void;
+  // addAttributes:(attribute: AttributeSet)
 };
+type CartType = {
+  showModal?: boolean;
+};
+class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType> {
+  componentDidMount() {
+    this.props.getTotalSum();
+  }
 
-class Cart extends PureComponent<
-  MapStateToProps & MapStateToDispatch & { showModal: boolean }
-> {
+  componentDidUpdate(
+    prevProps: Readonly<MapStateToProps & MapStateToDispatch & CartType>,
+  ) {
+    if (
+      prevProps.productCart !== this.props.productCart ||
+      prevProps.currency !== this.props.currency
+    ) {
+      this.props.getTotalSum();
+    }
+  }
+
   increment = (index: number) => {
     this.props.incProduct(index);
   };
@@ -33,11 +56,31 @@ class Cart extends PureComponent<
     if (count >= 0) this.props.decProduct(index);
   };
 
+  chooseAttributes = (e: any) => {
+    // console.log('id', itemId);
+    // console.log('ID', nameId);
+    const attr = this.props.productCart.find(item => item?.id === nameId);
+    // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
+    console.log('attr', e.currentTarget.value);
+    // console.log('res', res);
+    // @ts-ignore
+    // this.props.addAttributes(e.currentTarget.value);
+  };
+
   render() {
-    const { productCart, currency, attributes, productPage, showModal, productsCount } =
-      this.props;
+    const {
+      productCart,
+      currency,
+      attributes,
+      productPage,
+      showModal,
+      productsCount,
+      totalSum,
+    } = this.props;
+
     const itId = attributes.map(atr => atr.items?.map(it => it?.id).map(c => c));
     const itName = attributes.map(atr => atr.name);
+
     console.log('itId', itId);
     console.log('itName', itName);
     console.log('CartProductsCurrency', currency);
@@ -54,11 +97,11 @@ class Cart extends PureComponent<
               <div className={s.brand}>{item.brand}</div>
               <div className={s.name}>{item.name}</div>
               <div className={s.price}>
-                {productCart[index].prices?.map(
-                  v =>
-                    v.currency.symbol === currency &&
-                    `${v.currency.symbol} ${
-                      Math.round(v.amount * item.count * 100) / 100
+                {productCart[index].prices.map(
+                  price =>
+                    price.currency.symbol === currency &&
+                    `${price.currency.symbol} ${
+                      Math.round(price.amount * item.count * 100) / 100
                     }`,
                 )}
               </div>
@@ -68,9 +111,10 @@ class Cart extends PureComponent<
                   <div className={s.list}>
                     {m?.items?.map((a: any) => (
                       <button
+                        onClick={e => this.chooseAttributes(e)}
                         type="button"
                         key={a.id}
-                        disabled={showModal}
+                        value={a.id}
                         className={`${s.attributeItem} ${
                           attributes
                             .find(it => it.id === m?.id)
@@ -109,7 +153,7 @@ class Cart extends PureComponent<
                 </div>
                 {!showModal ? (
                   <Carousel>
-                    {item.gallery?.map(image => (
+                    {item.gallery?.map((image: any) => (
                       <img src={image} alt={productPage.name} />
                     ))}
                   </Carousel>
@@ -125,11 +169,11 @@ class Cart extends PureComponent<
           </div>
         ))}
         <div className={s.total}>
-          <div>Quantity: {productsCount}</div>
-          <div className={s.totalTitle}>Total: {}</div>
-          <span className={s.totalPrice}>
-            {/* {`${currencyConverter(price)}${this.props.totalSum.toFixed(2)}`} */}
-          </span>
+          {!showModal && <div>Quantity: {productsCount}</div>}
+          <div className={s.totalTitle}>Total: </div>
+          <span className={s.totalPrice}>{`${currency}${
+            Math.round(totalSum * 100) / 100
+          }`}</span>
         </div>
       </div>
     );
@@ -141,8 +185,11 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   attributes: state.main.attributes,
   productPage: state.main.productPage,
   productsCount: state.main.productsCount,
+  totalSum: state.main.totalSum,
 });
 export default connect(mapStateToProps, {
   incProduct,
   decProduct,
+  getTotalSum,
+  addAttributes,
 })(Cart);
