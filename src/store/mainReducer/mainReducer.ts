@@ -33,6 +33,8 @@ export const mainReducer = (
     case 'SET_PRODUCT':
       return { ...state, productPage: action.value };
     case 'SET_ATTRIBUTES':
+      // eslint-disable-next-line no-debugger
+      debugger;
       if (state.attributes.find(v => v.id === action.attribute.id)) {
         return {
           ...state,

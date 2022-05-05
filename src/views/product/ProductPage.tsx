@@ -142,7 +142,7 @@ class ProductPage extends PureComponent<ProductPageTypes> {
           <h3 className={s.productBrand}>{product.brand}</h3>
           <h3 className={s.productName}>{product.name}</h3>
 
-          <ProductAttributes product={product} />
+          <ProductAttributes product={product} productId={product.id} />
 
           <p className={s.pricePara}>PRICE:</p>
           <p className={s.productPrice}>

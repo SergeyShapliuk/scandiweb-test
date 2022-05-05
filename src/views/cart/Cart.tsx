@@ -56,18 +56,29 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
     if (count >= 0) this.props.decProduct(index);
   };
 
-  chooseAttributes = (e: any) => {
-    // console.log('id', itemId);
-    // console.log('ID', nameId);
-    const attr = this.props.productCart.find(item => item?.id === nameId);
-    // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
-    console.log('attr', e.currentTarget.value);
-    // console.log('res', res);
+  chooseAttributes = (nameId: any, itemId: any) => {
+    console.log('id', itemId);
+    console.log('ID', nameId);
+    const attr = this.props.productCart.map(m =>
+      m.attributes?.map(f =>
+        f?.name === nameId
+          ? { ...f, items: f?.items?.filter(fi => fi?.id === itemId) }
+          : f,
+      ),
+    );
+
+    const attttr = this.props.attributes;
+
+    console.log('attr', attr);
+    console.log('attrtttt', attttr);
+
     // @ts-ignore
-    // this.props.addAttributes(e.currentTarget.value);
+    this.props.addAttributes(attr.flat());
   };
 
   render() {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const {
       productCart,
       currency,
@@ -78,11 +89,11 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
       totalSum,
     } = this.props;
 
-    const itId = attributes.map(atr => atr.items?.map(it => it?.id).map(c => c));
-    const itName = attributes.map(atr => atr.name);
+    // const itId = attributes.map(atr => atr.items?.map(it => it?.id).map(c => c));
+    // const itName = attributes.map(atr => atr.name);
 
-    console.log('itId', itId);
-    console.log('itName', itName);
+    // console.log('itId', itId);
+    // console.log('itName', itName);
     console.log('CartProductsCurrency', currency);
     console.log('CartProductsproductCart', productCart);
     console.log('CartProductsattribute', attributes);
@@ -107,17 +118,19 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
               </div>
               {productCart[index].attributes?.map(m => (
                 <div key={m?.name} className={s.attributesContainer}>
-                  <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
+                  <h2 className={s.title}>
+                    {m?.name?.toUpperCase()}:::{m?.name}:
+                  </h2>
                   <div className={s.list}>
                     {m?.items?.map((a: any) => (
                       <button
-                        onClick={e => this.chooseAttributes(e)}
+                        onClick={() => this.chooseAttributes(m.name, a.id)}
                         type="button"
                         key={a.id}
                         value={a.id}
                         className={`${s.attributeItem} ${
                           attributes
-                            .find(it => it.id === m?.id)
+                            .find(it => it.name === m.name)
                             ?.items?.find(itm => itm?.id === a?.id)
                             ? s.active
                             : ''

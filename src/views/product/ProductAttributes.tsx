@@ -13,7 +13,8 @@ type MapStateToProps = {
 };
 type ProductAttributesType = {
   product: ProductType;
-  addAttributes: (attribute: AttributeSet) => void;
+  productId: string;
+  // addAttributes: (attribute: AttributeSet[]) => void;
 };
 type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
   ProductAttributesType;
@@ -27,23 +28,32 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     };
   }
 
-  chooseAttribute = (nameId: string, itemId: string) => {
-    console.log('id', itemId);
-    console.log('ID', nameId);
-    const attr = this.props.product.attributes?.find(item => item?.id === nameId);
-    const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
-    console.log('attr', attr);
-    console.log('res', res);
+  chooseAttribute = (e: any) => {
+    // console.log('id', itemId);
+    // console.log('ID', nameId);
+    console.log('e', e.target);
+    // if (this.props.product.id === nameId) {
+    //   const result = this.props.product.attributes?.find(m =>
+    //     m?.items?.filter(f => f?.id === itemId),
+    //   );
+    //   console.log('res', { ...result });
+    //   // console.log('attr', attr);
+    //   // console.log('res', res);
+    //   // @ts-ignore
+    //   this.props.addAttributes(...result);
+    // }
+
+    // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
     // @ts-ignore
-    this.props.addAttributes(res);
-    this.setState({ itemId });
-    this.setState({ nameId });
+
+    // this.setState({ itemId });
+    // this.setState({ nameId });
   };
 
   render() {
     // eslint-disable-next-line no-debugger
     debugger;
-    const { product, attributes, showModal } = this.props;
+    const { product, productId, attributes, showModal } = this.props;
 
     const { itemId, nameId }: any = this.state;
 
@@ -51,6 +61,7 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     console.log('CartproductAttributeComp', product);
     console.log('CartProducytAttributeComp', attributes);
     console.log('CartProducytAttributeComp', showModal);
+    console.log('productId', productId);
     return (
       product.attributes?.length &&
       product.attributes.map(m => (
@@ -60,10 +71,10 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
             {m?.items?.map((a: any) => (
               <button
                 type="button"
-                key={a.id}
-                onClick={() => {
-                  this.chooseAttribute(m?.id, a.id);
-                }}
+                key={a?.id}
+                name={m.id}
+                value={a?.value}
+                onClick={this.chooseAttribute}
                 className={`${s.attributeItem} ${
                   attributes
                     .find(it => it.id === m?.id)
