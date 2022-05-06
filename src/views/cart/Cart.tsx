@@ -56,25 +56,25 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
     if (count >= 0) this.props.decProduct(index);
   };
 
-  chooseAttributes = (nameId: any, itemId: any) => {
-    console.log('id', itemId);
-    console.log('ID', nameId);
-    const attr = this.props.productCart.map(m =>
-      m.attributes?.map(f =>
-        f?.name === nameId
-          ? { ...f, items: f?.items?.filter(fi => fi?.id === itemId) }
-          : f,
-      ),
-    );
-
-    const attttr = this.props.attributes;
-
-    console.log('attr', attr);
-    console.log('attrtttt', attttr);
-
-    // @ts-ignore
-    this.props.addAttributes(attr.flat());
-  };
+  // chooseAttributes = (nameId: any, itemId: any) => {
+  //   console.log('id', itemId);
+  //   console.log('ID', nameId);
+  //   const attr = this.props.productCart.map(m =>
+  //     m.attributes?.map(f =>
+  //       f?.name === nameId
+  //         ? { ...f, items: f?.items?.filter(fi => fi?.id === itemId) }
+  //         : f,
+  //     ),
+  //   );
+  //
+  //   const attttr = this.props.attributes;
+  //
+  //   console.log('attr', attr);
+  //   console.log('attrtttt', attttr);
+  //
+  //   // @ts-ignore
+  //   this.props.addAttributes(attr.flat());
+  // };
 
   render() {
     // eslint-disable-next-line no-debugger
@@ -117,24 +117,20 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                 )}
               </div>
               {productCart[index].attributes?.map(m => (
-                <div key={m?.name} className={s.attributesContainer}>
-                  <h2 className={s.title}>
-                    {m?.name?.toUpperCase()}:::{m?.name}:
-                  </h2>
+                <div key={m?.id} className={s.attributesContainer}>
+                  <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
                   <div className={s.list}>
                     {m?.items?.map((a: any) => (
                       <button
-                        onClick={() => this.chooseAttributes(m.name, a.id)}
+                        // onClick={() => this.chooseAttributes(m.id, a.id)}
                         type="button"
                         key={a.id}
-                        value={a.id}
-                        className={`${s.attributeItem} ${
-                          attributes
-                            .find(it => it.name === m.name)
-                            ?.items?.find(itm => itm?.id === a?.id)
-                            ? s.active
-                            : ''
-                        }`}
+                        value={a.value}
+                        // className={`${s.attributeItem} ${
+                        //   attributes.find(f => f.items?.find(fi => fi?.id === a?.id))
+                        //     ? s.active
+                        //     : ''
+                        // }`}
                         style={{ backgroundColor: `${a.value}` }}
                       >
                         {`${m.type !== 'swatch' ? a.value : ''}`}

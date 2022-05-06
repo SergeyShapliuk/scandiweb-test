@@ -32,9 +32,9 @@ export type Attribute = {
 export type AttributeSet = {
   __typename?: 'AttributeSet';
   id: Scalars['String'];
-  items?: Maybe<Array<Maybe<Attribute>>>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  items: Maybe<Array<Maybe<Attribute>>>;
+  name: Maybe<Scalars['String']>;
+  type: Maybe<Scalars['String']>;
 };
 
 export enum CacheControlScope {

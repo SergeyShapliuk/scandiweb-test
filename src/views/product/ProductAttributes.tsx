@@ -14,7 +14,7 @@ type MapStateToProps = {
 type ProductAttributesType = {
   product: ProductType;
   productId: string;
-  // addAttributes: (attribute: AttributeSet[]) => void;
+  addAttributes: (attribute?: AttributeSet[]) => void;
 };
 type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
   ProductAttributesType;
@@ -28,26 +28,35 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     };
   }
 
-  chooseAttribute = (e: any) => {
-    // console.log('id', itemId);
-    // console.log('ID', nameId);
-    console.log('e', e.target);
-    // if (this.props.product.id === nameId) {
-    //   const result = this.props.product.attributes?.find(m =>
-    //     m?.items?.filter(f => f?.id === itemId),
-    //   );
-    //   console.log('res', { ...result });
-    //   // console.log('attr', attr);
-    //   // console.log('res', res);
-    //   // @ts-ignore
-    //   this.props.addAttributes(...result);
-    // }
+  componentDidUpdate(prevProps: Readonly<ProductAttributesTypes>) {
+    if (prevProps.attributes !== this.props.attributes) {
+      console.log('hello');
+    }
+  }
 
-    // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
-    // @ts-ignore
+  chooseAttribute = (productId: string, nameId: string, itemId: string) => {
+    // const { name, value } = e.currentTarget;
+    console.log('id', nameId);
+    console.log('ID', itemId);
+    console.log('prod', productId);
+    // console.log('e.currentTarget', e.currentTarget);
+    if (productId === this.props.product.id) {
+      const attr = this.props.product.attributes?.find(f => f?.id === nameId);
+      const result = { ...attr, items: attr?.items?.filter(f => f?.id === itemId) };
+      console.log('res', result);
+      console.log('attr', attr);
+      //   // console.log('res', res);
 
-    // this.setState({ itemId });
-    // this.setState({ nameId });
+      const res = { productId, result };
+      console.log('resssss', res);
+      // @ts-ignore
+      this.props.addAttributes(result);
+      // }
+      // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
+      // @ts-ignore
+      // this.setState({ itemId });
+      // this.setState({ nameId });
+    }
   };
 
   render() {
@@ -71,14 +80,14 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
             {m?.items?.map((a: any) => (
               <button
                 type="button"
-                key={a?.id}
+                key={a.id}
                 name={m.id}
-                value={a?.value}
-                onClick={this.chooseAttribute}
+                value={a?.id}
+                onClick={() => this.chooseAttribute(productId, m.id, a.id)}
                 className={`${s.attributeItem} ${
-                  attributes
-                    .find(it => it.id === m?.id)
-                    ?.items?.find(itm => itm?.id === a?.id)
+                  productId === product.id &&
+                  attributes.find(at => at.id === m.id) &&
+                  attributes.find(f => f.items?.find(fi => fi?.id === a?.id))
                     ? s.active
                     : ''
                 }`}
@@ -91,6 +100,50 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
         </div>
       ))
     );
+    // <div>
+    //   {product?.attributes?.map((v: any) => (
+    //     <div>
+    //       <div className={s.attributesTitle}>{v?.name}:</div>
+    //       <div className={s.attributesWrapper}>
+    //         {/*= === display attribute items by type of attribute ==== */}
+    //         {v.type === 'swatch'
+    //           ? v.items?.map((val: any) => (
+    //             <span
+    //               aria-hidden
+    //               onClick={() => {
+    //                 this.chooseAttribute(productId, v.id, val?.id);
+    //               }}
+    //               className={`${s.attributeItem} ${
+    //                 this.props.attributes
+    //                   .find(it => it.id === v.id)
+    //                   ?.items?.find(itm => itm?.id === val.id)
+    //                   ? s.activeSwatch
+    //                   : null
+    //               }`}
+    //               style={{ backgroundColor: `${val.value}` }}
+    //             />
+    //           ))
+    //           : v.items?.map((val: any) => (
+    //             <span
+    //               aria-hidden
+    //               className={`${s.attributeItem} ${
+    //                 this.props.attributes
+    //                   .find(it => it.id === v.id)
+    //                   ?.items?.find(itm => itm?.id === val.id)
+    //                   ? s.active
+    //                   : null
+    //               }`}
+    //               onClick={() => {
+    //                 this.chooseAttribute(productId, v.id, val.id);
+    //               }}
+    //             >
+    //                   {val.value}
+    //                 </span>
+    //           ))}
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({

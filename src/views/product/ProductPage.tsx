@@ -54,11 +54,11 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       gallery: product?.gallery,
       id: product.id,
       prices: product?.prices,
-      attributes: product.attributes,
+      attributes,
       count: 1,
     };
     const attributesValues = newProduct.attributes?.map(at =>
-      at?.items?.map(v => v?.displayValue),
+      at?.items?.map(v => v?.value),
     );
     const attrId = newProduct.attributes?.map(at => at?.id);
     // const doubleProductId = productCart.map(m =>
@@ -66,12 +66,12 @@ class ProductPage extends PureComponent<ProductPageTypes> {
     // );
     const res = productCart
       .filter(v => v.id === newProduct.id)
-      .find(o =>
-        o.attributes?.every((p, pi) =>
+      .find(f =>
+        f.attributes?.every((p, pi) =>
           p?.items?.every(
             (n, ni) =>
               // @ts-ignore
-              n.displayValue === newProduct.attributes[pi].items[ni].displayValue,
+              n.value === newProduct.attributes[pi].items[ni].value,
           ),
         ),
       );
