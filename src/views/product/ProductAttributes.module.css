@@ -6,27 +6,35 @@
 
 .title {
     font-family: Roboto Condensed;
+    font-size: 18px;
     font-weight: 700;
-    font-size: 1em;
-    margin-bottom: 8px;
+    line-height: 18px;
 }
 
 .list {
     display: flex;
     /*padding-top: 10px;*/
 }
-
+.attribute{
+    display: inline-block;
+}
 .attributeItem {
     display: flex;
     justify-content: center;
     align-items: center;
     /*width: 15%;*/
     /*height: 20px;*/
-    border: 1px solid #1D1F22;
+    font-family: Source Sans Pro;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    border: 1px #1D1F22 solid ;
+    background-color:#ffffff ;
+    color: #1D1F22;
     margin-right: 5px;
     /*margin-bottom: 20px;*/
-    font-size: 10px;
-    font-weight: 700;
     padding: 3%;
     cursor: pointer;
 }
@@ -37,19 +45,13 @@
 }
 
 .active {
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    /*width: 63px;*/
-    /*height: 45px;*/
-    border: 2px solid #c51111 !important;
+    color:#ffffff ;
+    background: #1D1F22;
 
-/*    margin-right: 10px;*/
-/*    margin-bottom: 20px;*/
-/*    cursor: pointer;*/
-/*    color: #fafafa;*/
 }
-
+.activeSwatch{
+    border: 3px solid #5ECE7B
+}
 /*.activeSwatch{*/
 /*    display: flex;*/
 /*    justify-content: center;*/

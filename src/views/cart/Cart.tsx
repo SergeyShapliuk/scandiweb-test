@@ -101,82 +101,92 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
     // @ts-ignore
     return (
       <div className={s.cartBlock}>
-        {!showModal && <div>Cart</div>}
-        {productCart.map((item, index) => (
-          <div className={s.cartContainer}>
-            <div className={s.attributeContainer}>
-              <div className={s.brand}>{item.brand}</div>
-              <div className={s.name}>{item.name}</div>
-              <div className={s.price}>
-                {productCart[index].prices.map(
-                  price =>
-                    price.currency.symbol === currency &&
-                    `${price.currency.symbol} ${
-                      Math.round(price.amount * item.count * 100) / 100
-                    }`,
-                )}
-              </div>
-              {productCart[index].attributes?.map(m => (
-                <div key={m?.id} className={s.attributesContainer}>
-                  <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
-                  <div className={s.list}>
-                    {m?.items?.map((a: any) => (
+        {!showModal && <div className={s.cartTitle}>Cart</div>}
+        <ul>
+          {productCart.map((item, index) => (
+            <li
+              className={s.caItem}
+              style={{ borderTop: '#E5E5E5 1px solid', margin: '30px' }}
+            >
+              <div className={s.cartContainer}>
+                <div className={s.attributeContainer}>
+                  <div className={s.brand}>{item.brand}</div>
+                  <div className={s.name}>{item.name}</div>
+                  <div className={s.price}>
+                    {productCart[index].prices.map(
+                      price =>
+                        price.currency.symbol === currency &&
+                        `${price.currency.symbol} ${
+                          Math.round(price.amount * item.count * 100) / 100
+                        }`,
+                    )}
+                  </div>
+
+                  {productCart[index].attributes?.map(m => (
+                    <div key={m?.id} className={s.attributesContainer}>
+                      <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
+                      <div className={s.list}>
+                        {m?.items?.map((a: any) => (
+                          <button
+                            // onClick={() => this.chooseAttributes(m.id, a.id)}
+                            type="button"
+                            key={a.id}
+                            value={a.value}
+                            // className={`${s.attributeItem} ${
+                            //   attributes.find(f => f.items?.find(fi => fi?.id === a?.id))
+                            //     ? s.active
+                            //     : ''
+                            // }`}
+                            style={{ backgroundColor: `${a.value}` }}
+                          >
+                            {`${m.type !== 'swatch' ? a.value : ''}`}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {/* <ProductAttributes product={productCart} showModal={showModal} /> */}
+                </div>
+
+                <div className={s.galleryBlock}>
+                  <div className={s.galleryContainer}>
+                    <div className={s.counter}>
                       <button
-                        // onClick={() => this.chooseAttributes(m.id, a.id)}
                         type="button"
-                        key={a.id}
-                        value={a.value}
-                        // className={`${s.attributeItem} ${
-                        //   attributes.find(f => f.items?.find(fi => fi?.id === a?.id))
-                        //     ? s.active
-                        //     : ''
-                        // }`}
-                        style={{ backgroundColor: `${a.value}` }}
+                        onClick={() => this.increment(index)}
+                        className={s.button}
                       >
-                        {`${m.type !== 'swatch' ? a.value : ''}`}
+                        +
                       </button>
-                    ))}
+                      <span className={s.value}>{item.count}</span>
+                      <button
+                        type="button"
+                        onClick={() => this.decrement(index, item.count)}
+                        className={s.button}
+                      >
+                        -
+                      </button>
+                    </div>
+                    {!showModal ? (
+                      <Carousel>
+                        {item.gallery?.map((image: any) => (
+                          <img src={image} alt={productPage.name} />
+                        ))}
+                      </Carousel>
+                    ) : (
+                      <img
+                        src={item.gallery && item.gallery[0]}
+                        className={s.image}
+                        alt={productPage.name}
+                      />
+                    )}
                   </div>
                 </div>
-              ))}
-              {/* <ProductAttributes product={productCart} showModal={showModal} /> */}
-            </div>
-            <div className={s.galleryBlock}>
-              <div className={s.galleryContainer}>
-                <div className={s.counter}>
-                  <button
-                    type="button"
-                    onClick={() => this.increment(index)}
-                    className={s.button}
-                  >
-                    +
-                  </button>
-                  <span className={s.value}>{item.count}</span>
-                  <button
-                    type="button"
-                    onClick={() => this.decrement(index, item.count)}
-                    className={s.button}
-                  >
-                    -
-                  </button>
-                </div>
-                {!showModal ? (
-                  <Carousel>
-                    {item.gallery?.map((image: any) => (
-                      <img src={image} alt={productPage.name} />
-                    ))}
-                  </Carousel>
-                ) : (
-                  <img
-                    src={item.gallery && item.gallery[0]}
-                    className={s.image}
-                    alt={productPage.name}
-                  />
-                )}
               </div>
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ul>
+        {/* <div className={!showModal ? s.line : ''} /> */}
         <div className={s.total}>
           {!showModal && <div>Quantity: {productsCount}</div>}
           <div className={s.totalTitle}>Total: </div>

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { AttributeSet, ProductType } from '../../generated/graphql';
-import { addAttributes } from '../../store/mainReducer/mainReducer';
+import { addAttributes, clearAttributes } from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './ProductAttributes.module.css';
@@ -15,6 +15,7 @@ type ProductAttributesType = {
   product: ProductType;
   productId: string;
   addAttributes: (attribute?: AttributeSet[]) => void;
+  clearAttributes: () => void;
 };
 type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
   ProductAttributesType;
@@ -32,6 +33,10 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     if (prevProps.attributes !== this.props.attributes) {
       console.log('hello');
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearAttributes();
   }
 
   chooseAttribute = (productId: string, nameId: string, itemId: string) => {
@@ -63,7 +68,6 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     // eslint-disable-next-line no-debugger
     debugger;
     const { product, productId, attributes, showModal } = this.props;
-
     const { itemId, nameId }: any = this.state;
 
     console.log(' itemId, nameId', itemId, nameId);
@@ -85,13 +89,19 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
                 value={a?.id}
                 onClick={() => this.chooseAttribute(productId, m.id, a.id)}
                 className={`${s.attributeItem} ${
-                  productId === product.id &&
-                  attributes.find(at => at.id === m.id) &&
-                  attributes.find(f => f.items?.find(fi => fi?.id === a?.id))
-                    ? s.active
+                  // eslint-disable-next-line no-nested-ternary
+                  attributes
+                    .find(at => at.id === m.id)
+                    ?.items?.find(fi => fi?.id === a?.id)
+                    ? m.type !== 'swatch'
+                      ? s.active
+                      : s.activeSwatch
                     : ''
                 }`}
-                style={{ backgroundColor: `${a.value}` }}
+                style={{
+                  backgroundColor: a.value,
+                  outline: 'none',
+                }}
               >
                 {`${m.type !== 'swatch' ? a.value : ''}`}
               </button>
@@ -100,53 +110,11 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
         </div>
       ))
     );
-    // <div>
-    //   {product?.attributes?.map((v: any) => (
-    //     <div>
-    //       <div className={s.attributesTitle}>{v?.name}:</div>
-    //       <div className={s.attributesWrapper}>
-    //         {/*= === display attribute items by type of attribute ==== */}
-    //         {v.type === 'swatch'
-    //           ? v.items?.map((val: any) => (
-    //             <span
-    //               aria-hidden
-    //               onClick={() => {
-    //                 this.chooseAttribute(productId, v.id, val?.id);
-    //               }}
-    //               className={`${s.attributeItem} ${
-    //                 this.props.attributes
-    //                   .find(it => it.id === v.id)
-    //                   ?.items?.find(itm => itm?.id === val.id)
-    //                   ? s.activeSwatch
-    //                   : null
-    //               }`}
-    //               style={{ backgroundColor: `${val.value}` }}
-    //             />
-    //           ))
-    //           : v.items?.map((val: any) => (
-    //             <span
-    //               aria-hidden
-    //               className={`${s.attributeItem} ${
-    //                 this.props.attributes
-    //                   .find(it => it.id === v.id)
-    //                   ?.items?.find(itm => itm?.id === val.id)
-    //                   ? s.active
-    //                   : null
-    //               }`}
-    //               onClick={() => {
-    //                 this.chooseAttribute(productId, v.id, val.id);
-    //               }}
-    //             >
-    //                   {val.value}
-    //                 </span>
-    //           ))}
-    //       </div>
-    //     </div>
-    //   ))}
-    // </div>
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   attributes: state.main.attributes,
 });
-export default connect(mapStateToProps, { addAttributes })(ProductAttributes);
+export default connect(mapStateToProps, { addAttributes, clearAttributes })(
+  ProductAttributes,
+);

@@ -54,7 +54,7 @@ class ModalContainer extends PureComponent<
     const { productCart, productsCount } = this.props;
     console.log(productCart);
     return (
-      <div>
+      <>
         <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>
           <img src={cartIcon} alt="logo" />
           {productsCount > 0 && <span className={s.countView}>{productsCount}</span>}
@@ -62,7 +62,7 @@ class ModalContainer extends PureComponent<
         <Modal onClickBg={this.cartModalHandler} showModal={showModal}>
           <CartModal showModal={showModal} onClickBg={this.cartModalHandler} />
         </Modal>
-      </div>
+      </>
     );
   }
 }

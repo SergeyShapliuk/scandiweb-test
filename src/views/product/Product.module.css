@@ -28,7 +28,7 @@
   margin-bottom: 24px;
   width: 356px;
   height: 338px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .outStock{
   position: absolute;

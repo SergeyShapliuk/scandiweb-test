@@ -8,7 +8,7 @@
 }
 
 .pictures {
-    display: flex
+    display: flex;
 }
 
 .pictureItem {
@@ -27,7 +27,7 @@
     display: block;
     width: 79px;
     height: 80px;
-    object-fit: cover;
+    object-fit: contain;
     transition: all 250ms;
     cursor: pointer;
 
@@ -41,7 +41,7 @@
 .selectedPicture {
     width: 610px;
     height: 580px;
-    object-fit: cover;
+    object-fit: contain;
     margin-bottom: 40px;
     margin-left: 40px;
     margin-right: 100px;

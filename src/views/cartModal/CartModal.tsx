@@ -34,26 +34,24 @@ class CartModal extends PureComponent<CartModalType> {
     const { productCart, onClickBg, showModal } = this.props;
 
     return (
-      <div className={s.block}>
-        <div className={s.container}>
-          <h4 className={s.title}>
-            My Bag
-            <span className={s.titleSpan}>
-              {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
-            </span>
-          </h4>
-          <Cart showModal={showModal} />
-          <div className={s.buttons}>
-            <NavLink to="/cart">
-              <button type="button" onClick={onClickBg} className={s.viewBtn}>
-                view bag
-              </button>
-            </NavLink>
+      <div className={s.container}>
+        <h4 className={s.title}>
+          My Bag
+          <span className={s.titleSpan}>
+            {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
+          </span>
+        </h4>
+        <Cart showModal={showModal} />
+        <div className={s.buttons}>
+          <NavLink to="/cart">
+            <button type="button" onClick={onClickBg} className={s.viewBtn}>
+              view bag
+            </button>
+          </NavLink>
 
-            <span className={s.checkoutButton} onClick={this.checkOut} aria-hidden>
-              check out
-            </span>
-          </div>
+          <button type="button" className={s.checkoutButton} onClick={this.checkOut}>
+            check out
+          </button>
         </div>
       </div>
     );
