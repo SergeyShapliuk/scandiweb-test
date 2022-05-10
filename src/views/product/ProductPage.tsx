@@ -18,7 +18,8 @@ type MapStateToProps = {
 type ProductPageType = {
   product: ProductType;
   addProductCart: (newProduct: ProductCartType) => void;
-  // clearAttributes: () => void;
+
+  clearAttributes: () => void;
 };
 type ProductPageTypes = MapStateToProps & ProductPageType;
 
@@ -30,9 +31,9 @@ class ProductPage extends PureComponent<ProductPageTypes> {
     };
   }
 
-  // componentWillUnmount() {
-  //   this.props.clearAttributes();
-  // }
+  componentWillUnmount() {
+    this.props.clearAttributes();
+  }
 
   selectImg = (e: any) => {
     const image = e.target.src;
@@ -54,16 +55,15 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       gallery: product?.gallery,
       id: product.id,
       prices: product?.prices,
-      attributes,
+      attributes: product?.attributes,
       count: 1,
     };
     const attributesValues = newProduct.attributes?.map(at =>
       at?.items?.map(v => v?.value),
     );
     const attrId = newProduct.attributes?.map(at => at?.id);
-    // const doubleProductId = productCart.map(m =>
-    //   m.attributes?.map(a => a?.items?.map(i => i?.displayValue === attributesValues)),
-    // );
+    const defaultAttributes = product.attributes?.filter(m => m);
+    console.log('defaultAttributes', defaultAttributes);
     const res = productCart
       .filter(v => v.id === newProduct.id)
       .find(f =>
@@ -174,4 +174,7 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   attributes: state.main.attributes,
   currency: state.main.currency,
 });
-export default connect(mapStateToProps, { addProductCart, clearAttributes })(ProductPage);
+export default connect(mapStateToProps, {
+  addProductCart,
+  clearAttributes,
+})(ProductPage);

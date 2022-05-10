@@ -14,8 +14,8 @@ type MapStateToProps = {
 type ProductAttributesType = {
   product: ProductType;
   productId: string;
-  addAttributes: (attribute?: AttributeSet[]) => void;
-  clearAttributes: () => void;
+  addAttributes: (attribute?: AttributeSet[], productId?: string) => void;
+  // clearAttributes: () => void;
 };
 type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
   ProductAttributesType;
@@ -35,9 +35,9 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
     }
   }
 
-  componentWillUnmount() {
-    this.props.clearAttributes();
-  }
+  // componentWillUnmount() {
+  //   this.props.clearAttributes();
+  // }
 
   chooseAttribute = (productId: string, nameId: string, itemId: string) => {
     // const { name, value } = e.currentTarget;
@@ -55,7 +55,7 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
       const res = { productId, result };
       console.log('resssss', res);
       // @ts-ignore
-      this.props.addAttributes(result);
+      this.props.addAttributes(result, productId);
       // }
       // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
       // @ts-ignore
