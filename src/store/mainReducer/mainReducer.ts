@@ -33,7 +33,7 @@ export const mainReducer = (
     case 'SET_PRODUCT':
       return { ...state, productPage: action.value };
     case 'SET_ATTRIBUTES':
-      if (state.productCart.find(f => f.id === action.productId)) {
+      if (state.productCart.find(f => f.id === action.attribute.id)) {
         return {
           ...state,
           attributes: state.attributes.map(val =>
@@ -88,7 +88,12 @@ export const mainReducer = (
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
+      // eslint-disable-next-line no-debugger
+      debugger;
       return { ...state, attributes: [] };
+    case 'CLEAR_PRODUCT_PAGE':
+      return state;
+    // return { ...state, productPage: {} };
     case 'REMOVE_PRODUCT_FROM_CART':
       return {
         ...state,
@@ -104,8 +109,8 @@ export const setAllProducts = (value: CategoryProductQuery) =>
   ({ type: 'SET_ALL_PRODUCTS', value } as const);
 export const setProduct = (value: ProductType) =>
   ({ type: 'SET_PRODUCT', value } as const);
-export const setAttributes = (attribute: AttributeSet, productId: string) =>
-  ({ type: 'SET_ATTRIBUTES', attribute, productId } as const);
+export const setAttributes = (attribute: AttributeSet) =>
+  ({ type: 'SET_ATTRIBUTES', attribute } as const);
 export const setCurrency = (currency: string) =>
   ({ type: 'SET_CURRENCY', currency } as const);
 export const setProductToCart = (product: ProductCartType) =>
@@ -117,6 +122,7 @@ export const setDecProductCount = (id: string) =>
 export const setProductCount = (count: number) =>
   ({ type: 'SET_PRODUCT_COUNT', count } as const);
 export const clearCart = () => ({ type: 'CLEAR_CART' } as const);
+export const clearProductPage = () => ({ type: 'CLEAR_PRODUCT_PAGE' } as const);
 
 export const clearAttributes = () => ({ type: 'CLEAR_ATTRIBUTES' } as const);
 export const setTotalSum = () => ({ type: 'SET_TOTAL_SUM' } as const);
@@ -134,11 +140,13 @@ export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
 };
 export const getProductPage =
   (productId: string) => async (dispatch: Dispatch<ActionsType>) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const data = await client.query({
       query: getProduct(productId),
     });
     if (!data.loading) {
-      dispatch(setProduct(data.data.product));
+      dispatch(setProduct(data.data));
     }
   };
 export const changeCurrencies =
@@ -146,10 +154,10 @@ export const changeCurrencies =
     dispatch(setCurrency(currency));
   };
 export const addAttributes =
-  (attribute: AttributeSet, productId: string) => (dispatch: Dispatch<ActionsType>) => {
+  (attribute: AttributeSet) => (dispatch: Dispatch<ActionsType>) => {
     // eslint-disable-next-line no-debugger
     debugger;
-    dispatch(setAttributes(attribute, productId));
+    dispatch(setAttributes(attribute));
   };
 export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
@@ -183,4 +191,5 @@ type ActionsType =
   | ReturnType<typeof setProductCount>
   | ReturnType<typeof clearAttributes>
   | ReturnType<typeof setTotalSum>
-  | ReturnType<typeof removeProductFromCart>;
+  | ReturnType<typeof removeProductFromCart>
+  | ReturnType<typeof clearProductPage>;

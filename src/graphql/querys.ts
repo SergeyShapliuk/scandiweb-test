@@ -1,8 +1,4 @@
 import { gql } from 'apollo-boost';
-import { Dispatch } from 'redux';
-
-import { client } from '../components/AppoloClient';
-import { setProduct } from '../store/mainReducer/mainReducer';
 
 export default gql`
   query productsCategory($categoryName: String!) {

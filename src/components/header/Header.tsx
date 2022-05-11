@@ -5,7 +5,7 @@ import ModalContainer from '../cart/ModalContainer';
 import Currency from '../currency/Currency';
 import Navbar from '../navBar/Navbar';
 
-import s from './Header.module.css';
+import s from './Header.module.scss';
 
 class Header extends PureComponent<any> {
   render() {

@@ -8,7 +8,7 @@ import { clearCart } from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 import Cart from '../cart/Cart';
 
-import s from './CartModal.module.css';
+import s from './CartModal.module.scss';
 
 type MapStateToProps = {
   productCart: ProductCartType[];

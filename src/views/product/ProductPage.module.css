@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300&family=Roboto+Condensed:wght@300&display=swap');
 
 
-.productContainter {
-    padding: 80px 110px 80px 110px;
-    display: flex;
+/*.productContainter {*/
+/*    !*padding: 80px 110px 80px 10px;*!*/
+/*    !*display: flex;*!*/
 
-}
+/*}*/
 
 .pictures {
     display: flex;
+    padding: 80px 110px 80px 10px;
 }
 
 .pictureItem {

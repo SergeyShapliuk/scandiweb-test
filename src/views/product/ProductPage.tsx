@@ -19,21 +19,21 @@ type ProductPageType = {
   product: ProductType;
   addProductCart: (newProduct: ProductCartType) => void;
 
-  clearAttributes: () => void;
+  // clearAttributes: () => void;
 };
 type ProductPageTypes = MapStateToProps & ProductPageType;
 
 class ProductPage extends PureComponent<ProductPageTypes> {
-  constructor(props: any) {
+  constructor(props: ProductPageTypes) {
     super(props);
     this.state = {
       selectImage: null,
     };
   }
 
-  componentWillUnmount() {
-    this.props.clearAttributes();
-  }
+  // componentWillUnmount() {
+  //   this.props.clearAttributes();
+  // }
 
   selectImg = (e: any) => {
     const image = e.target.src;
@@ -62,8 +62,8 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       at?.items?.map(v => v?.value),
     );
     const attrId = newProduct.attributes?.map(at => at?.id);
-    const defaultAttributes = product.attributes?.filter(m => m);
-    console.log('defaultAttributes', defaultAttributes);
+    // const defaultAttributes = product.attributes?.filter(m => m);
+    // console.log('defaultAttributes', defaultAttributes);
     const res = productCart
       .filter(v => v.id === newProduct.id)
       .find(f =>
@@ -89,28 +89,6 @@ class ProductPage extends PureComponent<ProductPageTypes> {
         `This ${newProduct.name} ${attrId} ${attributesValues} has been already added to the cart`,
       );
     }
-
-    // (productCart.id === newProduct.id).find(o =>
-    //   o.attributes.every((p, pi) =>
-    //     p.items?.every(
-    //       (n, ni) =>
-    //         // @ts-ignore
-    //         n.displayValue === newProduct.attributes[pi].items[ni].displayValue,
-    //     ),
-    //   ),
-    // );
-    // const attributesValues = newProduct.attributes.map(at =>
-    //   at.items?.map(v => v.displayValue),
-    // );
-    //
-    // if (!res) {
-    //   this.props.addProduct(newProduct);
-    //   // alert(`${newProduct.name} ${attributesValues} added`)
-    // } else {
-    //   alert(
-    //     `This ${newProduct.name} ${attributesValues} has been already added to the cart`,
-    //   );
-    // }
   };
 
   render() {
@@ -142,7 +120,7 @@ class ProductPage extends PureComponent<ProductPageTypes> {
           <h3 className={s.productBrand}>{product.brand}</h3>
           <h3 className={s.productName}>{product.name}</h3>
 
-          <ProductAttributes product={product} productId={product.id} />
+          <ProductAttributes product={product} />
 
           <p className={s.pricePara}>PRICE:</p>
           <p className={s.productPrice}>

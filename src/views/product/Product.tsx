@@ -6,7 +6,7 @@ import { compose } from 'redux';
 
 import cart from '../../assets/image/cart-white.svg';
 import { ProductType } from '../../generated/graphql';
-import { addProductCart } from '../../store/mainReducer/mainReducer';
+import { addProductCart, clearProductPage } from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import s from './Product.module.css';
@@ -17,11 +17,14 @@ type MapStateToProps = {
 
 type ProductTypes = {
   addProductCart: (product: ProductType) => void;
+  clearProductPage: () => void;
   product: ProductType;
   name: string;
 };
 
 class Product extends PureComponent<ProductTypes & MapStateToProps> {
+  // componentWillUnmount() {}
+
   setProductId = (product: ProductType) => {
     console.log(product);
     this.props.addProductCart(product);
@@ -32,6 +35,7 @@ class Product extends PureComponent<ProductTypes & MapStateToProps> {
     debugger;
     const { product, currency, name } = this.props;
     console.log(product.name);
+    console.log(product.id);
     return (
       <div className={s.item}>
         <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>
@@ -54,7 +58,6 @@ class Product extends PureComponent<ProductTypes & MapStateToProps> {
           <button
             type="button"
             onClick={() => this.setProductId(product)}
-            aria-hidden
             value={product.id}
             id={product.id}
             className={s.addBtn}
@@ -69,4 +72,6 @@ class Product extends PureComponent<ProductTypes & MapStateToProps> {
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   currency: state.main.currency,
 });
-export default compose<any>(connect(mapStateToProps, { addProductCart }))(Product);
+export default compose<any>(
+  connect(mapStateToProps, { addProductCart, clearProductPage }),
+)(Product);
