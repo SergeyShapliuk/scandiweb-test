@@ -51,8 +51,8 @@ class ModalContainer extends PureComponent<
 
   render() {
     const { showModal }: any = this.state;
-    const { productCart, productsCount } = this.props;
-    console.log(productCart);
+    const { productsCount } = this.props;
+
     return (
       <>
         <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>

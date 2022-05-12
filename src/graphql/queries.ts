@@ -31,7 +31,7 @@ export const getProductCategories = gql`
 
 export const getProduct = (productId: string) => gql`
 query {
-  product(id: "${productId}") {
+  product(id:"${productId}") {
      id
      name
      inStock

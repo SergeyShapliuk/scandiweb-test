@@ -12,8 +12,6 @@ export type ProductsListType = {
 
 class ProductsList extends PureComponent<ProductsListType> {
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { data, name } = this.props;
     console.log('productListttt', data);
     return (

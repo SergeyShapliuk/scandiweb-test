@@ -28,8 +28,6 @@ class App extends PureComponent<AppTypes> {
   }
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (!this.props.initialized) {
       return <Preloader />;
     }

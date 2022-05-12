@@ -30,8 +30,9 @@ export const mainReducer = (
       return { ...state, initialized: true };
     case 'SET_ALL_PRODUCTS':
       return { ...state, allProducts: action.value };
-    case 'SET_PRODUCT':
+    case 'SET_PRODUCT': {
       return { ...state, productPage: action.value };
+    }
     case 'SET_ATTRIBUTES':
       if (state.productCart.find(f => f.id === action.attribute.id)) {
         return {
@@ -88,12 +89,9 @@ export const mainReducer = (
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
-      // eslint-disable-next-line no-debugger
-      debugger;
       return { ...state, attributes: [] };
     case 'CLEAR_PRODUCT_PAGE':
       return state;
-    // return { ...state, productPage: {} };
     case 'REMOVE_PRODUCT_FROM_CART':
       return {
         ...state,
@@ -140,13 +138,11 @@ export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
 };
 export const getProductPage =
   (productId: string) => async (dispatch: Dispatch<ActionsType>) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const data = await client.query({
       query: getProduct(productId),
     });
     if (!data.loading) {
-      dispatch(setProduct(data.data));
+      dispatch(setProduct(data.data.product));
     }
   };
 export const changeCurrencies =
@@ -155,14 +151,10 @@ export const changeCurrencies =
   };
 export const addAttributes =
   (attribute: AttributeSet) => (dispatch: Dispatch<ActionsType>) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     dispatch(setAttributes(attribute));
   };
 export const addProductCart =
   (newProduct: ProductCartType) => (dispatch: Dispatch<ActionsType>) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     dispatch(setProductToCart(newProduct));
     // dispatch(setDefaultAttributes(attribute));
   };
@@ -177,6 +169,12 @@ export const getProductCount = (count: number) => (dispatch: Dispatch<ActionsTyp
 };
 export const getTotalSum = () => (dispatch: Dispatch<ActionsType>) => {
   dispatch(setTotalSum());
+};
+export const getClearAttributes = () => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(clearAttributes());
+};
+export const getClearProductPage = () => (dispatch: Dispatch<ActionsType>) => {
+  dispatch(clearProductPage());
 };
 type ActionsType =
   | ReturnType<typeof setProduct>

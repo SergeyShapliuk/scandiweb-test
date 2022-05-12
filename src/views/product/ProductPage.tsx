@@ -2,8 +2,12 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 
-import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
-import { addProductCart, clearAttributes } from '../../store/mainReducer/mainReducer';
+import { AttributeSet, ProductCartType } from '../../generated/graphql';
+import {
+  addProductCart,
+  getClearAttributes,
+  getClearProductPage,
+} from '../../store/mainReducer/mainReducer';
 import { RootStateType } from '../../store/rootStore/rootReducer';
 
 import ProductAttributes from './ProductAttributes';
@@ -16,10 +20,10 @@ type MapStateToProps = {
 };
 
 type ProductPageType = {
-  product: ProductType;
+  product: any;
   addProductCart: (newProduct: ProductCartType) => void;
-
-  // clearAttributes: () => void;
+  getClearProductPage: () => void;
+  // getClearAttributes: () => void;
 };
 type ProductPageTypes = MapStateToProps & ProductPageType;
 
@@ -31,9 +35,10 @@ class ProductPage extends PureComponent<ProductPageTypes> {
     };
   }
 
-  // componentWillUnmount() {
-  //   this.props.clearAttributes();
-  // }
+  componentWillUnmount() {
+    // this.props.getClearAttributes();
+    this.props.getClearProductPage();
+  }
 
   selectImg = (e: any) => {
     const image = e.target.src;
@@ -55,7 +60,8 @@ class ProductPage extends PureComponent<ProductPageTypes> {
       gallery: product?.gallery,
       id: product.id,
       prices: product?.prices,
-      attributes: product?.attributes,
+      attributesSet: product?.attributes,
+      attributes,
       count: 1,
     };
     const attributesValues = newProduct.attributes?.map(at =>
@@ -154,5 +160,6 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
 });
 export default connect(mapStateToProps, {
   addProductCart,
-  clearAttributes,
+  getClearProductPage,
+  getClearAttributes,
 })(ProductPage);

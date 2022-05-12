@@ -13,18 +13,19 @@ type MapStateToProps = {
 };
 type ProductAttributesType = {
   product: ProductType;
-  productId: string;
-  addAttributes: (attribute?: AttributeSet[], productId?: string) => void;
+  // addAttributes: (attribute?: AttributeSet[], productId?: string) => void;
   // clearAttributes: () => void;
 };
-type ProductAttributesTypes = { showModal: boolean } & MapStateToProps &
-  ProductAttributesType;
+type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
 
-class ProductAttributes extends PureComponent<ProductAttributesTypes> {
-  constructor(props: any) {
+class ProductAttributes extends PureComponent<
+  ProductAttributesTypes,
+  { selectedAttr: AttributeSet }
+> {
+  constructor(props: ProductAttributesTypes) {
     super(props);
     this.state = {
-      selectedAttr: [],
+      selectedAttr: {} as AttributeSet,
     };
   }
   //
@@ -37,24 +38,36 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   // componentWillUnmount() {
   //   this.props.clearAttributes();
   // }
-
-  chooseAttribute = (nameId: string, itemId: string) => {
+  // chooseAttribute = (nameId: string, itemId: string) => {
+  //   // eslint-disable-next-line react/no-access-state-in-setstate
+  //   const upAttr = this.state.selectedAttr.map((m: any) => {
+  //     if (m.id === nameId) {
+  //       return { ...m, items: itemId };
+  //     }
+  //     return m;
+  //   });
+  //   this.setState({ selectedAttr: upAttr });
+  //   this.props.addAttributes(this.state.selectedAttr);
+  // };
+  chooseAttribute = (e: any) => {
+    // const { name, value } = e;
     // const { name, value } = e.currentTarget;
-    console.log('id', nameId);
-    console.log('ID', itemId);
-    // console.log('prod', productId);
+    // console.log('id', name);
+    // console.log('ID', value);
+    console.log('e', e.target);
     // console.log('e.currentTarget', e.currentTarget);
 
-    const attr = this.props.product.attributes?.find(f => f?.id === nameId);
-    const result = { ...attr, items: attr?.items?.filter(f => f?.id === itemId) };
+    const attr = this.props.product.attributes?.find(f => f?.id);
+    const result = { ...attr, items: attr?.items?.filter(f => f?.id) };
     console.log('res', result);
     console.log('attr', attr);
     //   // console.log('res', res);
+    // @ts-ignore
     this.setState({ selectedAttr: result });
     // const res = { productId, result };
     // console.log('resssss', res);
     // @ts-ignore
-    this.props.addAttributes(result);
+    // this.props.addAttributes(result);
     // }
     // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
     // @ts-ignore
@@ -63,43 +76,40 @@ class ProductAttributes extends PureComponent<ProductAttributesTypes> {
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    const { product, productId, attributes, showModal } = this.props;
-    const { selectedAttr }: any = this.state;
+    const { product, attributes } = this.props;
+    const { selectedAttr } = this.state;
 
     console.log('selectedAttr', selectedAttr);
     console.log('CartproductAttributeComp', product);
     console.log('CartProducytAttributeComp', attributes);
-    console.log('CartProducytAttributeComp', showModal);
-    console.log('productId', productId);
+
     return product.attributes?.map(m => (
       <div key={m?.name} className={s.attributesContainer}>
         <h2 className={s.title}>{m?.name?.toUpperCase()}:</h2>
         <div className={s.list}>
-          {m?.items?.map((a: any) => (
+          {m?.items?.map(a => (
             <button
               type="button"
               // aria-hidden
-              key={a.id}
-              // name={m.id}
-              // value={a?.id}
-              onClick={() => this.chooseAttribute(m.id, a.id)}
+              key={a?.id}
+              name={m.id}
+              value={a?.id}
+              onClick={this.chooseAttribute}
               className={`${
                 m.type !== 'swatch' ? s.attributeItem : s.attributeItemSwatch
               } ${
                 // eslint-disable-next-line no-nested-ternary
-                selectedAttr === attributes.find(f => f.id)?.items?.find(fi => fi?.id)
+                selectedAttr.id === m.id && selectedAttr.items?.find(f => f?.id === a?.id)
                   ? m.type !== 'swatch'
                     ? s.active
                     : s.activeSwatch
                   : ''
               }`}
               style={{
-                backgroundColor: a.value,
+                backgroundColor: a?.value,
               }}
             >
-              {`${m.type !== 'swatch' ? a.value : ''}`}
+              {m.type !== 'swatch' ? a?.value : ''}
             </button>
           ))}
         </div>

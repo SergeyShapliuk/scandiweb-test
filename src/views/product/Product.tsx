@@ -31,8 +31,6 @@ class Product extends PureComponent<ProductTypes & MapStateToProps> {
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { product, currency, name } = this.props;
     console.log(product.name);
     console.log(product.id);

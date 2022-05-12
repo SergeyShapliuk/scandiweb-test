@@ -77,6 +77,7 @@ export type ProductType = {
   prices: Array<Price>;
 };
 export type ProductCartType = {
+  attributesSet?: Maybe<Array<Maybe<AttributeSet>>>;
   attributes?: Maybe<Array<Maybe<AttributeSet>>>;
   brand: Scalars['String'];
   category: Scalars['String'];

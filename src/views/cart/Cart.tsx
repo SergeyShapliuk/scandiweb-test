@@ -82,13 +82,11 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
   // };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { productCart, currency, attributes, showModal, productsCount, totalSum } =
       this.props;
 
-    const Id = attributes.map(atr => atr.id);
-    console.log('id', Id);
+    const itemId = attributes.map(atr => atr.items);
+    console.log('id', itemId);
     // const itName = attributes.map(atr => atr.name);
 
     // console.log('itId', itId);
@@ -116,27 +114,30 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                       }`,
                   )}
                 </div>
-                {productCart[index].attributes?.map(m => (
+                {productCart[index].attributesSet?.map(m => (
                   <div key={m?.id} className={s.attributesContainer}>
                     <h2 className={s.title}>{m?.name}:</h2>
                     <div className={s.list}>
-                      {m?.items?.map((a: any) => (
+                      {m?.items?.map(a => (
                         <button
                           // onClick={() => this.chooseAttributes(m.id, a.id)}
                           type="button"
-                          key={a.id}
-                          value={a.value}
-                          className={`${s.attributeItem} ${
-                            productCart[index].id === item.id &&
-                            attributes
-                              .find(f => f.id === m.id)
-                              ?.items?.find(fi => fi?.id === a.id)
-                              ? s.active
+                          key={a?.id}
+                          value={a?.id}
+                          className={`${
+                            m.type !== 'swatch' ? s.attributeItem : s.attributeItemSwatch
+                          } ${
+                            // eslint-disable-next-line no-nested-ternary
+                            attributes.find(e => e.id === m.id) &&
+                            attributes.find(fe => fe.items?.find(fr => fr?.id === a?.id))
+                              ? m.type !== 'swatch'
+                                ? s.active
+                                : s.activeSwatch
                               : ''
                           }`}
-                          style={{ backgroundColor: `${a.value}` }}
+                          style={{ backgroundColor: `${a?.value}` }}
                         >
-                          {`${m?.type !== 'swatch' ? a.value : ''}`}
+                          {`${m?.type !== 'swatch' ? a?.value : ''}`}
                         </button>
                       ))}
                     </div>

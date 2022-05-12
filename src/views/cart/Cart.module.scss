@@ -121,7 +121,9 @@
 .active {
   border: 2px solid #c51111 !important;
 }
-
+.activeSwatch{
+  border: #5ece7b 3px solid;
+}
 .galleryBlock {
   display: flex;
   justify-content: flex-end;
