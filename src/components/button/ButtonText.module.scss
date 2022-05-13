@@ -1,0 +1,29 @@
+.attributeItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ width: 63px;
+  height: 45px;
+  font-family: Source Sans Pro,sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  text-align: center;
+  border: 1px #1D1F22 solid ;
+  background-color:#ffffff ;
+  color: #1D1F22;
+  margin-right: 5px;
+  /*margin-bottom: 20px;*/
+  padding: 3%;
+  cursor: pointer;
+}
+.attributeItem:hover {
+  border: 1px solid #A6A6A6;
+  color: #A6A6A6;
+}
+.active {
+  color:#ffffff ;
+  background: #1D1F22;
+
+}

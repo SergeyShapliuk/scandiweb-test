@@ -81,11 +81,6 @@ class ProductPage extends PureComponent<ProductPageTypes> {
           ),
         ),
       );
-
-    console.log('productPage.newProduct', newProduct);
-    console.log('productPage.attributesValues', attributesValues);
-    console.log('productCart ', productCart);
-    console.log('doubleProductId ', res);
     if (!res) {
       this.props.addProductCart(newProduct);
       console.log('newProduct', newProduct);
@@ -100,8 +95,6 @@ class ProductPage extends PureComponent<ProductPageTypes> {
   render() {
     const { product, currency } = this.props;
     const { selectImage }: any = this.state;
-    console.log('selectImage', selectImage);
-    console.log('ProductPage1', product);
     return (
       <div className={s.pictures}>
         <div className={s.picturesList}>
