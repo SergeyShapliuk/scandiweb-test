@@ -19,7 +19,7 @@ import s from './Cart.module.scss';
 type MapStateToProps = {
   productCart: ProductCartType[];
   currency: string;
-  attributes: AttributeSet[];
+  attributeSet: AttributeSet[];
   productsCount: number;
   totalSum: number;
 };
@@ -80,33 +80,46 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
   //   // @ts-ignore
   //   this.props.addAttributes(attr.flat());
   // };
+  isButtonSelected = (name: string, id: string, item: any) => {
+    const temp =
+      item.filter((i: any) => i.name === name && i.items[0].id === id).length > 0;
+    return temp;
+  };
+  // const temp = this.props.productCart
+  //   .find(p => p.id === item)
+  //   ?.attributeSet?.find(fe => fe?.id === name)
+  //   ?.items?.find(fr => fr?.id === id);
+  // // console.log(
+  // //   'temp',
+  // //   temp?.items?.find(f => f?.id === id),
+  // // );
 
   render() {
-    const { productCart, currency, attributes, showModal, productsCount, totalSum } =
+    const { productCart, currency, attributeSet, showModal, productsCount, totalSum } =
       this.props;
 
-    const itemId = attributes.map(atr => atr.items);
+    const itemId = attributeSet.map(atr => atr.items);
     console.log('id', itemId);
     // const itName = attributes.map(atr => atr.name);
 
     // console.log('itId', itId);
     // console.log('itName', itName);
-    console.log('CartProductsCurrency', currency);
-    console.log('CartProductsproductCart', productCart);
-    console.log('CartProductsattribute', attributes);
+    // console.log('CartProductsCurrency', currency);
+    console.log('productCart', productCart);
+    // console.log('CartProductsattribute', attributeSet);
 
     // @ts-ignore
     return (
       <div className={s.cartBlock}>
         {!showModal && <div className={s.cartTitle}>Cart</div>}
-        {productCart.map((item, index) => (
+        {productCart.map(item => (
           <div key={item.id} className={!showModal ? s.cartLine : ''}>
             <div className={s.cartContainer}>
               <div className={s.attributeContainer}>
                 <div className={s.brand}>{item.brand}</div>
                 <div className={s.name}>{item.name}</div>
                 <div className={s.price}>
-                  {productCart[index].prices.map(
+                  {item.prices.map(
                     price =>
                       price.currency.symbol === currency &&
                       `${price.currency.symbol} ${
@@ -114,32 +127,44 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                       }`,
                   )}
                 </div>
-                {productCart[index].attributesSet?.map(m => (
+                {item.attributes?.map(m => (
                   <div key={m?.id} className={s.attributesContainer}>
                     <h2 className={s.title}>{m?.name}:</h2>
                     <div className={s.list}>
-                      {m?.items?.map(a => (
-                        <button
-                          // onClick={() => this.chooseAttributes(m.id, a.id)}
-                          type="button"
-                          key={a?.id}
-                          value={a?.id}
-                          className={`${
-                            m.type !== 'swatch' ? s.attributeItem : s.attributeItemSwatch
-                          } ${
-                            // eslint-disable-next-line no-nested-ternary
-                            attributes.find(e => e.id === m.id) &&
-                            attributes.find(fe => fe.items?.find(fr => fr?.id === a?.id))
-                              ? m.type !== 'swatch'
+                      {m?.items?.map(a =>
+                        m.type !== 'swatch' ? (
+                          <button
+                            aria-hidden
+                            type="button"
+                            id={a?.id}
+                            name={a!.id}
+                            value={a?.value}
+                            className={`${s.attributeItem} ${
+                              this.isButtonSelected(m.id, a!.id, item.attributeSet)
                                 ? s.active
-                                : s.activeSwatch
-                              : ''
-                          }`}
-                          style={{ backgroundColor: `${a?.value}` }}
-                        >
-                          {`${m?.type !== 'swatch' ? a?.value : ''}`}
-                        </button>
-                      ))}
+                                : ''
+                            }`}
+                            key={a?.id}
+                          >
+                            {a?.value}
+                          </button>
+                        ) : (
+                          <button
+                            aria-hidden
+                            type="button"
+                            id={m?.id}
+                            name={a!.id}
+                            value={a?.value}
+                            className={`${s.attributeItem} ${
+                              this.isButtonSelected(m.id, a!.id, item.attributeSet)
+                                ? s.active
+                                : ''
+                            }`}
+                            key={a?.id}
+                            style={{ backgroundColor: a?.value }}
+                          />
+                        ),
+                      )}
                     </div>
                   </div>
                 ))}
@@ -207,7 +232,7 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   productCart: state.main.productCart,
   currency: state.main.currency,
-  attributes: state.main.attributes,
+  attributeSet: state.main.attributeSet,
   productsCount: state.main.productsCount,
   totalSum: state.main.totalSum,
 });

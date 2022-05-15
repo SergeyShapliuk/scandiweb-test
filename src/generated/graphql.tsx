@@ -32,9 +32,9 @@ export type Attribute = {
 export type AttributeSet = {
   __typename?: 'AttributeSet';
   id: Scalars['String'];
-  items: Maybe<Array<Maybe<Attribute>>>;
-  name: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['String']>;
+  items?: Maybe<Array<Maybe<Attribute>>>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export enum CacheControlScope {
@@ -77,7 +77,7 @@ export type ProductType = {
   prices: Array<Price>;
 };
 export type ProductCartType = {
-  attributesSet?: Maybe<Array<Maybe<AttributeSet>>>;
+  attributeSet?: Maybe<Array<Maybe<AttributeSet>>>;
   attributes?: Maybe<Array<Maybe<AttributeSet>>>;
   brand: Scalars['String'];
   category: Scalars['String'];

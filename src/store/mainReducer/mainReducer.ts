@@ -13,7 +13,7 @@ const initialState = {
   initialized: false,
   allProducts: {} as CategoryProductQuery,
   productPage: {} as ProductType,
-  attributes: [] as AttributeSet[],
+  attributeSet: [] as AttributeSet[],
   productCart: [] as ProductCartType[],
   currency: '$' as string,
   productsCount: 0,
@@ -33,21 +33,25 @@ export const mainReducer = (
     case 'SET_PRODUCT': {
       return { ...state, productPage: action.value };
     }
-    case 'SET_ATTRIBUTES':
-      if (state.productCart.find(f => f.id === action.attribute.id)) {
+    case 'SET_ATTRIBUTES': {
+      const itemId = action.attribute.items?.map(m => m?.id);
+      if (
+        state.attributeSet
+          .find(f => f.id === action.attribute.id)
+          ?.items?.find(fe => fe?.id === itemId)
+      ) {
         return {
           ...state,
-          attributes: state.attributes.map(val =>
+          attributeSet: state.attributeSet.map(val =>
             val.id === action.attribute.id ? action.attribute : val,
           ),
         };
       }
       return {
         ...state,
-        attributes: [...state.attributes, action.attribute],
+        attributeSet: [action.attribute, ...state.attributeSet],
       };
-    // case 'SET_DEFAULT_ATTRIBUTES':
-    //   return { ...state, defaultAttributes: action.attributes };
+    }
     case 'SET_CURRENCY':
       return { ...state, currency: action.currency };
     case 'SET_PRODUCT_TO_CART':
@@ -89,7 +93,7 @@ export const mainReducer = (
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
-      return { ...state, attributes: [] };
+      return { ...state, attributeSet: [] };
     case 'CLEAR_PRODUCT_PAGE':
       return state;
     case 'REMOVE_PRODUCT_FROM_CART':

@@ -1,26 +1,26 @@
 import React, { PureComponent } from 'react';
 
-import s from './ButtonText.module.scss';
+import s from './ButtonColor.module.scss';
 
-type ButtonTextType = {
+export type ButtonColorType = {
   id: any;
   name: string;
   value: any;
   onClick: (name: string, id: string) => void;
   selected: any;
 };
-class ButtonText extends PureComponent<ButtonTextType> {
+class ButtonColor extends PureComponent<ButtonColorType> {
   render() {
     const { id, name, value, onClick, selected } = this.props;
     return (
       <button
+        aria-hidden
         type="button"
         onClick={() => onClick(name, id)}
-        className={`${s.attributeItem} ${selected ? s.active : ''}`}
-      >
-        {value}
-      </button>
+        className={`${s.attributeItemSwatch} ${selected ? s.activeSwatch : ''}`}
+        style={{ backgroundColor: value }}
+      />
     );
   }
 }
-export default ButtonText;
+export default ButtonColor;

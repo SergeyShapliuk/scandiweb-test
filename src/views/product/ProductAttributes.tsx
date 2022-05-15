@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 
-import ButtonSwatch from '../../components/button/ButtonSwatch';
+import ButtonColor from '../../components/button/ButtonColor';
 import ButtonText from '../../components/button/ButtonText';
 import { AttributeSet, ProductType } from '../../generated/graphql';
 import { addAttributes, clearAttributes } from '../../store/mainReducer/mainReducer';
@@ -11,74 +11,95 @@ import { RootStateType } from '../../store/rootStore/rootReducer';
 import s from './ProductAttributes.module.css';
 
 type MapStateToProps = {
-  attributes: AttributeSet[];
+  attributeSet: AttributeSet[];
 };
 type ProductAttributesType = {
   product: ProductType;
-  // addAttributes: (attribute?: AttributeSet[], productId?: string) => void;
+  addAttributes: (attribute: any) => void;
   // clearAttributes: () => void;
 };
 type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
 
+type PropertyType = {
+  name: string;
+  id: string;
+};
+
 class ProductAttributes extends PureComponent<
   ProductAttributesTypes,
-  { buttonTypeText: string; buttonTypeSwatch: string }
+  { buttonWithText: PropertyType[]; buttonWithColor: string[] }
 > {
   constructor(props: ProductAttributesTypes) {
     super(props);
     this.state = {
-      buttonTypeText: '',
-      buttonTypeSwatch: '',
+      buttonWithText: [],
+      buttonWithColor: [],
     };
   }
 
-  onTextButtonClick = (value: string) => {
-    console.log('onTextButtonClick', value);
-    this.setState({
-      buttonTypeText: value,
+  onTextButtonClick = (name: string, id: string) => {
+    this.setState(prevState => {
+      const temp = prevState.buttonWithText.find(p => p.name === name);
+      if (temp) {
+        if (temp.id === id) {
+          return prevState;
+        }
+        const newButtons = prevState.buttonWithText.map(p =>
+          p.name === name ? { ...p, id } : p,
+        );
+        return { ...prevState, buttonWithText: newButtons };
+      }
+      return {
+        ...prevState,
+        buttonWithText: [...prevState.buttonWithText, { name, id }],
+      };
     });
+    const attr = this.props.product.attributes?.find(f => f?.id === name);
+    const result = {
+      ...attr,
+      items: attr?.items?.filter(f => f?.id === id),
+    };
+    console.log('res', result);
+    this.props.addAttributes(result);
   };
 
-  onColorClick = (value: string) => {
-    console.log('buttonTypeSwatch', value);
+  onColorClick = (name: string, id: string) => {
     this.setState({
-      buttonTypeSwatch: value,
+      buttonWithColor: [name, id],
     });
+    const attr = this.props.product.attributes?.find(f => f?.id === name);
+    const result = {
+      ...attr,
+      items: attr?.items?.filter(f => f?.id === id),
+    };
+    console.log('res', result);
+    this.props.addAttributes(result);
   };
 
-  // chooseAttribute = (e: any) => {
-  //   // const { name, value } = e;
-  //   // const { name, value } = e.currentTarget;
-  //   // console.log('id', name);
-  //   // console.log('ID', value);
-  //   console.log('e', e.target);
-  //   // console.log('e.currentTarget', e.currentTarget);
+  // chooseAttribute = (name: string, id: string) => {
+  //   // console.log('name', name);
+  //   // console.log('ID', id);
   //
-  //   const attr = this.props.product.attributes?.find(f => f?.id);
-  //   const result = { ...attr, items: attr?.items?.filter(f => f?.id) };
+  //   const attr = this.props.product.attributes?.find(f => f?.id===name);
+  //   const result = { ...attr, items: attr?.items?.filter(f => f?.id===id) };
   //   console.log('res', result);
   //   console.log('attr', attr);
-  //   //   // console.log('res', res);
-  //   // @ts-ignore
-  //   this.setState({ selectedAttr: result });
-  //   // const res = { productId, result };
-  //   // console.log('resssss', res);
   //   // @ts-ignore
   //   this.props.addAttributes(result);
-  //   // }
-  //   // const res = { ...attr, items: attr?.items?.filter(v => v?.id === itemId) };
-  //   // @ts-ignore
-  //   // this.setState({ itemId });
-  //   // this.setState({ nameId });
   // };
 
-  render() {
-    const { product, attributes } = this.props;
-    const { buttonTypeText, buttonTypeSwatch } = this.state;
+  isButtonSelected = (name: string, id: string) => {
+    const temp = this.state.buttonWithText.find(p => p.name === name);
+    return temp?.id === id;
+  };
 
-    console.log('selectedAttr', buttonTypeText, buttonTypeSwatch);
+  render() {
+    const { product, attributeSet } = this.props;
+    const { buttonWithText, buttonWithColor } = this.state;
+
+    console.log('selectedAttr', buttonWithText, buttonWithColor);
     console.log('CartproductAttributeComp', product);
-    console.log('CartProducytAttributeComp', attributes);
+    console.log('CartProducytAttributeComp', attributeSet);
 
     return product.attributes?.map(typeName => (
       <div key={typeName?.id} className={s.attributesContainer}>
@@ -89,17 +110,22 @@ class ProductAttributes extends PureComponent<
               typeName.type !== 'swatch' ? (
                 <ButtonText
                   id={itemName?.id}
+                  name={typeName.id}
                   value={itemName?.value}
                   onClick={this.onTextButtonClick}
-                  selected={buttonTypeText === itemName?.id}
+                  selected={this.isButtonSelected(typeName.id, itemName!.id)}
                   key={itemName?.id}
                 />
               ) : (
-                <ButtonSwatch
+                <ButtonColor
                   id={itemName?.id}
+                  name={typeName.id}
                   value={itemName?.value}
                   onClick={this.onColorClick}
-                  selected={buttonTypeSwatch === itemName?.id}
+                  selected={
+                    buttonWithColor.find(button => button === typeName.id) &&
+                    buttonWithColor.find(button => button === itemName?.id)
+                  }
                   key={itemName?.id}
                 />
               ),
@@ -133,7 +159,7 @@ class ProductAttributes extends PureComponent<
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  attributes: state.main.attributes,
+  attributeSet: state.main.attributeSet,
 });
 export default connect(mapStateToProps, { addAttributes, clearAttributes })(
   ProductAttributes,
