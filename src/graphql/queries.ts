@@ -91,7 +91,7 @@ export const getCurrencies = gql`
 //   query {
 //     category {
 //       name
-//       products {
+//       productsQuery {
 //         name
 //         id
 //         prices {

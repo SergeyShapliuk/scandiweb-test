@@ -1,24 +1,26 @@
 import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import ButtonColor from '../../components/button/ButtonColor';
 import ButtonText from '../../components/button/ButtonText';
-import { AttributeSet, ProductType } from '../../generated/graphql';
-import { addAttributes, clearAttributes } from '../../store/mainReducer/mainReducer';
-import { RootStateType } from '../../store/rootStore/rootReducer';
+import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
+import { setAttributes } from '../../store/actionCreators';
+import { RootStateType } from '../../store/rootStore';
 
-import s from './ProductAttributes.module.css';
+import s from './ProductAttributes.module.scss';
 
-type MapStateToProps = {
-  attributeSet: AttributeSet[];
+type MapDispatchToProps = {
+  addAttributes: (attribute: AttributeSet) => void;
+};
+type MapStateToPropsType = {
+  state: RootStateType;
 };
 type ProductAttributesType = {
   product: ProductType;
-  addAttributes: (attribute: any) => void;
-  // clearAttributes: () => void;
-};
-type ProductAttributesTypes = MapStateToProps & ProductAttributesType;
+  productCart: ProductCartType[];
+} & MapDispatchToProps;
 
 type PropertyType = {
   name: string;
@@ -26,15 +28,21 @@ type PropertyType = {
 };
 
 class ProductAttributes extends PureComponent<
-  ProductAttributesTypes,
+  ProductAttributesType,
   { buttonWithText: PropertyType[]; buttonWithColor: string[] }
 > {
-  constructor(props: ProductAttributesTypes) {
+  constructor(props: ProductAttributesType) {
     super(props);
     this.state = {
       buttonWithText: [],
       buttonWithColor: [],
     };
+  }
+
+  componentDidUpdate(prevProps: Readonly<ProductAttributesType>) {
+    if (prevProps.productCart !== this.props.productCart) {
+      this.setState({ buttonWithText: [], buttonWithColor: [] });
+    }
   }
 
   onTextButtonClick = (name: string, id: string) => {
@@ -59,7 +67,7 @@ class ProductAttributes extends PureComponent<
       ...attr,
       items: attr?.items?.filter(f => f?.id === id),
     };
-    console.log('res', result);
+    // @ts-ignore
     this.props.addAttributes(result);
   };
 
@@ -72,21 +80,9 @@ class ProductAttributes extends PureComponent<
       ...attr,
       items: attr?.items?.filter(f => f?.id === id),
     };
-    console.log('res', result);
+    // @ts-ignore
     this.props.addAttributes(result);
   };
-
-  // chooseAttribute = (name: string, id: string) => {
-  //   // console.log('name', name);
-  //   // console.log('ID', id);
-  //
-  //   const attr = this.props.product.attributes?.find(f => f?.id===name);
-  //   const result = { ...attr, items: attr?.items?.filter(f => f?.id===id) };
-  //   console.log('res', result);
-  //   console.log('attr', attr);
-  //   // @ts-ignore
-  //   this.props.addAttributes(result);
-  // };
 
   isButtonSelected = (name: string, id: string) => {
     const temp = this.state.buttonWithText.find(p => p.name === name);
@@ -94,73 +90,45 @@ class ProductAttributes extends PureComponent<
   };
 
   render() {
-    const { product, attributeSet } = this.props;
-    const { buttonWithText, buttonWithColor } = this.state;
-
-    console.log('selectedAttr', buttonWithText, buttonWithColor);
-    console.log('CartproductAttributeComp', product);
-    console.log('CartProducytAttributeComp', attributeSet);
-
+    const { product } = this.props;
+    const { buttonWithColor } = this.state;
     return product.attributes?.map(typeName => (
       <div key={typeName?.id} className={s.attributesContainer}>
         <h2 className={s.title}>{typeName?.name?.toUpperCase()}:</h2>
         <div className={s.list}>
-          {typeName?.items?.map(
-            itemName =>
-              typeName.type !== 'swatch' ? (
-                <ButtonText
-                  id={itemName?.id}
-                  name={typeName.id}
-                  value={itemName?.value}
-                  onClick={this.onTextButtonClick}
-                  selected={this.isButtonSelected(typeName.id, itemName!.id)}
-                  key={itemName?.id}
-                />
-              ) : (
-                <ButtonColor
-                  id={itemName?.id}
-                  name={typeName.id}
-                  value={itemName?.value}
-                  onClick={this.onColorClick}
-                  selected={
-                    buttonWithColor.find(button => button === typeName.id) &&
-                    buttonWithColor.find(button => button === itemName?.id)
-                  }
-                  key={itemName?.id}
-                />
-              ),
-            // <button
-            //   type="button"
-            //   // aria-hidden
-            //   key={a?.id}
-            //   name={m.id}
-            //   value={a?.id}
-            //   onClick={this.chooseAttribute}
-            //   className={`${
-            //     m.type !== 'swatch' ? s.attributeItem : s.attributeItemSwatch
-            //   } ${
-            //     // eslint-disable-next-line no-nested-ternary
-            //     selectedAttr.id === m.id && selectedAttr.items?.find(f => f?.id === a?.id)
-            //       ? m.type !== 'swatch'
-            //         ? s.active
-            //         : s.activeSwatch
-            //       : ''
-            //   }`}
-            //   style={{
-            //     backgroundColor: a?.value,
-            //   }}
-            // >
-            //   {m.type !== 'swatch' ? a?.value : ''}
-            // </button>
+          {typeName?.items?.map(itemName =>
+            typeName.type !== 'swatch' ? (
+              <ButtonText
+                id={itemName?.id}
+                name={typeName.id}
+                value={itemName?.value}
+                onClick={this.onTextButtonClick}
+                selected={this.isButtonSelected(typeName.id, itemName!.id)}
+                key={itemName?.id}
+              />
+            ) : (
+              <ButtonColor
+                id={itemName?.id}
+                name={typeName.id}
+                value={itemName?.value}
+                onClick={this.onColorClick}
+                selected={
+                  buttonWithColor.find(button => button === typeName.id) &&
+                  buttonWithColor.find(button => button === itemName?.id)
+                }
+                key={itemName?.id}
+              />
+            ),
           )}
         </div>
       </div>
     ));
   }
 }
-const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  attributeSet: state.main.attributeSet,
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
+  state,
 });
-export default connect(mapStateToProps, { addAttributes, clearAttributes })(
-  ProductAttributes,
-);
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
+  addAttributes: (attribute: AttributeSet) => dispatch(setAttributes(attribute)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ProductAttributes);

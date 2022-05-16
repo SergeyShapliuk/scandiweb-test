@@ -8,10 +8,11 @@ import { compose } from 'redux';
 
 import Header from './components/header/Header';
 import Preloader from './components/preloader/Preloader';
-import CategoryProductsQuery from './components/products/CategoryProductsQuery';
-import ProductPageQuery from './components/products/ProductPageQuery';
-import { initializeApp } from './store/mainReducer/mainReducer';
-import { RootStateType } from './store/rootStore/rootReducer';
+import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
+import ProductPageQuery from './components/productsQuery/ProductPageQuery';
+import { getInitialized } from './services/selectors';
+import { initializeApp } from './store/mainReducer';
+import { RootStateType } from './store/rootStore';
 import Cart from './views/cart/Cart';
 
 type MapStateToProps = {
@@ -46,7 +47,7 @@ class App extends PureComponent<AppTypes> {
 }
 
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  initialized: state.main.initialized,
+  initialized: getInitialized(state),
 });
 export default compose<ComponentType>(
   connect(mapStateToProps, {

@@ -63,7 +63,15 @@ export type Price = {
   amount: Scalars['Float'];
   currency: Currency;
 };
-
+export type Products = {
+  __typename?: 'Product';
+  attributes?: Maybe<Array<Maybe<AttributeSet>>>;
+  gallery?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  inStock?: Maybe<Scalars['Boolean']>;
+  name: Scalars['String'];
+  prices: Array<Price>;
+};
 export type ProductType = {
   __typename?: 'Product';
   attributes?: Maybe<Array<Maybe<AttributeSet>>>;

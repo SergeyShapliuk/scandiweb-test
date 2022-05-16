@@ -10,26 +10,11 @@
 }
 
 .modal {
-    position: fixed;
-    width: 325px;
-    height: 677px;
-    /*left: 1043px;*/
-    top: 78px;
-    background: #FFFFFF;
     /*position: fixed;*/
-    /*top: 8%;*/
-    right: 80px;
-    /*width: 25%;*/
-    /*height: 60%;*/
-    /*!*position: static;*!*/
-    /*!*width: 121px;*!*/
-    /*!*height: 190px;*!*/
-    /*left: calc(50% - 10%/2);*/
-    /*top: calc(50% - 60%/2);*/
-    /*display: flex;*/
-    /*!*!*flex-flow: column;*!*!*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-    /*background: white;*/
-    z-index: 21;
+    /*width: 325px;*/
+    /*height: 677px;*/
+    /*top: 78px;*/
+    /*background: #FFFFFF;*/
+    /*right: 80px;*/
+    /*z-index: 21;*/
 }

@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import Carousel from '../../components/carousel/Carousel';
 import { AttributeSet, ProductCartType } from '../../generated/graphql';
 import {
-  addAttributes,
-  decProduct,
+  getAttributeSet,
+  getCurrency,
+  getProductCart,
+  getProductsCount,
   getTotalSum,
-  incProduct,
+} from '../../services/selectors';
+import {
   removeProductFromCart,
-} from '../../store/mainReducer/mainReducer';
-import { RootStateType } from '../../store/rootStore/rootReducer';
-// import ProductAttributes from '../product/ProductAttributes';
+  setDecProductCount,
+  setIncProductCount,
+  setTotalSum,
+} from '../../store/actionCreators';
+import { RootStateType } from '../../store/rootStore';
 
 import s from './Cart.module.scss';
 
@@ -23,23 +29,22 @@ type MapStateToProps = {
   productsCount: number;
   totalSum: number;
 };
-type MapStateToDispatch = {
-  incProduct: (index: string) => void;
-  decProduct: (index: string) => void;
+type MapDispatchToProps = {
+  incProduct: (id: string) => void;
+  decProduct: (id: string) => void;
   getTotalSum: () => void;
   removeProductFromCart: (productId: string) => void;
-  // addAttributes:(attribute: AttributeSet)
 };
 type CartType = {
   showModal?: boolean;
 };
-class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType> {
+class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType> {
   componentDidMount() {
     this.props.getTotalSum();
   }
 
   componentDidUpdate(
-    prevProps: Readonly<MapStateToProps & MapStateToDispatch & CartType>,
+    prevProps: Readonly<MapStateToProps & MapDispatchToProps & CartType>,
   ) {
     if (
       prevProps.productCart !== this.props.productCart ||
@@ -61,54 +66,15 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
     }
   };
 
-  // chooseAttributes = (nameId: any, itemId: any) => {
-  //   console.log('id', itemId);
-  //   console.log('ID', nameId);
-  //   const attr = this.props.productCart.map(m =>
-  //     m.attributes?.map(f =>
-  //       f?.name === nameId
-  //         ? { ...f, items: f?.items?.filter(fi => fi?.id === itemId) }
-  //         : f,
-  //     ),
-  //   );
-  //
-  //   const attttr = this.props.attributes;
-  //
-  //   console.log('attr', attr);
-  //   console.log('attrtttt', attttr);
-  //
-  //   // @ts-ignore
-  //   this.props.addAttributes(attr.flat());
-  // };
-  isButtonSelected = (name: string, id: string, item: any) => {
-    const temp =
-      item.filter((i: any) => i.name === name && i.items[0].id === id).length > 0;
-    return temp;
-  };
-  // const temp = this.props.productCart
-  //   .find(p => p.id === item)
-  //   ?.attributeSet?.find(fe => fe?.id === name)
-  //   ?.items?.find(fr => fr?.id === id);
-  // // console.log(
-  // //   'temp',
-  // //   temp?.items?.find(f => f?.id === id),
-  // // );
+  isButtonSelected = (name: string, id: string, itemId: string) =>
+    this.props.productCart
+      .find(p => p.id === itemId)
+      ?.attributeSet?.find(fe => fe?.id === name)
+      ?.items?.find(fr => fr?.id === id);
 
   render() {
-    const { productCart, currency, attributeSet, showModal, productsCount, totalSum } =
-      this.props;
+    const { productCart, currency, showModal, productsCount, totalSum } = this.props;
 
-    const itemId = attributeSet.map(atr => atr.items);
-    console.log('id', itemId);
-    // const itName = attributes.map(atr => atr.name);
-
-    // console.log('itId', itId);
-    // console.log('itName', itName);
-    // console.log('CartProductsCurrency', currency);
-    console.log('productCart', productCart);
-    // console.log('CartProductsattribute', attributeSet);
-
-    // @ts-ignore
     return (
       <div className={s.cartBlock}>
         {!showModal && <div className={s.cartTitle}>Cart</div>}
@@ -116,9 +82,9 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
           <div key={item.id} className={!showModal ? s.cartLine : ''}>
             <div className={s.cartContainer}>
               <div className={s.attributeContainer}>
-                <div className={s.brand}>{item.brand}</div>
-                <div className={s.name}>{item.name}</div>
-                <div className={s.price}>
+                <div className={showModal ? s.brandModal : s.brandCart}>{item.brand}</div>
+                <div className={showModal ? s.nameModal : s.nameCart}>{item.name}</div>
+                <div className={showModal ? s.priceModal : s.priceCart}>
                   {item.prices.map(
                     price =>
                       price.currency.symbol === currency &&
@@ -129,7 +95,7 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                 </div>
                 {item.attributes?.map(m => (
                   <div key={m?.id} className={s.attributesContainer}>
-                    <h2 className={s.title}>{m?.name}:</h2>
+                    <h2 className={showModal ? s.titleModal : s.titleCart}>{m?.name}:</h2>
                     <div className={s.list}>
                       {m?.items?.map(a =>
                         m.type !== 'swatch' ? (
@@ -140,9 +106,7 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                             name={a!.id}
                             value={a?.value}
                             className={`${s.attributeItem} ${
-                              this.isButtonSelected(m.id, a!.id, item.attributeSet)
-                                ? s.active
-                                : ''
+                              this.isButtonSelected(m.id, a!.id, item.id) ? s.active : ''
                             }`}
                             key={a?.id}
                           >
@@ -155,9 +119,9 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
                             id={m?.id}
                             name={a!.id}
                             value={a?.value}
-                            className={`${s.attributeItem} ${
-                              this.isButtonSelected(m.id, a!.id, item.attributeSet)
-                                ? s.active
+                            className={`${s.attributeItemSwatch} ${
+                              this.isButtonSelected(m.id, a!.id, item.id)
+                                ? s.activeSwatch
                                 : ''
                             }`}
                             key={a?.id}
@@ -213,16 +177,22 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
         <div className={!showModal ? s.cartLine : ''} />
         <div className={s.total}>
           {!showModal && (
-            <div>
-              Quantity: <span style={{ fontWeight: 'bold' }}> {productsCount}</span>
+            <div style={{ fontFamily: 'Railway', fontSize: '24px', fontWeight: '400' }}>
+              Quantity:{' '}
+              <span
+                style={{ fontFamily: 'Railway', fontSize: '24px', fontWeight: 'bold' }}
+              >
+                {' '}
+                {productsCount}
+              </span>
             </div>
           )}
 
-          <div className={s.totalTitle}>
+          <div className={showModal ? s.totalTitleModal : s.totalTitleCart}>
             Total:{' '}
-            <span className={s.totalPrice}>{`${currency}${
-              Math.round(totalSum * 100) / 100
-            }`}</span>
+            <span
+              className={showModal ? s.totalPriceModal : s.totalPriceCart}
+            >{`${currency}${Math.round(totalSum * 100) / 100}`}</span>
           </div>
         </div>
       </div>
@@ -230,16 +200,18 @@ class Cart extends PureComponent<MapStateToProps & MapStateToDispatch & CartType
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  productCart: state.main.productCart,
-  currency: state.main.currency,
-  attributeSet: state.main.attributeSet,
-  productsCount: state.main.productsCount,
-  totalSum: state.main.totalSum,
+  productCart: getProductCart(state),
+  currency: getCurrency(state),
+  attributeSet: getAttributeSet(state),
+  productsCount: getProductsCount(state),
+  totalSum: getTotalSum(state),
 });
-export default connect(mapStateToProps, {
-  incProduct,
-  decProduct,
-  getTotalSum,
-  addAttributes,
-  removeProductFromCart,
-})(Cart);
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
+  incProduct: (id: string) => dispatch(setIncProductCount(id)),
+  decProduct: (id: string) => dispatch(setDecProductCount(id)),
+  getTotalSum: () => dispatch(setTotalSum()),
+  removeProductFromCart: (productId: string) =>
+    dispatch(removeProductFromCart(productId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import cartIcon from '../../assets/image/cart.svg';
 import { ProductCartType } from '../../generated/graphql';
-import { getProductCount } from '../../store/mainReducer/mainReducer';
-import { RootStateType } from '../../store/rootStore/rootReducer';
+import { setProductCount } from '../../store/actionCreators';
+import { RootStateType } from '../../store/rootStore';
 import CartModal from '../../views/cartModal/CartModal';
 import Modal from '../modal/Modal';
 
@@ -15,23 +16,17 @@ type MapStateToProps = {
   productCart: ProductCartType[];
   productsCount: number;
 };
-class ModalContainer extends PureComponent<
-  MapStateToProps & { getProductCount: (count: number) => void }
-> {
-  constructor(props: any) {
+type MapDispatchToProps = {
+  getProductCount: (count: number) => void;
+};
+type ModalContainerType = MapStateToProps & MapDispatchToProps;
+class ModalContainer extends PureComponent<ModalContainerType, { showModal: boolean }> {
+  constructor(props: ModalContainerType) {
     super(props);
     this.state = {
       showModal: false,
     };
   }
-
-  // componentDidMount() {
-  //   console.log('compDidMOOOOunt');
-  //   const count = this.props.productCart
-  //     .map(m => m.count)
-  //     .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-  //   this.props.getProductCount(count);
-  // }
 
   componentDidUpdate(
     prevProps: Readonly<MapStateToProps & { getProductCount: (count: number) => void }>,
@@ -50,7 +45,7 @@ class ModalContainer extends PureComponent<
   };
 
   render() {
-    const { showModal }: any = this.state;
+    const { showModal } = this.state;
     const { productsCount } = this.props;
 
     return (
@@ -70,4 +65,7 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   productCart: state.main.productCart,
   productsCount: state.main.productsCount,
 });
-export default connect(mapStateToProps, { getProductCount })(ModalContainer);
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
+  getProductCount: (count: number) => dispatch(setProductCount(count)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);

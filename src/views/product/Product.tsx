@@ -2,38 +2,67 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { compose } from 'redux';
+import { Dispatch } from 'redux';
 
 import cart from '../../assets/image/cart-white.svg';
-import { ProductType } from '../../generated/graphql';
-import { addProductCart, clearProductPage } from '../../store/mainReducer/mainReducer';
-import { RootStateType } from '../../store/rootStore/rootReducer';
+import Modal from '../../components/modal/Modal';
+import { AttributeSet, ProductCartType } from '../../generated/graphql';
+import { getAttributeSet, getCurrency } from '../../services/selectors';
+import { setProductToCart } from '../../store/actionCreators';
+import { RootStateType } from '../../store/rootStore';
+import AttributeModal from '../modalAttributes/AttributeModal';
 
-import s from './Product.module.css';
+import s from './Product.module.scss';
 
 type MapStateToProps = {
   currency: string;
+  attributeSet: AttributeSet[];
 };
-
+type MapDispatchToProps = {
+  addProductCart: (product: ProductCartType) => void;
+};
 type ProductTypes = {
-  addProductCart: (product: ProductType) => void;
-  clearProductPage: () => void;
-  product: ProductType;
+  product: any;
   name: string;
-};
+} & MapStateToProps &
+  MapDispatchToProps;
 
-class Product extends PureComponent<ProductTypes & MapStateToProps> {
-  // componentWillUnmount() {}
+class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
+  constructor(props: ProductTypes) {
+    super(props);
+    this.state = {
+      showModal: false,
+    };
+  }
 
-  setProductId = (product: ProductType) => {
-    console.log(product);
-    this.props.addProductCart(product);
+  setProductId = (product: any) => {
+    if (
+      this.props.attributeSet &&
+      this.props.attributeSet.length < (product.attributes?.length || 0)
+    ) {
+      this.setState(prevState => ({ showModal: !prevState.showModal }));
+      return;
+    }
+    const newProduct: ProductCartType = {
+      name: product.id,
+      brand: product?.name,
+      category: this.props.name,
+      gallery: product?.gallery,
+      id: product.id + Date.now(),
+      prices: product?.prices,
+      attributes: product?.attributes,
+      attributeSet: this.props.attributeSet,
+      count: 1,
+    };
+    // @ts-ignore
+    this.props.addProductCart(newProduct);
   };
 
   render() {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const { showModal } = this.state;
     const { product, currency, name } = this.props;
-    console.log(product.name);
-    console.log(product.id);
     return (
       <div className={s.item}>
         <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>
@@ -63,13 +92,18 @@ class Product extends PureComponent<ProductTypes & MapStateToProps> {
             <img src={cart} id={product.id} className={s.btnSvg} alt="addToCart" />
           </button>
         )}
+        <Modal onClickBg={() => {}} showModal={showModal}>
+          <AttributeModal product={product} />
+        </Modal>
       </div>
     );
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  currency: state.main.currency,
+  currency: getCurrency(state),
+  attributeSet: getAttributeSet(state),
 });
-export default compose<any>(
-  connect(mapStateToProps, { addProductCart, clearProductPage }),
-)(Product);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  addProductCart: (newProduct: ProductCartType) => dispatch(setProductToCart(newProduct)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

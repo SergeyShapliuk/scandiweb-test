@@ -1,7 +1,6 @@
 @import "../../common/styles/sass/mixins";
 
 .cartModalBlock {
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -9,18 +8,19 @@
   overflow: hidden;
   padding: 10px 0;
   /*box-sizing: border-box;*/
-
   /*height: 500px;*/
   white-space: nowrap;
-  top: 78px;
   font-size: 70%;
-
-
+  position: fixed;
+  width: 325px;
+  height: 677px;
+  top: 78px;
+  background: #FFFFFF;
+  right: 80px;
+  z-index: 21;
   /*position: absolute;*/
   /*right: 87px;*/
-
   /*width: 325px;*/
-  height: 500px;
 }
 
 .cartModalContainers {

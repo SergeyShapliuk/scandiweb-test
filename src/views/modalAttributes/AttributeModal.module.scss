@@ -1,0 +1,28 @@
+.attributesContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  position: fixed;
+  width: 825px;
+  height: 800px;
+  top: 50%;
+  left: 50%;
+  font-size: 50%;
+  transform: translate(-50%,-50%);
+  background: #FFFFFF;
+  z-index: 21;
+
+}
+.s.title{
+  font-size: 10%;
+}
+.s.list{
+  font-size: 10%;
+}
+
+.attributesContainer button{
+  width: 30px;
+  height: 30px;
+}

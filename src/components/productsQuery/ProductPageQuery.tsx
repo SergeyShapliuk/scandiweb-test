@@ -6,10 +6,10 @@ import { compose } from 'redux';
 import { ProductType } from '../../generated/graphql';
 import { withRouter, WithRouterProps } from '../../services/Hoc';
 import { getProduct } from '../../services/selectors';
-import { RootStateType } from '../../store/rootStore/rootReducer';
+import { RootStateType } from '../../store/rootStore';
 import ProductPage from '../../views/product/ProductPage';
 
-import { getProductPage } from 'store/mainReducer/mainReducer';
+import { getProductPage } from 'store/mainReducer';
 
 type MapStateToProps = {
   productPage: ProductType;
@@ -26,25 +26,12 @@ export type ProductPageQueryTypes = WithRouterProps<Params> &
 class ProductPageQuery extends PureComponent<ProductPageQueryTypes> {
   componentDidMount() {
     const { params } = this.props.match;
-    console.log('comdidmount');
-    console.log('comdidmountparams', params.productsId);
     this.props.getProductPage(params.productsId);
   }
 
   render() {
-    // const { loading, error, data } = this.props.allProducts;
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error :(</p>;
     const data = this.props.productPage;
-    console.log('ProductPageQuery', data);
     const { params } = this.props.match;
-
-    // console.log('comdidmountparams', params.productsId);
-    // console.log(
-    //   'data',
-    //   data?.category?.products.map(m => m?.id),
-    // );
-
     return (
       data.id === params.productsId && (
         <div>

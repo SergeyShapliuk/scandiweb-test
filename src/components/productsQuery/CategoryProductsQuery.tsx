@@ -2,11 +2,8 @@ import React, { PureComponent } from 'react';
 
 import { withRouter, WithRouterProps } from '../../services/Hoc';
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
-import ProductsList from '../../views/ProductsList';
+import ProductsList from '../../views/products/ProductsList';
 
-// type MapStateToPropsType = {
-//   data: CategoryProductQuery;
-// };
 interface Params {
   productsName: string;
 }
@@ -32,7 +29,4 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
     );
   }
 }
-// const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
-//   allProducts: state.main.allProducts,
-// });
 export default withRouter(withQuery(CategoryProductsQuery));

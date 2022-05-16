@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { store } from './store/rootStore/rootReducer';
+import { store } from './store/rootStore';
 
 import { client } from 'components/AppoloClient';
 

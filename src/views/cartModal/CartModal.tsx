@@ -2,10 +2,12 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { Dispatch } from 'redux';
 
 import { ProductCartType } from '../../generated/graphql';
-import { clearCart } from '../../store/mainReducer/mainReducer';
-import { RootStateType } from '../../store/rootStore/rootReducer';
+import { getProductCart } from '../../services/selectors';
+import { clearCart } from '../../store/actionCreators';
+import { RootStateType } from '../../store/rootStore';
 import Cart from '../cart/Cart';
 
 import s from './CartModal.module.scss';
@@ -13,18 +15,21 @@ import s from './CartModal.module.scss';
 type MapStateToProps = {
   productCart: ProductCartType[];
 };
-type CartModalType = MapStateToProps & {
-  clearCart: () => void;
-  onClickBg: () => void;
-  showModal: boolean;
+type MapDispatchToProps = {
+  getClearCart: () => void;
 };
+type CartModalType = MapStateToProps &
+  MapDispatchToProps & {
+    onClickBg: () => void;
+    showModal: boolean;
+  };
 
 class CartModal extends PureComponent<CartModalType> {
   checkOut = () => {
     if (this.props.productCart.length) {
-      this.props.clearCart();
+      this.props.getClearCart();
       // eslint-disable-next-line no-alert
-      alert('products has been bought successfully');
+      alert('productsQuery has been bought successfully');
     }
     // eslint-disable-next-line no-alert
     alert('add some product');
@@ -60,6 +65,9 @@ class CartModal extends PureComponent<CartModalType> {
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  productCart: state.main.productCart,
+  productCart: getProductCart(state),
 });
-export default connect(mapStateToProps, { clearCart })(CartModal);
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
+  getClearCart: () => dispatch(clearCart()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CartModal);

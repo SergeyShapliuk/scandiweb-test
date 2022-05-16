@@ -1,4 +1,6 @@
-.item{display: flex;
+@import "../../common/styles/sass/mixins.scss";
+.item{
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   margin: 20px;
@@ -6,7 +8,8 @@
   box-sizing:border-box;
   align-items: center;
   cursor: pointer;
-  padding: 16px;}
+  padding: 16px;
+}
 
 
 
@@ -23,7 +26,7 @@
 }
 .itemImage{
   position: relative;
-  display: block;
+  display: flex;
   margin:0 auto;
   margin-bottom: 24px;
   width: 356px;
@@ -55,8 +58,6 @@
   left:320px;
   background-color: #5ECE7B;
   width:40px;
-  fill:white;
-  color: white;
   height:40px;
   border:none;
   border-radius: 60%;
@@ -66,32 +67,24 @@
 .addBtn:hover{
   box-shadow: -2px 4px 37px 3px #5ECE7B;
 
-
-
-
 }
 
 .btnSvg{
   position: relative;
-  width:60%;
+  width:80%;
   left: 50%;
-  fill: white;
-  color: white;
-  transform: translate(-50%, -50%);
+  transform: translate(-65%, 0);
 
 
 
 
 }
-
-svg path{
-  fill: white;
+.itemName{
+  @include text(Raleway, 16px, 300, 160%);
 }
+/*svg path{*/
+/*  fill: white;*/
+/*}*/
 .itemPrice{
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 160%;
-  font-family: Raleway;
-  line-height: 28.8px;
-  color: #1d1f22;
+  @include text(Raleway, 18px, 600, 160%);
 }

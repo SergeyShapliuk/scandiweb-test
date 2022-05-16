@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 
-import { CategoryProductType } from '../generated/graphql';
+import { CategoryProductType } from '../../generated/graphql';
+import Product from '../product/Product';
 
-import Product from './product/Product';
 import s from './ProductList.module.css';
 
 export type ProductsListType = {
@@ -13,7 +13,6 @@ export type ProductsListType = {
 class ProductsList extends PureComponent<ProductsListType> {
   render() {
     const { data, name } = this.props;
-    console.log('productListttt', data);
     return (
       <div className={s.productList}>
         <div>{data.name}</div>
