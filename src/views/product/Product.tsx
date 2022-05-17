@@ -2,24 +2,28 @@ import React, { PureComponent } from 'react';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Dispatch } from 'redux';
 
 import cart from '../../assets/image/cart-white.svg';
 import Modal from '../../components/modal/Modal';
-import { AttributeSet, ProductCartType } from '../../generated/graphql';
-import { getAttributeSet, getCurrency } from '../../services/selectors';
-import { setProductToCart } from '../../store/actionCreators';
+import { AttributeSet, ProductCartType, ProductType } from '../../graphql/graphql';
+import { clearAttributes, setProductToCart } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
+import { getAttributeSet, getCurrency, getProduct } from '../../utils/selectors';
 import AttributeModal from '../modalAttributes/AttributeModal';
 
 import s from './Product.module.scss';
 
+import { getProductPage } from 'store/mainReducer';
+
 type MapStateToProps = {
   currency: string;
   attributeSet: AttributeSet[];
+  productPage: ProductType;
 };
 type MapDispatchToProps = {
-  addProductCart: (product: ProductCartType) => void;
+  setProductToCart: (product: ProductCartType) => void;
+  getProductPage: (productsId: string) => void;
+  clearAttributes: () => void;
 };
 type ProductTypes = {
   product: any;
@@ -35,12 +39,19 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
     };
   }
 
-  setProductId = (product: any) => {
+  addAttribute = (product: any) => {
+    this.props.getProductPage(product.id);
+    this.setState(prevState => ({ showModal: !prevState.showModal }));
+  };
+
+  addProduct = (product: any) => {
+    const { attributeSet } = this.props;
     if (
       this.props.attributeSet &&
       this.props.attributeSet.length < (product.attributes?.length || 0)
     ) {
-      this.setState(prevState => ({ showModal: !prevState.showModal }));
+      // eslint-disable-next-line no-alert
+      alert('Please choose all or other attributes!');
       return;
     }
     const newProduct: ProductCartType = {
@@ -51,20 +62,23 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
       id: product.id + Date.now(),
       prices: product?.prices,
       attributes: product?.attributes,
-      attributeSet: this.props.attributeSet,
+      attributeSet,
       count: 1,
     };
-    // @ts-ignore
-    this.props.addProductCart(newProduct);
+    this.props.setProductToCart(newProduct);
+    this.props.clearAttributes();
+    this.setState(prevState => ({ showModal: !prevState.showModal }));
+  };
+
+  cartModalHandler = () => {
+    this.setState(prevState => ({ showModal: !prevState.showModal }));
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { showModal } = this.state;
-    const { product, currency, name } = this.props;
+    const { product, currency, name, productPage } = this.props;
     return (
-      <div className={s.item}>
+      <div className={s.itemContainer}>
         <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>
           <img
             className={s.itemImage}
@@ -84,7 +98,7 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
         {product.inStock && (
           <button
             type="button"
-            onClick={() => this.setProductId(product)}
+            onClick={() => this.addAttribute(product)}
             value={product.id}
             id={product.id}
             className={s.addBtn}
@@ -92,8 +106,12 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
             <img src={cart} id={product.id} className={s.btnSvg} alt="addToCart" />
           </button>
         )}
-        <Modal onClickBg={() => {}} showModal={showModal}>
-          <AttributeModal product={product} />
+        <Modal onClickBg={this.cartModalHandler} showModal={showModal}>
+          <AttributeModal
+            product={productPage}
+            addProduct={this.addProduct}
+            onClickBg={this.cartModalHandler}
+          />
         </Modal>
       </div>
     );
@@ -102,8 +120,11 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   currency: getCurrency(state),
   attributeSet: getAttributeSet(state),
+  productPage: getProduct(state),
 });
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addProductCart: (newProduct: ProductCartType) => dispatch(setProductToCart(newProduct)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+
+export default connect(mapStateToProps, {
+  setProductToCart,
+  getProductPage,
+  clearAttributes,
+})(Product);

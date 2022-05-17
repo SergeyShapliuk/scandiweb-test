@@ -4,14 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Carousel from '../../components/carousel/Carousel';
-import { AttributeSet, ProductCartType } from '../../generated/graphql';
-import {
-  getAttributeSet,
-  getCurrency,
-  getProductCart,
-  getProductsCount,
-  getTotalSum,
-} from '../../services/selectors';
+import { AttributeSet, ProductCartType } from '../../graphql/graphql';
 import {
   removeProductFromCart,
   setDecProductCount,
@@ -19,6 +12,13 @@ import {
   setTotalSum,
 } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
+import {
+  getAttributeSet,
+  getCurrency,
+  getProductCart,
+  getProductsCount,
+  getTotalSum,
+} from '../../utils/selectors';
 
 import s from './Cart.module.scss';
 
@@ -132,7 +132,6 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                     </div>
                   </div>
                 ))}
-                {/* <ProductAttributes product={productCart} showModal={showModal} /> */}
               </div>
               <div className={s.galleryBlock}>
                 <div className={s.galleryContainer}>

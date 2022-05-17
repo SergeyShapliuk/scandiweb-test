@@ -1,0 +1,21 @@
+@import "../../common/styles/sass/mixins";
+
+.productList {
+  width: 100%;
+
+  .name {
+    @include text(Raleway, 42px, 400, 160%);
+    width: 299px;
+    height: 68px;
+    margin-left: 101px;
+    margin-top: 160px;
+  }
+
+  .list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+

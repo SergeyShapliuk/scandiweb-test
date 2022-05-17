@@ -1,28 +1,37 @@
-.attributesContainer{
+.attributesContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  text-align: center;
+  padding: 10px;
   position: fixed;
-  width: 825px;
-  height: 800px;
+  width: 500px;
+  height: 500px;
   top: 50%;
   left: 50%;
-  font-size: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background: #FFFFFF;
   z-index: 21;
+  .btnAdd{
+    text-transform: uppercase;
+    width: 150px;
+    height: 43px;
+    cursor: pointer;
+    margin: 35px 7px;
+    color:  #ffffff;
+    background-color: #5ECE7B;
+    border: none;
+  }
+  .btnCancel{
+    text-transform: uppercase;
+    width: 100px;
+    height: 43px;
+    cursor: pointer;
+    margin: 35px 7px;
+    color:  #ffffff;
+    background-color: #5ECE7B;
+    border: none;
+  }
+}
 
-}
-.s.title{
-  font-size: 10%;
-}
-.s.list{
-  font-size: 10%;
-}
-
-.attributesContainer button{
-  width: 30px;
-  height: 30px;
-}

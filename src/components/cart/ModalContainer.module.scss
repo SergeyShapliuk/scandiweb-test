@@ -1,0 +1,16 @@
+@import "../../common/styles/sass/mixins";
+.cart{
+    position: relative;
+    cursor: pointer;
+    .countView{
+        @include text(Roboto, 14px, 700, 16px);
+        position: absolute;
+        text-align: center;
+        padding: 3px 7px;
+        color: #ffffff;
+        background-color: #1d1f22;
+        border-radius: 50%;
+        bottom: 12px;
+        left: 12px;
+    }
+}

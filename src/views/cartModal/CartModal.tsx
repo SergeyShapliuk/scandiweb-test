@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ProductCartType } from '../../generated/graphql';
-import { getProductCart } from '../../services/selectors';
+import { ProductCartType } from '../../graphql/graphql';
 import { clearCart } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
+import { getProductCart } from '../../utils/selectors';
 import Cart from '../cart/Cart';
 
 import s from './CartModal.module.scss';
@@ -28,8 +28,7 @@ class CartModal extends PureComponent<CartModalType> {
   checkOut = () => {
     if (this.props.productCart.length) {
       this.props.getClearCart();
-      // eslint-disable-next-line no-alert
-      alert('productsQuery has been bought successfully');
+      return;
     }
     // eslint-disable-next-line no-alert
     alert('add some product');
@@ -64,6 +63,7 @@ class CartModal extends PureComponent<CartModalType> {
     );
   }
 }
+
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   productCart: getProductCart(state),
 });

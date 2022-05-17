@@ -3,7 +3,7 @@ import {
   CategoryProductQuery,
   ProductCartType,
   ProductType,
-} from '../generated/graphql';
+} from '../graphql/graphql';
 
 export const initializedSuccess = () => ({ type: 'INITIALIZED_SUCCESS' } as const);
 export const setAllProducts = (value: CategoryProductQuery) =>

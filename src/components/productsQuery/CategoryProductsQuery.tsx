@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
-import { withRouter, WithRouterProps } from '../../services/Hoc';
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
+import { withRouter, WithRouterProps } from '../../services/useRouterHoc';
 import ProductsList from '../../views/products/ProductsList';
 
 interface Params {

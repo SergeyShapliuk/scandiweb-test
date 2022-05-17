@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
 
-import s from './NavBar.module.css';
+import s from './NavBar.module.scss';
 
 class Navbar extends PureComponent<WithQueryProps> {
   render() {

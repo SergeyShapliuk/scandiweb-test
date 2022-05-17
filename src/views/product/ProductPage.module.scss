@@ -1,0 +1,97 @@
+@import "../../common/styles/sass/mixins";
+
+.pageContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  left: 50%;
+  top: 50%;
+  padding: 150px 110px 80px 10px;
+
+  .pictureItem {
+    list-style: none;
+    width: 79px;
+
+    .selectPicture {
+      display: block;
+      width: 79px;
+      height: 80px;
+      object-fit: contain;
+      transition: all 250ms;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .productBrand {
+    @include text(Raleway, 30px, 600, 27px);
+
+  }
+
+  .productName {
+    display: flex;
+    @include text(Raleway, 30px, 400, 27px);
+  }
+
+  .price {
+    @include text(Raleway, 18px, 700, 18px);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .productPrice {
+    @include text(Raleway, 24px, 700, 18px);
+  }
+
+  .btnAdd {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 292px;
+    height: 52px;
+    color: #ffffff;
+    background: #5ece7b;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms;
+
+    &:disabled {
+      background: #5ece7b;
+      opacity: .5;
+      cursor: initial;
+    }
+  }
+
+  .productDescription {
+    @include text(Roboto, 18px, 400, 160%);
+    margin-top: 40px;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+}
+
+.selectedPicture {
+  width: 610px;
+  height: 511px;
+  object-fit: contain;
+  margin-bottom: 40px;
+  margin-left: 40px;
+  margin-right: 100px;
+}
+
+@media screen and (max-width: 1150px) {
+  .selectedPicture {
+    width: 410px;
+    height: 311px;
+    object-fit: contain;
+    margin-bottom: 40px;
+    margin-left: 40px;
+    margin-right: 100px;
+  }
+}

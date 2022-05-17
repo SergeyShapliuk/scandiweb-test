@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 
 import ButtonColor from '../../components/button/ButtonColor';
 import ButtonText from '../../components/button/ButtonText';
-import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
+import { AttributeSet, ProductType } from '../../graphql/graphql';
 import { setAttributes } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
 
@@ -19,7 +19,6 @@ type MapStateToPropsType = {
 };
 type ProductAttributesType = {
   product: ProductType;
-  productCart: ProductCartType[];
 } & MapDispatchToProps;
 
 type PropertyType = {
@@ -40,7 +39,7 @@ class ProductAttributes extends PureComponent<
   }
 
   componentDidUpdate(prevProps: Readonly<ProductAttributesType>) {
-    if (prevProps.productCart !== this.props.productCart) {
+    if (prevProps.product.attributes !== this.props.product.attributes) {
       this.setState({ buttonWithText: [], buttonWithColor: [] });
     }
   }

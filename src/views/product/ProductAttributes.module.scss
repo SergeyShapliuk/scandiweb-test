@@ -1,20 +1,15 @@
+@import "../../common/styles/sass/mixins";
+
 .attributesContainer {
-    /*display: flex;
-    /*flex-direction: column;
-    /*margin-bottom: 20px;*/
-}
+  margin-bottom: 30px;
 
-.title {
-    font-family: Roboto Condensed;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 18px;
-}
+  .title {
+    @include text(Roboto Condensed, 18px, 700, 18px);
+  }
 
-.list {
+  .list {
     display: flex;
-    /*padding-top: 10px;*/
+  }
 }
-.attribute{
-    display: inline-block;
-}
+
+

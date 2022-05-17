@@ -1,0 +1,36 @@
+@import "../../common/styles/sass/mixins";
+
+.navBar {
+  display: flex;
+  height: 100%;
+  width: 100vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 60px;
+  padding-top: 20px;
+
+  .list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+
+    .item {
+      @include text(Raleway, 16px, 400, 120%);
+      text-decoration: none;
+      padding: 4px 16px 32px 16px;
+    }
+
+    .active {
+      @include text(Raleway, 16px, 600, 120%);
+      text-decoration: none;
+      padding: 4px 16px 32px 16px;
+      color: #5ece7b;
+      border-bottom: 2px solid #5ece7b;
+    }
+
+  }
+}
+
+

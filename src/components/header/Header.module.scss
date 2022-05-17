@@ -6,17 +6,15 @@
     justify-content: flex-start;
     align-items: center;
     z-index: 21;
-    /*!*margin-left:80px;*!*/
-    /*padding-top: 10px;*/
-    ///*background-color: gold;*/
     background-color: white;
+    .logo{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        left: 50%;
+        top: 0;
+        transform: translate(0,50%);
+    }
 
-}
-.logo{
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    left: 50%;
-    top: 0;
-    transform: translate(0,50%);
+
 }

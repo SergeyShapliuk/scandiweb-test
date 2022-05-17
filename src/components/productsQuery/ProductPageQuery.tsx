@@ -3,10 +3,10 @@ import React, { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { ProductType } from '../../generated/graphql';
-import { withRouter, WithRouterProps } from '../../services/Hoc';
-import { getProduct } from '../../services/selectors';
+import { ProductType } from '../../graphql/graphql';
+import { withRouter, WithRouterProps } from '../../services/useRouterHoc';
 import { RootStateType } from '../../store/rootStore';
+import { getProduct } from '../../utils/selectors';
 import ProductPage from '../../views/product/ProductPage';
 
 import { getProductPage } from 'store/mainReducer';

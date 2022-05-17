@@ -7,14 +7,14 @@ import {
   setProduct,
 } from './actionCreators';
 
-import { client } from 'components/AppoloClient';
+import { client } from 'graphql/AppoloClient';
 import {
   AttributeSet,
   CategoryProductQuery,
   ProductCartType,
   ProductType,
-} from 'generated/graphql';
-import { getProduct, getProductCategories } from 'graphql/queries';
+} from 'graphql/graphql';
+import { getProduct, getProductCategories } from 'graphql/query/queries';
 
 const initialState = {
   initialized: false,
@@ -100,6 +100,8 @@ export const mainReducer = (
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
+      // eslint-disable-next-line no-debugger
+      debugger;
       return { ...state, attributeSet: [] };
     case 'REMOVE_PRODUCT_FROM_CART':
       return {

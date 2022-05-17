@@ -10,7 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store/rootStore';
 
-import { client } from 'components/AppoloClient';
+import { client } from 'graphql/AppoloClient';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

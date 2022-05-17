@@ -1,0 +1,62 @@
+@import "../../common/styles/sass/mixins";
+
+.currency {
+  width: 40px;
+  margin-left: -230px;
+
+  .currencyButton {
+    position: relative;
+    cursor: pointer;
+
+    .up {
+      width: 4px;
+      height: 4px;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      margin: 0 0 3px 10px;
+      transform: rotate(-45deg);
+      display: inline-block;
+      transition: 1s;
+    }
+
+    .down {
+      width: 4px;
+      height: 4px;
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      margin: 0 0 3px 10px;
+      transform: rotate(135deg);
+      display: inline-block;
+      transition: 1s;
+    }
+  }
+
+  .currencyOptions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    margin-top: 20px;
+    margin-left: -10px;
+    z-index: 10;
+    box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+
+    .optionsButton {
+      @include text(Raleway, 18px, 500, 160%);
+      padding: 20px 0;
+      border: none;
+      background-color: #FFF;
+      cursor: pointer;
+      transition: all 250ms;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #5ece7b;
+      }
+    }
+  }
+}
+
+
+
+

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import cartIcon from '../../assets/image/cart.svg';
-import { ProductCartType } from '../../generated/graphql';
+import { ProductCartType } from '../../graphql/graphql';
 import { setProductCount } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
 import CartModal from '../../views/cartModal/CartModal';
 import Modal from '../modal/Modal';
 
-import s from './ModalContainer.module.css';
+import s from './ModalContainer.module.scss';
 
 type MapStateToProps = {
   productCart: ProductCartType[];
@@ -40,7 +40,6 @@ class ModalContainer extends PureComponent<ModalContainerType, { showModal: bool
   }
 
   cartModalHandler = () => {
-    // @ts-ignore
     this.setState(prevState => ({ showModal: !prevState.showModal }));
   };
 

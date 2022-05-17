@@ -3,12 +3,12 @@ import React, { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose, Dispatch } from 'redux';
 
-import { GetCurrenciesQuery } from '../../generated/graphql';
+import { GetCurrenciesQuery } from '../../graphql/graphql';
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
 import { setCurrency } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
 
-import s from './Currency.module.css';
+import s from './Currency.module.scss';
 
 type MapStateToProps = {
   currency: string;
@@ -55,7 +55,6 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
     return (
       <div className={s.currency}>
         <div className={s.currencyButton} onClick={this.onBtnClick} aria-hidden>
-          {/* eslint-disable-next-line jsx-a11y/alt-text */}
           {currency}
 
           <div className={showCurrencies ? s.up : s.down} />
@@ -63,8 +62,8 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
         {data && showCurrencies && (
           <div className={s.currencyOptions}>
             {data.currencies?.map(c => (
-              // eslint-disable-next-line react/button-has-type
               <button
+                type="button"
                 className={s.optionsButton}
                 id={c?.symbol}
                 value={c?.symbol}
@@ -75,7 +74,6 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
             ))}
           </div>
         )}
-        {/* </div> */}
       </div>
     );
   }

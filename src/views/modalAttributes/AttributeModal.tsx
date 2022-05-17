@@ -1,51 +1,41 @@
 import React, { PureComponent } from 'react';
 
-import { Products } from '../../generated/graphql';
+import { ProductType } from '../../graphql/graphql';
+import ProductAttributes from '../product/ProductAttributes';
 
 import s from './AttributeModal.module.scss';
 
 type AttributeModalType = {
-  product: Products;
+  product: ProductType;
+  addProduct: (a: any) => void;
+  onClickBg: () => void;
 };
+
 class AttributeModal extends PureComponent<AttributeModalType> {
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    const { product } = this.props;
-    console.log(product.attributes?.map(m => m?.name));
+    const { product, addProduct, onClickBg } = this.props;
 
     return (
-      product.attributes &&
-      product.attributes?.map(typeName => (
-        <div key={typeName?.name} className={s.attributesContainer}>
-          <h2 className={s.title}>{typeName?.name?.toUpperCase()}:</h2>
-          <div className={s.list}>
-            {typeName?.items?.map(itemName =>
-              typeName.name === 'Capacity' ? (
-                <button
-                  aria-hidden
-                  type="button"
-                  id={itemName?.id}
-                  name={typeName.id}
-                  value={itemName?.value}
-                >
-                  {itemName?.value}
-                </button>
-              ) : (
-                <button
-                  aria-hidden
-                  type="button"
-                  id={itemName?.id}
-                  name={typeName.id}
-                  value={itemName?.value}
-                  key={itemName?.id}
-                  style={{ backgroundColor: itemName?.value }}
-                />
-              ),
-            )}
-          </div>
-        </div>
-      ))
+      <div className={s.attributesContainer}>
+        <span style={{ fontSize: '30px', borderBottom: 'green 1px solid' }}>
+          Choose attribute please
+        </span>
+        <ProductAttributes product={product} />
+        <span>
+          <button
+            type="button"
+            onClick={() => {
+              addProduct(product);
+            }}
+            className={s.btnAdd}
+          >
+            add attribute
+          </button>
+          <button type="button" onClick={onClickBg} className={s.btnCancel}>
+            cancel
+          </button>
+        </span>
+      </div>
     );
   }
 }

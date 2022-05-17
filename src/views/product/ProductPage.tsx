@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { AttributeSet, ProductCartType, ProductType } from '../../generated/graphql';
-import { getAttributeSet, getCurrency, getProductCart } from '../../services/selectors';
+import { AttributeSet, ProductCartType, ProductType } from '../../graphql/graphql';
 import { clearAttributes, setProductToCart } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
+import { getAttributeSet, getCurrency, getProductCart } from '../../utils/selectors';
 
 import ProductAttributes from './ProductAttributes';
-import s from './ProductPage.module.css';
+import s from './ProductPage.module.scss';
 
 type MapStateToProps = {
   productCart: ProductCartType[];
@@ -41,7 +41,10 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
 
   addToCart = () => {
     const { product, attributeSet, productCart } = this.props;
-    if (attributeSet && attributeSet.length < (product.attributes?.length || 0)) {
+    if (
+      attributeSet.find(f => f.id !== 'apple-airtag') &&
+      attributeSet.length < (product.attributes?.length || 0)
+    ) {
       // eslint-disable-next-line no-alert
       alert('Please choose all or other attributes!');
       return;
@@ -61,16 +64,19 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
       at?.items?.map(v => v?.displayValue),
     );
     const attrName = newProduct.attributeSet?.map(at => at?.id);
-    const res = productCart.find(f =>
-      f.attributeSet?.every((p, pi) =>
-        p?.items?.every(
-          (n, ni) =>
-            // @ts-ignore
-            n?.id === newProduct?.attributeSet[pi].items[ni].id,
+
+    const result = productCart
+      .filter(prod => prod.name === newProduct.name)
+      .find(f =>
+        f.attributeSet?.every((atr, atrIndex) =>
+          atr?.items?.every(
+            (item, itemIndex) =>
+              // @ts-ignore
+              item?.id === newProduct?.attributeSet[atrIndex].items[itemIndex].id,
+          ),
         ),
-      ),
-    );
-    if (!res) {
+      );
+    if (!result) {
       this.props.addProductCart(newProduct);
       this.props.getClearAttributes();
     } else {
@@ -82,11 +88,13 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
   };
 
   render() {
-    const { product, currency, productCart } = this.props;
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const { product, currency } = this.props;
     const { selectImage }: any = this.state;
     return (
-      <div className={s.pictures}>
-        <div className={s.picturesList}>
+      <div className={s.pageContainer}>
+        <div>
           {product &&
             product.gallery?.map((img: any) => (
               <div
@@ -108,9 +116,9 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
           <h3 className={s.productBrand}>{product.brand}</h3>
           <h3 className={s.productName}>{product.name}</h3>
 
-          <ProductAttributes product={product} productCart={productCart} />
+          <ProductAttributes product={product} />
 
-          <p className={s.pricePara}>PRICE:</p>
+          <p className={s.price}>PRICE:</p>
           <p className={s.productPrice}>
             {product.prices.map(
               (prc: any) =>
@@ -121,7 +129,7 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
             onClick={this.addToCart}
             type="button"
             disabled={!product.inStock}
-            className={s.submitBtn}
+            className={s.btnAdd}
           >
             {!product.inStock ? 'OUT OF STOCK' : 'ADD TO CART'}
           </button>

@@ -9,7 +9,7 @@ import {
   useCategoryProductQuery,
   useGetCurrenciesQuery,
   useGetProductCategoriesNameQuery,
-} from '../generated/graphql';
+} from '../graphql/graphql';
 
 export interface WithQueryProps {
   queryCategoryName: GetProductCategoriesNameQueryHookResult;

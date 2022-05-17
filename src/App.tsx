@@ -10,9 +10,9 @@ import Header from './components/header/Header';
 import Preloader from './components/preloader/Preloader';
 import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
 import ProductPageQuery from './components/productsQuery/ProductPageQuery';
-import { getInitialized } from './services/selectors';
 import { initializeApp } from './store/mainReducer';
 import { RootStateType } from './store/rootStore';
+import { getInitialized } from './utils/selectors';
 import Cart from './views/cart/Cart';
 
 type MapStateToProps = {
