@@ -102,6 +102,7 @@ class ProductAttributes extends PureComponent<
                 name={typeName.id}
                 value={itemName?.value}
                 onClick={this.onTextButtonClick}
+                disabled={!product.inStock}
                 selected={this.isButtonSelected(typeName.id, itemName!.id)}
                 key={itemName?.id}
               />
@@ -111,6 +112,7 @@ class ProductAttributes extends PureComponent<
                 name={typeName.id}
                 value={itemName?.value}
                 onClick={this.onColorClick}
+                disabled={!product.inStock}
                 selected={
                   buttonWithColor.find(button => button === typeName.id) &&
                   buttonWithColor.find(button => button === itemName?.id)

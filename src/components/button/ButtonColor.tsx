@@ -7,16 +7,18 @@ export type ButtonColorType = {
   name: string;
   value: any;
   onClick: (name: string, id: string) => void;
+  disabled: boolean;
   selected: any;
 };
 class ButtonColor extends PureComponent<ButtonColorType> {
   render() {
-    const { id, name, value, onClick, selected } = this.props;
+    const { id, name, value, onClick, disabled, selected } = this.props;
     return (
       <button
         aria-hidden
         type="button"
         onClick={() => onClick(name, id)}
+        disabled={disabled}
         className={`${s.attributeItemSwatch} ${selected ? s.activeSwatch : ''}`}
         style={{ backgroundColor: value }}
       />

@@ -7,15 +7,17 @@ type ButtonTextType = {
   name: string;
   value: any;
   onClick: (name: string, id: string) => void;
+  disabled: boolean;
   selected: any;
 };
 class ButtonText extends PureComponent<ButtonTextType> {
   render() {
-    const { id, name, value, onClick, selected } = this.props;
+    const { id, name, value, onClick, disabled, selected } = this.props;
     return (
       <button
         type="button"
         onClick={() => onClick(name, id)}
+        disabled={disabled}
         className={`${s.attributeItem} ${selected ? s.active : ''}`}
       >
         {value}

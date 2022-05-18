@@ -88,8 +88,6 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
   };
 
   render() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const { product, currency } = this.props;
     const { selectImage }: any = this.state;
     return (

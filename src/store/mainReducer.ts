@@ -100,8 +100,6 @@ export const mainReducer = (
     case 'CLEAR_CART':
       return { ...state, productCart: [] };
     case 'CLEAR_ATTRIBUTES':
-      // eslint-disable-next-line no-debugger
-      debugger;
       return { ...state, attributeSet: [] };
     case 'REMOVE_PRODUCT_FROM_CART':
       return {
