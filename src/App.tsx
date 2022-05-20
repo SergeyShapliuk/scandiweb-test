@@ -1,10 +1,9 @@
-import React, { ComponentType, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 
 import './App.css';
 
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { compose } from 'redux';
 
 import Header from './components/header/Header';
 import Preloader from './components/preloader/Preloader';
@@ -49,8 +48,6 @@ class App extends PureComponent<AppTypes> {
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   initialized: getInitialized(state),
 });
-export default compose<ComponentType>(
-  connect(mapStateToProps, {
-    initializeApp,
-  }),
-)(App);
+export default connect(mapStateToProps, {
+  initializeApp,
+})(App);
