@@ -66,11 +66,19 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
     }
   };
 
-  isButtonSelected = (name: string, id: string, itemId: string) =>
-    this.props.productCart
-      .find(p => p.id === itemId)
+  isButtonSelected = (name: string, id: string, item: ProductCartType) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    console.log('name', name);
+    console.log('id', id);
+    console.log('item', item);
+
+    const res = this.props.productCart
+      .find(p => p.id === item.id)
       ?.attributeSet?.find(fe => fe?.id === name)
       ?.items?.find(fr => fr?.id === id);
+    return res;
+  };
 
   render() {
     const { productCart, currency, showModal, productsCount, totalSum } = this.props;
@@ -88,9 +96,7 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                   {item.prices.map(
                     price =>
                       price.currency.symbol === currency &&
-                      `${price.currency.symbol} ${
-                        Math.round(price.amount * item.count * 100) / 100
-                      }`,
+                      `${price.currency.symbol} ${price.amount}`,
                   )}
                 </div>
                 {item.attributes?.map(m => (
@@ -106,7 +112,7 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                             name={a!.id}
                             value={a?.value}
                             className={`${s.attributeItem} ${
-                              this.isButtonSelected(m.id, a!.id, item.id) ? s.active : ''
+                              this.isButtonSelected(m.id, a!.id, item) ? s.active : ''
                             }`}
                             key={a?.id}
                           >
@@ -120,7 +126,7 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                             name={a!.id}
                             value={a?.value}
                             className={`${s.attributeItemSwatch} ${
-                              this.isButtonSelected(m.id, a!.id, item.id)
+                              this.isButtonSelected(m.id, a!.id, item)
                                 ? s.activeSwatch
                                 : ''
                             }`}

@@ -3,10 +3,10 @@ import React, { ComponentType, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose, Dispatch } from 'redux';
 
-import { GetCurrenciesQuery } from '../../graphql/graphql';
 import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
 import { setCurrency } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
+import { getCurrency } from '../../utils/selectors';
 
 import s from './Currency.module.scss';
 
@@ -16,20 +16,12 @@ type MapStateToProps = {
 type MapDispatchToProps = {
   changeCurrencies: (currency: string) => void;
 };
-type OwnPropsType = {
-  data: GetCurrenciesQuery;
-};
-type CurrencyType = {
-  data: GetCurrenciesQuery;
-};
-
 type CurrencyTypes = MapStateToProps &
   MapDispatchToProps &
-  CurrencyType &
-  OwnPropsType &
-  WithQueryProps;
+  WithQueryProps & { showModal?: boolean };
+
 class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }> {
-  constructor(props: any) {
+  constructor(props: CurrencyTypes) {
     super(props);
     this.state = {
       showCurrencies: false,
@@ -50,20 +42,21 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
     const { showCurrencies } = this.state;
-    const { currency } = this.props;
+    const { currency, showModal } = this.props;
 
     return (
       <div className={s.currency}>
         <div className={s.currencyButton} onClick={this.onBtnClick} aria-hidden>
           {currency}
 
-          <div className={showCurrencies ? s.up : s.down} />
+          <div className={!showModal && showCurrencies ? s.up : s.down} />
         </div>
-        {data && showCurrencies && (
+        {!showModal && showCurrencies && (
           <div className={s.currencyOptions}>
-            {data.currencies?.map(c => (
+            {data?.currencies?.map(c => (
               <button
                 type="button"
+                key={c?.symbol}
                 className={s.optionsButton}
                 id={c?.symbol}
                 value={c?.symbol}
@@ -79,12 +72,12 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
   }
 }
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  currency: state.main.currency,
+  currency: getCurrency(state),
 });
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   changeCurrencies: (currency: string) => dispatch(setCurrency(currency)),
 });
-export default compose<ComponentType>(
+export default compose<ComponentType<{ showModal?: boolean }>>(
   connect(mapStateToProps, mapDispatchToProps),
   withQuery,
 )(Currency);

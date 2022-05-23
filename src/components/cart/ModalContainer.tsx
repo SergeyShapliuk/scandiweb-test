@@ -8,6 +8,7 @@ import { ProductCartType } from '../../graphql/graphql';
 import { setProductCount } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
 import CartModal from '../../views/cartModal/CartModal';
+import Currency from '../currency/Currency';
 import Modal from '../modal/Modal';
 
 import s from './ModalContainer.module.scss';
@@ -49,6 +50,7 @@ class ModalContainer extends PureComponent<ModalContainerType, { showModal: bool
 
     return (
       <>
+        <Currency showModal={showModal} />
         <div className={s.cart} onClick={this.cartModalHandler} aria-hidden>
           <img src={cartIcon} alt="logo" />
           {productsCount > 0 && <span className={s.countView}>{productsCount}</span>}

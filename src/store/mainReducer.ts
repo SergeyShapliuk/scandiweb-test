@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import {
   ActionsType,
   initializedSuccess,
-  setAllProducts,
+  // setAllProducts,
   setProduct,
 } from './actionCreators';
 
@@ -14,7 +14,7 @@ import {
   ProductCartType,
   ProductType,
 } from 'graphql/graphql';
-import { getProduct, getProductCategories } from 'graphql/query/queries';
+import { getProduct } from 'graphql/query/queries';
 
 const initialState = {
   initialized: false,
@@ -25,6 +25,7 @@ const initialState = {
   currency: '$' as string,
   productsCount: 0,
   totalSum: 0,
+  showModals: false,
 };
 type InitialStateType = typeof initialState;
 
@@ -106,19 +107,21 @@ export const mainReducer = (
         ...state,
         productCart: state.productCart.filter(f => f.id !== action.productId),
       };
+    case 'SET_SHOW_MODAL':
+      return { ...state, showModals: action.showModal };
     default:
       return state;
   }
 };
 
 export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
-  const data = await client.query({
-    query: getProductCategories,
-  });
-  if (!data.loading) {
-    dispatch(setAllProducts(data.data));
-    dispatch(initializedSuccess());
-  }
+  // const data = await client.query({
+  //   query: getProductCategories,
+  // });
+  // if (!data.loading) {
+  //   dispatch(setAllProducts(data.data));
+  dispatch(initializedSuccess());
+  // }
 };
 export const getProductPage =
   (productId: string) => async (dispatch: Dispatch<ActionsType>) => {

@@ -2,7 +2,6 @@
 
 .productList {
   width: 100%;
-
   .name {
     @include text(Raleway, 42px, 400, 160%);
     width: 299px;
@@ -12,9 +11,15 @@
   }
 
   .list {
+    //display:grid;
+    //grid-template-columns: repeat(3,386px);
+  //grid-auto-flow:dense;
+    //gap: 0px;
+    //height: 100%;
+    //margin: auto;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: space-around;
+   flex-wrap: wrap;
   }
 }
 

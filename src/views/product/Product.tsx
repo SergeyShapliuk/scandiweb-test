@@ -86,7 +86,9 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
             alt="item"
           />
           {!product.inStock && <p className={s.outStock}> OUT OF STOCK</p>}
-          <p className={s.itemName}>{product.name}</p>
+          <span className={s.itemName}>
+            {product.name} {product.id}
+          </span>
           <p className={s.itemPrice}>
             {product.prices.map(
               (prc: any) =>

@@ -27,6 +27,8 @@ export const clearAttributes = () => ({ type: 'CLEAR_ATTRIBUTES' } as const);
 export const setTotalSum = () => ({ type: 'SET_TOTAL_SUM' } as const);
 export const removeProductFromCart = (productId: string) =>
   ({ type: 'REMOVE_PRODUCT_FROM_CART', productId } as const);
+export const setShowModal = (showModal: boolean) =>
+  ({ type: 'SET_SHOW_MODAL', showModal } as const);
 
 export type ActionsType =
   | ReturnType<typeof setProduct>
@@ -41,4 +43,5 @@ export type ActionsType =
   | ReturnType<typeof setProductCount>
   | ReturnType<typeof clearAttributes>
   | ReturnType<typeof setTotalSum>
-  | ReturnType<typeof removeProductFromCart>;
+  | ReturnType<typeof removeProductFromCart>
+  | ReturnType<typeof setShowModal>;

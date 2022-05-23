@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { AttributeSet, ProductCartType, ProductType } from '../../graphql/graphql';
-import { clearAttributes, setProductToCart } from '../../store/actionCreators';
+import {
+  clearAttributes,
+  setIncProductCount,
+  setProductToCart,
+} from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
 import { getAttributeSet, getCurrency, getProductCart } from '../../utils/selectors';
 
@@ -19,6 +23,7 @@ type MapStateToProps = {
 type MapDispatchToProps = {
   addProductCart: (newProduct: ProductCartType) => void;
   getClearAttributes: () => void;
+  getIncProductCount: (id: string) => void;
 };
 type ProductPageType = { product: ProductType } & MapStateToProps & MapDispatchToProps;
 
@@ -41,29 +46,27 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
 
   addToCart = () => {
     const { product, attributeSet, productCart } = this.props;
-    if (
-      attributeSet.find(f => f.id !== 'apple-airtag') &&
-      attributeSet.length < (product.attributes?.length || 0)
-    ) {
+    if (attributeSet.length < (product.attributes?.length || 0)) {
       // eslint-disable-next-line no-alert
       alert('Please choose all or other attributes!');
       return;
     }
+    const uuid = attributeSet.map(m => m.items?.map(me => me?.id));
     const newProduct: ProductCartType = {
       name: product?.name,
       brand: product?.brand,
       category: product?.category,
       gallery: product?.gallery,
-      id: product.id + Date.now(),
+      id: product.id + uuid,
       prices: product?.prices,
       attributes: product?.attributes,
       attributeSet,
       count: 1,
     };
-    const attributesValues = newProduct.attributeSet?.map(at =>
-      at?.items?.map(v => v?.displayValue),
-    );
-    const attrName = newProduct.attributeSet?.map(at => at?.id);
+    // const attributesValues = newProduct.attributeSet?.map(at =>
+    //   at?.items?.map(v => v?.displayValue),
+    // );
+    // const attrName = newProduct.attributeSet?.map(at => at?.id);
 
     const result = productCart
       .filter(prod => prod.name === newProduct.name)
@@ -80,15 +83,13 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
       this.props.addProductCart(newProduct);
       this.props.getClearAttributes();
     } else {
-      // eslint-disable-next-line no-alert
-      alert(
-        `This ${newProduct.name} (${attrName}:${attributesValues}) has been already added to the cart`,
-      );
+      this.props.getIncProductCount(newProduct.id);
+      this.props.getClearAttributes();
     }
   };
 
   render() {
-    const { product, currency } = this.props;
+    const { product, currency, productCart } = this.props;
     const { selectImage }: any = this.state;
     return (
       <div className={s.pageContainer}>
@@ -114,7 +115,7 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
           <h3 className={s.productBrand}>{product.brand}</h3>
           <h3 className={s.productName}>{product.name}</h3>
 
-          <ProductAttributes product={product} />
+          <ProductAttributes product={product} productToCart={productCart} />
 
           <p className={s.price}>PRICE:</p>
           <p className={s.productPrice}>
@@ -149,5 +150,6 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   addProductCart: (newProduct: ProductCartType) => dispatch(setProductToCart(newProduct)),
   getClearAttributes: () => dispatch(clearAttributes()),
+  getIncProductCount: (id: string) => dispatch(setIncProductCount(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
