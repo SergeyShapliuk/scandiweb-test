@@ -1,9 +1,12 @@
 @import "../../common/styles/sass/mixins";
+@import "../../common/styles/sass/variables";
 
 .productList {
   width: 100%;
+
   .name {
-    @include text(Raleway, 42px, 400, 160%);
+    @include text($fontFamilyRaleWay, 42px, 400, 160%);
+    text-transform: capitalize;
     width: 299px;
     height: 68px;
     margin-left: 101px;
@@ -11,15 +14,13 @@
   }
 
   .list {
-    //display:grid;
-    //grid-template-columns: repeat(3,386px);
-  //grid-auto-flow:dense;
-    //gap: 0px;
-    //height: 100%;
-    //margin: auto;
+    max-width: 1640px;
+    margin-right: auto;
+    margin-left: auto;
     display: flex;
     justify-content: space-around;
-   flex-wrap: wrap;
+    flex-wrap: wrap;
+
   }
 }
 

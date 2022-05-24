@@ -1,10 +1,10 @@
-@import "../../common/styles/sass/mixins.scss";
+@import "../../common/styles/sass/mixins";
+@import "../../common/styles/sass/variables";
 
 .itemContainer {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  margin: 20px;
+  margin: 2%;
   position: relative;
   box-sizing: border-box;
   align-items: center;
@@ -12,18 +12,11 @@
   padding: 16px;
 }
 
-.itemContainer:nth-child(3n) {
-  //  order: 1;
-  //background-color: #5ECE7B;
-  //width: 33%;
-  //margin: 0;
-  //    //clear: both;
-}
-
 .itemContainer:hover {
   box-shadow: 0 4px 35px rgba(168, 172, 176, 0.19);
-}
 
+
+}
 .itemLink {
   width: 386px;
   height: 444px;
@@ -60,14 +53,12 @@
 
 .itemName {
 
-  @include text(Raleway, 18px, 300, 160%);
+  @include text($fontFamilyRaleWay, 18px, 300, 160%);
 }
 
 .itemPrice {
-  @include text(Raleway, 18px, 600, 160%);
+  @include text($fontFamilyRaleWay, 18px, 600, 160%);
 }
-
-
 .addBtn {
   position: absolute;
   top: 330px;
@@ -79,6 +70,8 @@
   border: none;
   border-radius: 60%;
   cursor: pointer;
+  display: none;
+
 }
 
 .addBtn:hover {
@@ -87,10 +80,13 @@
 
 .btnSvg {
   position: relative;
-  width: 80%;
+  width: 65%;
   left: 50%;
-  transform: translate(-65%, 0);
+  transform: translate(-60%, 25%);
+}
 
+.itemContainer:hover .addBtn {
+  display: block;
 }
 
 

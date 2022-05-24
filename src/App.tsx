@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import './App.css';
 
 import { connect } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import Preloader from './components/preloader/Preloader';
@@ -35,7 +35,7 @@ class App extends PureComponent<AppTypes> {
       <div className="App">
         <Header />
         <Routes>
-          {/* <Route path="/" element={<Navigate to="/all" />} /> */}
+          <Route path="/" element={<Navigate to="shop-test" />} />
           <Route path="/:productsName" element={<CategoryProductsQuery />} />
           <Route path="/:productsName/:productsId" element={<ProductPageQuery />} />
           <Route path="/cart" element={<Cart />} />

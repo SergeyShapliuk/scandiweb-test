@@ -4,6 +4,7 @@
       name
       products {
         id
+        brand
         name
         inStock
         attributes {

@@ -1,26 +1,27 @@
 import React, { PureComponent } from 'react';
 
-import { ProductType } from '../../graphql/graphql';
+import { ProductCartType, ProductType } from '../../graphql/graphql';
 import ProductAttributes from '../product/ProductAttributes';
 
 import s from './AttributeModal.module.scss';
 
 type AttributeModalType = {
   product: ProductType;
+  productCart: ProductCartType[];
   addProduct: (a: any) => void;
   onClickBg: () => void;
 };
 
 class AttributeModal extends PureComponent<AttributeModalType> {
   render() {
-    const { product, addProduct, onClickBg } = this.props;
+    const { product, addProduct, onClickBg, productCart } = this.props;
 
     return (
       <div className={s.attributesContainer}>
-        <span style={{ fontSize: '30px', borderBottom: 'green 1px solid' }}>
-          Choose attribute please
-        </span>
-        <ProductAttributes product={product} />
+        <span className={s.title}>Choose attribute please</span>
+        <div className={s.attribute}>
+          <ProductAttributes product={product} productToCart={productCart} />
+        </div>
         <span>
           <button
             type="button"

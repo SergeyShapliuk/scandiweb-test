@@ -1,4 +1,5 @@
 @import "../../common/styles/sass/mixins";
+@import "../../common/styles/sass/variables";
 
 .cartBlock {
   display: flex;
@@ -6,12 +7,8 @@
   padding: 10px 50px;
 
   .cartTitle {
+    @include text($fontFamilyRaleWay, 150%, 700, 100px);
     text-transform: uppercase;
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 150%;
-    line-height: 100px;
     margin-top: 80px;
   }
 
@@ -34,36 +31,36 @@
       justify-content: space-evenly;
 
       .brandModal {
-        @include text(Raleway, 16px, 300, 160%);
+        @include text($fontFamilyRaleWay, 16px, 300, 160%);
       }
 
       .brandCart {
-        @include text(Raleway, 30px, 600, 160%);
+        @include text($fontFamilyRaleWay, 30px, 600, 160%);
         //margin-bottom: 10px;
       }
 
       .nameModal {
-        @include text(Raleway, 16px, 300, 160%);
+        @include text($fontFamilyRaleWay, 16px, 300, 160%);
       }
 
       .nameCart {
-        @include text(Raleway, 30px, 400, 160%);
+        @include text($fontFamilyRaleWay, 30px, 400, 160%);
       }
 
       .priceModal {
-        @include text(Raleway, 16px, 600, 160%);
+        @include text($fontFamilyRaleWay, 16px, 600, 160%);
         margin-top: 5px;
       }
 
       .priceCart {
-        @include text(Raleway, 24px, 700, 32px);
+        @include text($fontFamilyRaleWay, 24px, 700, 32px);
       }
 
       .attributesContainer {
         width: 100%;
 
         .titleModal {
-          @include text(Raleway, 14px, 400, 16px);
+          @include text($fontFamilyRaleWay, 14px, 400, 16px);
           margin-bottom: 8px;
         }
 
@@ -119,8 +116,8 @@
   position: relative;
   width: 16px;
   height: 16px;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
 }
 
 .activeSwatch::before {
@@ -145,13 +142,10 @@
     align-items: center;
 
     .counter {
+      @include text($fontFamilyRaleWay, 2em, 500, 5em);
       display: flex;
       flex-direction: column;
       text-align: center;
-      font-family: 'Raleway', 'sans-serif';
-      font-weight: 500;
-      font-size: 2em;
-      line-height: 5em;
       padding: 15px;
       color: #1d1f22;
 
@@ -162,7 +156,7 @@
       }
 
       .value {
-        @include text('Raleway', 16px, 500, 4.5em);
+        @include text($fontFamilyRaleWay, 16px, 500, 4.5em);
       }
     }
   }
@@ -179,15 +173,15 @@
 }
 
 .totalTitleCart {
-  @include text(Raleway, 24px, 700, 24px);
+  @include text($fontFamilyRaleWay, 24px, 700, 24px);
 }
 
 .totalPriceModal {
-  @include text(Roboto, 16px, 700, 160%);
+  @include text($fontFamilyRaleWay, 16px, 700, 160%);
   margin-left: 150px;
 }
 
 .totalPriceCart {
-  @include text(Raleway, 24px, 700, 160%);
+  @include text($fontFamilyRaleWay, 24px, 700, 160%);
   margin-left: 23px;
 }

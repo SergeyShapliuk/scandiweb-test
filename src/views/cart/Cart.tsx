@@ -66,19 +66,11 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
     }
   };
 
-  isButtonSelected = (name: string, id: string, item: ProductCartType) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    console.log('name', name);
-    console.log('id', id);
-    console.log('item', item);
-
-    const res = this.props.productCart
+  isButtonSelected = (name: string, id: string, item: ProductCartType) =>
+    this.props.productCart
       .find(p => p.id === item.id)
       ?.attributeSet?.find(fe => fe?.id === name)
       ?.items?.find(fr => fr?.id === id);
-    return res;
-  };
 
   render() {
     const { productCart, currency, showModal, productsCount, totalSum } = this.props;

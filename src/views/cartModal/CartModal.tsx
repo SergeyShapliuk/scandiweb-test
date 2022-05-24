@@ -7,13 +7,14 @@ import { Dispatch } from 'redux';
 import { ProductCartType } from '../../graphql/graphql';
 import { clearCart } from '../../store/actionCreators';
 import { RootStateType } from '../../store/rootStore';
-import { getProductCart } from '../../utils/selectors';
+import { getProductCart, getProductsCount } from '../../utils/selectors';
 import Cart from '../cart/Cart';
 
 import s from './CartModal.module.scss';
 
 type MapStateToProps = {
   productCart: ProductCartType[];
+  productsCount: number;
 };
 type MapDispatchToProps = {
   getClearCart: () => void;
@@ -35,7 +36,7 @@ class CartModal extends PureComponent<CartModalType> {
   };
 
   render() {
-    const { productCart, onClickBg, showModal } = this.props;
+    const { productCart, onClickBg, showModal, productsCount } = this.props;
 
     return (
       <div className={s.cartModalBlock}>
@@ -43,7 +44,7 @@ class CartModal extends PureComponent<CartModalType> {
           <h4 className={s.title}>
             My Bag
             <span className={s.titleItems}>
-              {`, ${productCart.length} item${productCart.length === 1 ? '' : 's'}`}
+              {`, ${productsCount} item${productCart.length === 1 ? '' : 's'}`}
             </span>
           </h4>
           <Cart showModal={showModal} />
@@ -66,6 +67,7 @@ class CartModal extends PureComponent<CartModalType> {
 
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   productCart: getProductCart(state),
+  productsCount: getProductsCount(state),
 });
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   getClearCart: () => dispatch(clearCart()),

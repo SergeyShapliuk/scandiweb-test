@@ -35,10 +35,6 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
     };
   }
 
-  componentWillUnmount() {
-    this.props.getClearAttributes();
-  }
-
   selectImg = (e: any) => {
     const image = e.target.src;
     return this.setState({ selectImage: image });
@@ -48,7 +44,7 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
     const { product, attributeSet, productCart } = this.props;
     if (attributeSet.length < (product.attributes?.length || 0)) {
       // eslint-disable-next-line no-alert
-      alert('Please choose all or other attributes!');
+      alert('Please select an attribute!');
       return;
     }
     const uuid = attributeSet.map(m => m.items?.map(me => me?.id));
@@ -69,7 +65,7 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
     // const attrName = newProduct.attributeSet?.map(at => at?.id);
 
     const result = productCart
-      .filter(prod => prod.name === newProduct.name)
+      .filter(prod => prod.id === newProduct.id)
       .find(f =>
         f.attributeSet?.every((atr, atrIndex) =>
           atr?.items?.every(

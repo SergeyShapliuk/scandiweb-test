@@ -17,7 +17,7 @@ export interface WithRouterProps<T = ReturnType<typeof useParams>> {
 }
 
 export const withRouter = <P extends object>(Component: ComponentType<P>) =>
-  function (props: Omit<P, keyof WithRouterProps>) {
+  function foo(props: Omit<P, keyof WithRouterProps>) {
     const location = useLocation();
     const match = { params: useParams() };
     const navigate = useNavigate();

@@ -12,7 +12,6 @@ import {
 export interface WithQueryProps {
   queryCategoryName: GetProductCategoriesNameQueryHookResult;
   queryCategoryProduct: CategoryProductQueryHookResult;
-  // allProducts: AllCategoryQueryHookResult;
   getCurrencies: GetCurrenciesQueryHookResult;
 }
 export const withQuery = <P extends object>(Component: ComponentType<P>) =>
@@ -27,7 +26,6 @@ export const withQuery = <P extends object>(Component: ComponentType<P>) =>
         {...(props as P)}
         queryCategoryName={queryCategoryName}
         queryCategoryProduct={queryCategoryProduct}
-        // allProducts={allProducts}
         getCurrencies={getCurrencies}
       />
     );

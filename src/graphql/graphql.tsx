@@ -407,13 +407,9 @@ export const GetCurrenciesDocument = gql`
  *   },
  * });
  */
-export function useGetCurrenciesQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetCurrenciesQuery, GetCurrenciesQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
+export function useGetCurrenciesQuery() {
   return Apollo.useQuery<GetCurrenciesQuery, GetCurrenciesQueryVariables>(
     GetCurrenciesDocument,
-    options,
   );
 }
 export function useGetCurrenciesLazyQuery(
@@ -447,6 +443,7 @@ export const GetProductDocument = gql`
       category
       attributes {
         id
+        brand
         name
         type
         items {
@@ -462,7 +459,6 @@ export const GetProductDocument = gql`
         }
         amount
       }
-      brand
     }
   }
 `;
@@ -513,6 +509,7 @@ export const CategoryProductDocument = gql`
       name
       products {
         id
+        brand
         name
         inStock
         attributes {
