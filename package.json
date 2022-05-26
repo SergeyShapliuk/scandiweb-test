@@ -1,5 +1,6 @@
 {
   "name": "scandiweb-test",
+  "homepage": "https://SergeyShapliuk.github.io/shop-test/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,6 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "browserslist": {
@@ -64,6 +67,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.6.2"
   }
 }
