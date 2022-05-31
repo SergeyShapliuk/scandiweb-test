@@ -38,7 +38,7 @@ type MapDispatchToProps = {
 };
 type ProductTypes = {
   product: any;
-  name: string;
+  name: any;
 } & MapStateToProps &
   MapDispatchToProps;
 
@@ -50,8 +50,8 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
     };
   }
 
-  addAttribute = (product: any) => {
-    if (product.attributes.length) {
+  addAttribute = (product: ProductType) => {
+    if (product.attributes?.length) {
       this.props.getProductPage(product.id);
       this.setState({ showModal: true });
     } else {
@@ -59,7 +59,7 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
     }
   };
 
-  addProduct = (product: any) => {
+  addProduct = (product: ProductType) => {
     const { attributeSet } = this.props;
     if (attributeSet.length < (product.attributes?.length || 0)) {
       // eslint-disable-next-line no-alert
@@ -106,7 +106,7 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
 
   render() {
     const { showModal } = this.state;
-    const { product, currency, name, productPage, productCart } = this.props;
+    const { product, name, currency, productPage, productCart } = this.props;
     return (
       <div className={s.itemContainer}>
         <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>

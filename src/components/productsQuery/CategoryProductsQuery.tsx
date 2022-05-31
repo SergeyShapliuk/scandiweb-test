@@ -1,32 +1,64 @@
-import React, { PureComponent } from 'react';
+import React, { ComponentType, PureComponent } from 'react';
 
-import { withQuery, WithQueryProps } from '../../services/useQueryHoc';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import { Category } from '../../graphql/graphql';
 import { withRouter, WithRouterProps } from '../../services/useRouterHoc';
+import { getProductsCategory } from '../../store/mainReducer';
+import { RootStateType } from '../../store/rootStore';
+import { getProductCategory } from '../../utils/selectors';
 import ProductsList from '../../views/products/ProductsList';
+import Preloader from '../preloader/Preloader';
 
 interface Params {
-  productsName: string;
+  categoryName: string;
 }
-type CategoryProductsType = WithQueryProps & WithRouterProps<Params>;
+type MapStateToProps = {
+  productCategory: Category;
+};
+type CategoryProductsType = {
+  getProductsCategory: (categoryName: string) => void;
+} & MapStateToProps &
+  WithRouterProps<Params>;
 
 class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
-  render() {
-    const { loading, error, data } = this.props.queryCategoryProduct;
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+  componentDidMount() {
+    this.getCategory();
+  }
+
+  componentDidUpdate(prevProps: Readonly<CategoryProductsType>) {
+    if (this.props.match.params.categoryName !== prevProps.match.params.categoryName) {
+      this.getCategory();
+    }
+  }
+
+  getCategory() {
     const { params } = this.props.match;
+    this.props.getProductsCategory(params.categoryName);
+  }
+
+  render() {
+    const data = this.props.productCategory;
+    const { params } = this.props.match;
+    if (!data) {
+      return <Preloader />;
+    }
     return (
-      data && (
+      data.name === params.categoryName && (
         <div>
-          {data.categories?.map(
-            m =>
-              m?.name === params.productsName && (
-                <ProductsList name={m.name} key={m.name} data={m} />
-              ),
-          )}
+          <ProductsList data={data} key={data.name} />
         </div>
       )
     );
   }
 }
-export default withRouter(withQuery(CategoryProductsQuery));
+
+const mapStateToProps = (state: RootStateType): MapStateToProps => ({
+  productCategory: getProductCategory(state),
+});
+
+export default compose<ComponentType>(
+  connect(mapStateToProps, { getProductsCategory }),
+  withRouter,
+)(CategoryProductsQuery);

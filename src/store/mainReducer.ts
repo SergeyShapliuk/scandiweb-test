@@ -3,22 +3,17 @@ import { Dispatch } from 'redux';
 import {
   ActionsType,
   initializedSuccess,
-  // setAllProducts,
   setProduct,
+  setProductsCategory,
 } from './actionCreators';
 
 import { client } from 'graphql/AppoloClient';
-import {
-  AttributeSet,
-  CategoryProductQuery,
-  ProductCartType,
-  ProductType,
-} from 'graphql/graphql';
-import { getProduct } from 'graphql/query/queries';
+import { AttributeSet, ProductCartType, ProductType, Category } from 'graphql/graphql';
+import { getProduct, getProductCategory } from 'graphql/query/queries';
 
 const initialState = {
   initialized: false,
-  allProducts: {} as CategoryProductQuery,
+  productCategory: {} as Category,
   productPage: {} as ProductType,
   attributeSet: [] as AttributeSet[],
   productCart: [] as ProductCartType[],
@@ -36,8 +31,8 @@ export const mainReducer = (
   switch (action.type) {
     case 'INITIALIZED_SUCCESS':
       return { ...state, initialized: true };
-    case 'SET_ALL_PRODUCTS':
-      return { ...state, allProducts: action.value };
+    case 'SET_PRODUCTS_CATEGORY':
+      return { ...state, productCategory: action.value };
     case 'SET_PRODUCT': {
       return { ...state, productPage: action.value };
     }
@@ -123,6 +118,16 @@ export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
   dispatch(initializedSuccess());
   // }
 };
+export const getProductsCategory =
+  (categoryName: string) => async (dispatch: Dispatch<ActionsType>) => {
+    const data = await client.query({
+      query: getProductCategory(categoryName),
+    });
+    if (!data.loading) {
+      dispatch(setProductsCategory(data.data.category));
+    }
+  };
+
 export const getProductPage =
   (productId: string) => async (dispatch: Dispatch<ActionsType>) => {
     const data = await client.query({

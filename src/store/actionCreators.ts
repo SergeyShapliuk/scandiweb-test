@@ -1,13 +1,8 @@
-import {
-  AttributeSet,
-  CategoryProductQuery,
-  ProductCartType,
-  ProductType,
-} from '../graphql/graphql';
+import { AttributeSet, ProductCartType, ProductType, Category } from '../graphql/graphql';
 
 export const initializedSuccess = () => ({ type: 'INITIALIZED_SUCCESS' } as const);
-export const setAllProducts = (value: CategoryProductQuery) =>
-  ({ type: 'SET_ALL_PRODUCTS', value } as const);
+export const setProductsCategory = (value: Category) =>
+  ({ type: 'SET_PRODUCTS_CATEGORY', value } as const);
 export const setProduct = (value: ProductType) =>
   ({ type: 'SET_PRODUCT', value } as const);
 export const setAttributes = (attribute: AttributeSet) =>
@@ -33,7 +28,7 @@ export const setShowModal = (showModal: boolean) =>
 export type ActionsType =
   | ReturnType<typeof setProduct>
   | ReturnType<typeof initializedSuccess>
-  | ReturnType<typeof setAllProducts>
+  | ReturnType<typeof setProductsCategory>
   | ReturnType<typeof setAttributes>
   | ReturnType<typeof setCurrency>
   | ReturnType<typeof setProductToCart>

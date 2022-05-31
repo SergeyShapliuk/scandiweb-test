@@ -3,7 +3,6 @@
 
 .productList {
   width: 100%;
-
   .name {
     @include text($fontFamilyRaleWay, 42px, 400, 160%);
     text-transform: capitalize;
@@ -14,12 +13,20 @@
   }
 
   .list {
-    max-width: 1640px;
+    max-width: 1440px;
     margin-right: auto;
     margin-left: auto;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    //justify-content: space-evenly;
+    //grid-template-rows: auto;
+    //object-fit: cover;
+    grid-gap: 79px;
+
+
+    //display: flex;
+    //justify-content: space-around;
+    //flex-wrap: wrap;
 
   }
 }

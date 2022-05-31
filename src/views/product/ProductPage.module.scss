@@ -12,11 +12,13 @@
   padding: 150px 110px 80px 10px;
 
   .pictureItem {
-    list-style: none;
-    width: 79px;
+
+    //list-style: none;
+    //width: 79px;
 
     .selectPicture {
       display: block;
+      margin-bottom: 41px;
       width: 79px;
       height: 80px;
       object-fit: contain;

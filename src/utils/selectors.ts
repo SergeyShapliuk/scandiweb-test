@@ -1,7 +1,7 @@
 import { RootStateType } from '../store/rootStore';
 
 export const getInitialized = (state: RootStateType) => state.main.initialized;
-export const getAllProducts = (state: RootStateType) => state.main.allProducts;
+export const getProductCategory = (state: RootStateType) => state.main.productCategory;
 export const getProduct = (state: RootStateType) => state.main.productPage;
 export const getProductCart = (state: RootStateType) => state.main.productCart;
 export const getAttributeSet = (state: RootStateType) => state.main.attributeSet;
