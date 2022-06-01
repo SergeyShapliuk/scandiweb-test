@@ -1,6 +1,7 @@
 import { AttributeSet, ProductCartType, ProductType, Category } from '../graphql/graphql';
 
-export const initializedSuccess = () => ({ type: 'INITIALIZED_SUCCESS' } as const);
+export const initializedSuccess = (value: boolean) =>
+  ({ type: 'INITIALIZED_SUCCESS', value } as const);
 export const setProductsCategory = (value: Category) =>
   ({ type: 'SET_PRODUCTS_CATEGORY', value } as const);
 export const setProduct = (value: ProductType) =>

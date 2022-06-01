@@ -32,7 +32,6 @@
   display: flex;
   transition: all 250ms linear;
   -ms-overflow-style: none;  /* hide scrollbar in IE and Edge */
-  scrollbar-width: none;  /* hide scrollbar in Firefox */
 }
 
 /* hide scrollbar in webkit browser */
@@ -55,7 +54,7 @@
   right: 5.36%;
   top: 82.11%;
   /*bottom: 18.94%;*/
-  border: 1.5px solid #FFFFFF;
+  border: 1px solid #FFFFFF;
   width: 30px;
   height: 30px;
   font-size: 120%;

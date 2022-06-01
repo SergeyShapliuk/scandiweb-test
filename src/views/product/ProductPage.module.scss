@@ -11,22 +11,25 @@
   top: 50%;
   padding: 150px 110px 80px 10px;
 
-  .pictureItem {
+  .galleryContainer {
+    height: 620px;
+    overflow: auto;
 
-    //list-style: none;
-    //width: 79px;
+    .pictureItem {
+      overflow-x: hidden;
 
-    .selectPicture {
-      display: block;
-      margin-bottom: 41px;
-      width: 79px;
-      height: 80px;
-      object-fit: contain;
-      transition: all 250ms;
-      cursor: pointer;
+      .selectPicture {
+        display: block;
+        margin-bottom: 41px;
+        width: 79px;
+        height: 80px;
+        object-fit: contain;
+        transition: all 250ms;
+        cursor: pointer;
 
-      &:hover {
-        transform: scale(1.1);
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
   }
@@ -95,5 +98,21 @@
     margin-bottom: 40px;
     margin-left: 40px;
     margin-right: 100px;
+  }
+}
+
+.pageContainer {
+  & > div::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  & > div::-webkit-scrollbar-track {
+    background-color: #cecfd7;
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+    border-radius: 100px;
+  }
+
+  & > div::-webkit-scrollbar-thumb {
+    background-color: #5ece7b;
   }
 }

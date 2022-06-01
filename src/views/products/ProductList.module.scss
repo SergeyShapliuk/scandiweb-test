@@ -3,6 +3,7 @@
 
 .productList {
   width: 100%;
+
   .name {
     @include text($fontFamilyRaleWay, 42px, 400, 160%);
     text-transform: capitalize;
@@ -17,17 +18,27 @@
     margin-right: auto;
     margin-left: auto;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-    //justify-content: space-evenly;
-    //grid-template-rows: auto;
-    //object-fit: cover;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
     grid-gap: 79px;
-
-
-    //display: flex;
-    //justify-content: space-around;
-    //flex-wrap: wrap;
-
+    @media screen and (max-width: 1430px) {
+      width: 1000px;
+      margin-right: auto;
+      margin-left: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-flow: dense;
+      grid-gap: 79px;
+    }
+@media screen and(max-width: 950px){
+  width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 356px;
+  grid-auto-flow: dense;
+  grid-gap: 79px;
+}
   }
 }
 

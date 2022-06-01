@@ -103,7 +103,9 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                             id={a?.id}
                             name={a!.id}
                             value={a?.value}
-                            className={`${s.attributeItem} ${
+                            className={`${
+                              showModal ? s.attributeItemModal : s.attributeItem
+                            } ${
                               this.isButtonSelected(m.id, a!.id, item) ? s.active : ''
                             }`}
                             key={a?.id}
@@ -117,7 +119,11 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                             id={m?.id}
                             name={a!.id}
                             value={a?.value}
-                            className={`${s.attributeItemSwatch} ${
+                            className={`${
+                              showModal
+                                ? s.attributeItemSwatchModal
+                                : s.attributeItemSwatch
+                            } ${
                               this.isButtonSelected(m.id, a!.id, item)
                                 ? s.activeSwatch
                                 : ''
@@ -174,14 +180,8 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
         <div className={!showModal ? s.cartLine : ''} />
         <div className={s.total}>
           {!showModal && (
-            <div style={{ fontFamily: 'Railway', fontSize: '24px', fontWeight: '400' }}>
-              Quantity:{' '}
-              <span
-                style={{ fontFamily: 'Railway', fontSize: '24px', fontWeight: 'bold' }}
-              >
-                {' '}
-                {productsCount}
-              </span>
+            <div className={s.quantity}>
+              Quantity: <span> {productsCount}</span>
             </div>
           )}
 

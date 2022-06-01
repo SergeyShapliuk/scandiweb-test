@@ -2,52 +2,36 @@ import React, { PureComponent } from 'react';
 
 import './App.css';
 
-import { connect } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 
 import Header from './components/header/Header';
-import Preloader from './components/preloader/Preloader';
 import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
 import ProductPageQuery from './components/productsQuery/ProductPageQuery';
-import { initializeApp } from './store/mainReducer';
-import { RootStateType } from './store/rootStore';
-import { getInitialized } from './utils/selectors';
 import Cart from './views/cart/Cart';
 
-type MapStateToProps = {
-  initialized: boolean;
-};
-type AppType = {
-  initializeApp: () => void;
-};
-export type AppTypes = MapStateToProps & AppType;
+function Layout1() {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+}
 
-class App extends PureComponent<AppTypes> {
-  componentDidMount() {
-    this.props.initializeApp();
-  }
-
+class App extends PureComponent {
   render() {
-    if (!this.props.initialized) {
-      return <Preloader />;
-    }
     return (
       <div className="App">
-        <Header />
         <Routes>
-          <Route path="/" element={<Navigate to="shop-test" />} />
-          <Route path="/:categoryName" element={<CategoryProductsQuery />} />
-          <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={<Layout1 />}>
+            <Route path="/:categoryName" element={<CategoryProductsQuery />} />
+            <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
+            <Route path="/cart" element={<Cart />} />
+          </Route>
         </Routes>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: RootStateType): MapStateToProps => ({
-  initialized: getInitialized(state),
-});
-export default connect(mapStateToProps, {
-  initializeApp,
-})(App);
+export default App;

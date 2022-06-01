@@ -30,7 +30,7 @@ export const mainReducer = (
 ): InitialStateType => {
   switch (action.type) {
     case 'INITIALIZED_SUCCESS':
-      return { ...state, initialized: true };
+      return { ...state, initialized: action.value };
     case 'SET_PRODUCTS_CATEGORY':
       return { ...state, productCategory: action.value };
     case 'SET_PRODUCT': {
@@ -109,15 +109,6 @@ export const mainReducer = (
   }
 };
 
-export const initializeApp = () => async (dispatch: Dispatch<ActionsType>) => {
-  // const data = await client.query({
-  //   query: getProductCategories,
-  // });
-  // if (!data.loading) {
-  //   dispatch(setAllProducts(data.data));
-  dispatch(initializedSuccess());
-  // }
-};
 export const getProductsCategory =
   (categoryName: string) => async (dispatch: Dispatch<ActionsType>) => {
     const data = await client.query({
@@ -125,6 +116,7 @@ export const getProductsCategory =
     });
     if (!data.loading) {
       dispatch(setProductsCategory(data.data.category));
+      dispatch(initializedSuccess(true));
     }
   };
 

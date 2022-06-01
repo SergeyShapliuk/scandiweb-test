@@ -89,7 +89,7 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
     const { selectImage }: any = this.state;
     return (
       <div className={s.pageContainer}>
-        <div>
+        <div className={s.galleryContainer}>
           {product &&
             product.gallery?.map((img: any) => (
               <div

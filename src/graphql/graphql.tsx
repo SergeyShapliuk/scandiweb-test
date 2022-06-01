@@ -76,17 +76,6 @@ export type ProductType = {
   name: Scalars['String'];
   prices: Array<Price>;
 };
-export type ProductTypess = {
-  __typename?: 'Product';
-  attributes?: Maybe<Array<Maybe<AttributeSet>>>;
-  brand: Scalars['String'];
-  description: Scalars['String'];
-  gallery?: Maybe<Array<Maybe<Scalars['String']>>>;
-  id: Scalars['String'];
-  inStock?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
-  prices: Array<Price>;
-};
 
 export type ProductCartType = {
   attributeSet?: Maybe<Array<Maybe<AttributeSet>>>;
@@ -475,9 +464,6 @@ export function useGetProductCategoryLazyQuery(
   );
 }
 
-export type GetProductCategoryQueryHookResult = ReturnType<
-  typeof useGetProductCategoryQuery
->;
 export type GetProductCategoryLazyQueryHookResult = ReturnType<
   typeof useGetProductCategoryLazyQuery
 >;

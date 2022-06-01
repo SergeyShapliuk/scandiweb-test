@@ -7,7 +7,7 @@ import { Category } from '../../graphql/graphql';
 import { withRouter, WithRouterProps } from '../../services/useRouterHoc';
 import { getProductsCategory } from '../../store/mainReducer';
 import { RootStateType } from '../../store/rootStore';
-import { getProductCategory } from '../../utils/selectors';
+import { getInitialized, getProductCategory } from '../../utils/selectors';
 import ProductsList from '../../views/products/ProductsList';
 import Preloader from '../preloader/Preloader';
 
@@ -16,6 +16,7 @@ interface Params {
 }
 type MapStateToProps = {
   productCategory: Category;
+  initialized: boolean;
 };
 type CategoryProductsType = {
   getProductsCategory: (categoryName: string) => void;
@@ -41,7 +42,7 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
   render() {
     const data = this.props.productCategory;
     const { params } = this.props.match;
-    if (!data) {
+    if (!this.props.initialized) {
       return <Preloader />;
     }
     return (
@@ -56,6 +57,7 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
 
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   productCategory: getProductCategory(state),
+  initialized: getInitialized(state),
 });
 
 export default compose<ComponentType>(

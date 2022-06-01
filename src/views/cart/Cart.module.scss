@@ -83,7 +83,9 @@
 }
 
 .attributeItem {
-  @include text(Source Sans Pro, 1em, 400, 160%);
+  @include text(Source Sans Pro, 1em, 400, 16px);
+  width: 63px;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,9 +95,20 @@
   margin-right: 5px;
   white-space: nowrap;
   overflow: hidden;
-  padding: 3%;
+  //padding: 6%;
 }
-
+.attributeItemModal{
+  @include text(Source Sans Pro, 10px, 400, 160%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px #1D1F22 solid;
+  background-color: #ffffff;
+  color: #1D1F22;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+}
 .active {
   color: #ffffff;
   background: #1D1F22;
@@ -111,7 +124,15 @@
   margin-right: 5px;
   padding: 3%;
 }
-
+.attributeItemSwatchModal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px #ece9e9 outset;
+  margin-right: 5px;
+}
 .activeSwatch {
   position: relative;
   width: 16px;
@@ -165,6 +186,12 @@
 .image {
   width: 80px;
   height: 100px;
+}
+.quantity{
+  @include text($fontFamilyRaleWay, 24px, 400, 28px);
+  & span{
+    @include text($fontFamilyRaleWay, 24px, 700, 28px);
+  }
 }
 
 .totalTitleModal {

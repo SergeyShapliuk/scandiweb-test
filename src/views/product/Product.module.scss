@@ -3,11 +3,11 @@
 
 .itemContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 2%;
   position: relative;
   box-sizing: border-box;
-  align-items: center;
   cursor: pointer;
   padding: 16px;
 }
@@ -88,7 +88,6 @@
 .itemContainer:hover .addBtn {
   display: block;
 }
-
 
 
 
