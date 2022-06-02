@@ -18,12 +18,14 @@
   background: #FFFFFF;
   right: 80px;
   z-index: 21;
-
+  & > div::-webkit-scrollbar {
+    width: 0;
+  }
   .cartModalContainers {
+    width: 400px;
     height: 550px;
     margin-top: 45px;
     overflow: auto;
-
 
     .title {
       @include text($fontFamilyRaleWay, 16px, 700, 25.6px);

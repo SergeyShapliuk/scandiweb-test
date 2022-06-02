@@ -138,7 +138,7 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
               </div>
               <div className={s.galleryBlock}>
                 <div className={s.galleryContainer}>
-                  <div className={s.counter}>
+                  <div className={showModal ? s.counterModal : s.counter}>
                     <button
                       value={item.id}
                       type="button"
@@ -147,7 +147,9 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                     >
                       +
                     </button>
-                    <span className={s.value}>{item.count}</span>
+                    <span className={showModal ? s.valueModal : s.value}>
+                      {item.count}
+                    </span>
                     <button
                       value={item.id}
                       type="button"
