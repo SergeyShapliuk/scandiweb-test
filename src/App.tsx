@@ -9,7 +9,7 @@ import CategoryProductsQuery from './components/productsQuery/CategoryProductsQu
 import ProductPageQuery from './components/productsQuery/ProductPageQuery';
 import Cart from './views/cart/Cart';
 
-function Layout1() {
+function Layout() {
   return (
     <>
       <Header />
@@ -23,7 +23,7 @@ class App extends PureComponent {
     return (
       <div className="App">
         <Routes>
-          <Route path="/" element={<Layout1 />}>
+          <Route path="/" element={<Layout />}>
             <Route path="/:categoryName" element={<CategoryProductsQuery />} />
             <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
             <Route path="/cart" element={<Cart />} />

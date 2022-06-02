@@ -187,6 +187,10 @@
   width: 80px;
   height: 100px;
 }
+.imageModal{
+  width: 200px;
+  height: 258px;
+}
 .quantity{
   @include text($fontFamilyRaleWay, 24px, 400, 28px);
   & span{

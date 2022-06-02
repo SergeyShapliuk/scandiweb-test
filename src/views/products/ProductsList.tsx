@@ -17,7 +17,7 @@ class ProductsList extends PureComponent<ProductsListType> {
         <div className={s.name}>{data.name}</div>
         <div className={s.list}>
           {data.products.map(m => (
-            <Product product={m} name={data.name} key={m?.id} />
+            <Product product={m} key={m?.id} />
           ))}
         </div>
       </div>

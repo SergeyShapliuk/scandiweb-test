@@ -74,7 +74,6 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
 
   render() {
     const { productCart, currency, showModal, productsCount, totalSum } = this.props;
-
     return (
       <div className={s.cartBlock}>
         {!showModal && <div className={s.cartTitle}>Cart</div>}
@@ -158,16 +157,16 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
                       -
                     </button>
                   </div>
-                  {!showModal ? (
+                  {!showModal && item.gallery?.length !== 1 ? (
                     <Carousel>
-                      {item.gallery?.map((image: any) => (
-                        <img src={image} alt="" />
+                      {item.gallery?.map(image => (
+                        <img key={image} src={image} alt="" />
                       ))}
                     </Carousel>
                   ) : (
                     <img
                       src={item.gallery && item.gallery[0]}
-                      className={s.image}
+                      className={showModal ? s.image : s.imageModal}
                       alt=""
                     />
                   )}

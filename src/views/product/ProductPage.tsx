@@ -59,10 +59,6 @@ class ProductPage extends PureComponent<ProductPageType, { selectImage: any }> {
       attributeSet,
       count: 1,
     };
-    // const attributesValues = newProduct.attributeSet?.map(at =>
-    //   at?.items?.map(v => v?.displayValue),
-    // );
-    // const attrName = newProduct.attributeSet?.map(at => at?.id);
 
     const result = productCart
       .filter(prod => prod.id === newProduct.id)

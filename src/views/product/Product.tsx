@@ -38,7 +38,6 @@ type MapDispatchToProps = {
 };
 type ProductTypes = {
   product: any;
-  name: any;
 } & MapStateToProps &
   MapDispatchToProps;
 
@@ -70,7 +69,7 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
     const newProduct: ProductCartType = {
       name: product?.name,
       brand: product?.brand,
-      category: this.props.name,
+      category: product.category,
       gallery: product?.gallery,
       id: product.id + uuid,
       prices: product?.prices,
@@ -106,10 +105,10 @@ class Product extends PureComponent<ProductTypes, { showModal: boolean }> {
 
   render() {
     const { showModal } = this.state;
-    const { product, name, currency, productPage, productCart } = this.props;
+    const { product, currency, productPage, productCart } = this.props;
     return (
       <div className={s.itemContainer}>
-        <NavLink className={s.itemLink} to={`/${name}/${product.id}`}>
+        <NavLink className={s.itemLink} to={`/${product.category}/${product.id}`}>
           <img
             className={s.itemImage}
             src={product.gallery && product.gallery[0]}

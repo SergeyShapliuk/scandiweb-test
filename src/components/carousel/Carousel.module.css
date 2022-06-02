@@ -13,7 +13,7 @@
 .carouselContentWrapper {
   overflow: hidden;
   width: 200px;
-  height: 250px;
+  height: 258px;
 
   /*width: 50%;*/
   /*height: 500px;*/
@@ -40,7 +40,8 @@
 }
 
 .carouselContent > * {
-  width: 100%;
+  width: 200px;
+  height: 258px;
   flex-shrink: 0;
   flex-grow: 1;
 }

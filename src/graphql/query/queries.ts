@@ -9,7 +9,6 @@ export const getProductCategory = (category: string) => gql`
         name
         inStock
         gallery
-        description
         category
         attributes {
           id
