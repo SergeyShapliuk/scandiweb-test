@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import Carousel from '../../components/carousel/Carousel';
 import { AttributeSet, ProductCartType } from '../../graphql/graphql';
 import {
+  clearCart,
   removeProductFromCart,
   setDecProductCount,
   setIncProductCount,
@@ -33,6 +34,7 @@ type MapDispatchToProps = {
   incProduct: (id: string) => void;
   decProduct: (id: string) => void;
   getTotalSum: () => void;
+  getClearCart: () => void;
   removeProductFromCart: (productId: string) => void;
 };
 type CartType = {
@@ -71,6 +73,15 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
       .find(p => p.id === item.id)
       ?.attributeSet?.find(fe => fe?.id === name)
       ?.items?.find(fr => fr?.id === id);
+
+  order = () => {
+    if (this.props.productCart.length) {
+      this.props.getClearCart();
+      return;
+    }
+    // eslint-disable-next-line no-alert
+    alert('add some product');
+  };
 
   render() {
     const { productCart, currency, showModal, productsCount, totalSum } = this.props;
@@ -181,17 +192,28 @@ class Cart extends PureComponent<MapStateToProps & MapDispatchToProps & CartType
         <div className={!showModal ? s.cartLine : ''} />
         <div className={s.total}>
           {!showModal && (
-            <div className={s.quantity}>
-              Quantity: <span> {productsCount}</span>
-            </div>
+            <>
+              <div className={s.tax}>
+                Tax 21%: <span> {`${currency}${Math.round((totalSum / 100) * 21)}`}</span>
+              </div>
+              <div className={s.quantity}>
+                Quantity: <span> {productsCount}</span>
+              </div>
+            </>
           )}
-
           <div className={showModal ? s.totalTitleModal : s.totalTitleCart}>
             Total:{' '}
             <span
               className={showModal ? s.totalPriceModal : s.totalPriceCart}
             >{`${currency}${Math.round(totalSum * 100) / 100}`}</span>
           </div>
+          <button
+            type="button"
+            onClick={this.order}
+            className={!showModal ? s.btnOrder : s.btnOrderModal}
+          >
+            order
+          </button>
         </div>
       </div>
     );
@@ -208,6 +230,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   incProduct: (id: string) => dispatch(setIncProductCount(id)),
   decProduct: (id: string) => dispatch(setDecProductCount(id)),
   getTotalSum: () => dispatch(setTotalSum()),
+  getClearCart: () => dispatch(clearCart()),
   removeProductFromCart: (productId: string) =>
     dispatch(removeProductFromCart(productId)),
 });

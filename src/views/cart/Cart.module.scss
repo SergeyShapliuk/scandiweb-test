@@ -65,7 +65,8 @@
         }
 
         .titleCart {
-          @include text(Roboto Condensed, 18px, 700, 18px);
+          @include text($fontFamilyRobotoCondensed, 18px, 700, 18px);
+          text-transform: uppercase;
           margin-bottom: 8px;
         }
 
@@ -217,6 +218,13 @@
   height: 258px;
 }
 
+.tax {
+  @include text($fontFamilyRaleWay, 24px, 400, 38px);
+
+  & span {
+    @include text($fontFamilyRaleWay, 24px, 700, 28px);
+  }
+}
 .quantity {
   @include text($fontFamilyRaleWay, 24px, 400, 28px);
 
@@ -226,7 +234,7 @@
 }
 
 .totalTitleModal {
-  @include text(Roboto, 16px, 500, 18px);
+  @include text($fontFamilyRobotoCondensed, 16px, 500, 18px);
   margin-top: 30px;
 }
 
@@ -236,10 +244,24 @@
 
 .totalPriceModal {
   @include text($fontFamilyRaleWay, 16px, 700, 160%);
-  margin-left: 150px;
+  float:right;
 }
 
 .totalPriceCart {
   @include text($fontFamilyRaleWay, 24px, 700, 160%);
   margin-left: 23px;
+}
+.btnOrder{
+  @include text($fontFamilyRaleWay, 14px, 600, 120%);
+  text-transform: uppercase;
+  width: 279px;
+  height: 43px;
+  cursor: pointer;
+  margin-top: 10px;
+  color:  #ffffff;
+  background-color: #5ECE7B;
+  border: none;
+}
+.btnOrderModal{
+display: none;
 }
