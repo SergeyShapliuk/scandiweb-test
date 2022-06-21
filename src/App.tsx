@@ -8,6 +8,7 @@ import Header from './components/header/Header';
 import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
 import ProductPageQuery from './components/productsQuery/ProductPageQuery';
 import Welcome from './components/welcome/Welcome';
+import { withRouter, WithRouterProps } from './services/useRouterHoc';
 import Cart from './views/cart/Cart';
 
 // function Layout() {
@@ -18,7 +19,14 @@ import Cart from './views/cart/Cart';
 //     </>
 //   );
 // }
-class App extends PureComponent {
+
+class App extends PureComponent<WithRouterProps> {
+  componentDidMount() {
+    if (this.props.location.pathname !== '/shop-test') {
+      this.props.history.push('/shop-test');
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -37,4 +45,4 @@ class App extends PureComponent {
   }
 }
 
-export default App;
+export default withRouter(App);
