@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import './App.css';
 
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
@@ -29,6 +29,7 @@ class App extends PureComponent {
           <Route path="/:categoryName" element={<CategoryProductsQuery />} />
           <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/*" element={<Navigate to="/shop-test" />} />
           {/* </Route> */}
         </Routes>
       </div>
