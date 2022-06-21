@@ -29,7 +29,7 @@ class App extends PureComponent {
           <Route path="/:categoryName" element={<CategoryProductsQuery />} />
           <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/*" element={<Navigate to="/shop-test" />} />
+          <Route path="*" element={<Navigate to="/shop-test" />} />
           {/* </Route> */}
         </Routes>
       </div>
