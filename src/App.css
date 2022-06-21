@@ -7,4 +7,13 @@
     overflow-x: hidden;
     background: #ffffff;
 }
+.image{
+    width: 100%;
+    height: 92vh;
+    object-fit: cover;
+    object-position: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 

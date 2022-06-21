@@ -39,7 +39,7 @@ class Currency extends PureComponent<CurrencyTypes, { showCurrencies: boolean }>
 
   render() {
     const { loading, error, data } = this.props.getCurrencies;
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p>Wait for the download...</p>;
     if (error) return <p>Error :(</p>;
     const { showCurrencies } = this.state;
     const { currency, showModal } = this.props;

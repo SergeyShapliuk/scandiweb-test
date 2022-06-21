@@ -2,33 +2,34 @@ import React, { PureComponent } from 'react';
 
 import './App.css';
 
-import { Navigate, Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import CategoryProductsQuery from './components/productsQuery/CategoryProductsQuery';
 import ProductPageQuery from './components/productsQuery/ProductPageQuery';
+import Welcome from './components/welcome/Welcome';
 import Cart from './views/cart/Cart';
 
-function Layout() {
-  return (
-    <>
-      <Header />
-      <Outlet />
-    </>
-  );
-}
-
+// function Layout() {
+//   return (
+//     <>
+//       <Header />
+//       <Outlet />
+//     </>
+//   );
+// }
 class App extends PureComponent {
   render() {
     return (
       <div className="App">
+        <Header />
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/shop-test" element={<Navigate to="/" />} />
-            <Route path="/:categoryName" element={<CategoryProductsQuery />} />
-            <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
-            <Route path="/cart" element={<Cart />} />
-          </Route>
+          {/* <Route path="/" element={<Layout />}> */}
+          <Route path="/shop-test" element={<Welcome />} />
+          <Route path="/:categoryName" element={<CategoryProductsQuery />} />
+          <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
+          <Route path="/cart" element={<Cart />} />
+          {/* </Route> */}
         </Routes>
       </div>
     );
