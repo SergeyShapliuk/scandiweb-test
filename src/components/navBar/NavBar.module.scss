@@ -34,4 +34,23 @@
   }
 }
 
+@media screen and (max-width: 735px) {
+  .navBar {
+    margin-left: 15px;
+    padding-top: 20px;
+
+    .list {
+      .item {
+        @include text($fontFamilyRaleWay, 12px, 400, 120%);
+        padding: 4px 5px 32px 0;
+      }
+
+      .active {
+        @include text($fontFamilyRaleWay, 12px, 600, 120%);
+        padding: 4px 5px 32px 0;
+      }
+    }
+  }
+}
+
 

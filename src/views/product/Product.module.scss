@@ -14,9 +14,8 @@
 
 .itemContainer:hover {
   box-shadow: 0 4px 35px rgba(168, 172, 176, 0.19);
-
-
 }
+
 .itemLink {
   width: 386px;
   height: 444px;
@@ -28,10 +27,9 @@
   position: relative;
   display: flex;
   margin-bottom: 24px;
-  width: 356px;
+  max-width: 356px;
   height: 338px;
   object-fit: contain;
-
 }
 
 .outStock {
@@ -59,6 +57,7 @@
 .itemPrice {
   @include text($fontFamilyRaleWay, 18px, 600, 160%);
 }
+
 .addBtn {
   position: absolute;
   top: 330px;
@@ -71,7 +70,6 @@
   border-radius: 60%;
   cursor: pointer;
   display: none;
-
 }
 
 .addBtn:hover {
@@ -89,7 +87,47 @@
   display: block;
 }
 
+@media screen and(max-width: 735px) {
 
+  .itemContainer {
+  }
+
+  .itemContainer:hover {
+  }
+  .itemLink {
+    width: 350px;
+  }
+
+  .itemImage {
+    margin-bottom: 14px;
+    max-width: 350px;
+    height: 338px;
+  }
+  .outStock {
+  }
+
+  .itemName {
+  }
+
+  .itemPrice {
+  }
+  .addBtn {
+    position: absolute;
+    top: 320px;
+    right: 10px;
+    left: 270px;
+  }
+
+  .addBtn:hover {
+  }
+
+  .btnSvg {
+  }
+
+  .itemContainer:hover .addBtn {
+
+  }
+}
 
 
 

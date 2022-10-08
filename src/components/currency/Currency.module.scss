@@ -58,5 +58,31 @@
   }
 }
 
+@media screen and (max-width: 735px) {
+  .currency {
+    width: 30px;
+    margin-left: -95px;
+
+    .currencyButton {
+      .up {
+      }
+
+      .down {
+      }
+    }
+
+    .currencyOptions {
+      width: 70px;
+
+      .optionsButton {
+        @include text($fontFamilyRaleWay, 14px, 500, 160%);
+        padding: 10px 0;
+
+        &:hover {
+        }
+      }
+    }
+  }
+}
 
 

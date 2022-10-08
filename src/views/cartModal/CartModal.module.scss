@@ -2,7 +2,6 @@
 @import "../../common/styles/sass/variables";
 
 .cartModalBlock {
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -84,7 +83,50 @@
   overflow: auto;
 }
 
+@media screen and(max-width: 735px){
+  .cartModalBlock {
+    height: 477px;
+    right: 10px;
+    & > div::-webkit-scrollbar {
+    }
+    .cartModalContainers {
+      width: 350px;
+      height: 350px;
+      margin-top: 45px;
+      overflow: auto;
 
+      .title {
+        @include text($fontFamilyRaleWay, 14px, 700, 25.6px);
+        right: 210px;
+        .titleItems {
+          @include text($fontFamilyRaleWay, 14px, 500, 25.6px);
+        }
+      }
+      .buttons {
+        bottom: 105px;
+        right: 18px;
+        & button {
+        }
+        .viewBtn {
+          @include text($fontFamilyRaleWay, 14px, 600, 16.8px);
+          &:hover {
+          }
+        }
+        .checkoutButton {
+          @include text($fontFamilyRaleWay, 14px, 600, 16.8px);
+          &:hover {
+          }
+        }
+      }
+    }
+  }
+
+
+  .cartModalContainers {
+    height: 520px;
+    overflow: auto;
+  }
+}
 
 
 

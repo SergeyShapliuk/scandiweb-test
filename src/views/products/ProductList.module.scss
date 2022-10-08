@@ -30,15 +30,15 @@
       grid-auto-flow: dense;
       grid-gap: 79px;
     }
-@media screen and(max-width: 950px){
-  width: 400px;
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: 356px;
-  grid-auto-flow: dense;
-  grid-gap: 79px;
-}
+    @media screen and(max-width: 950px) {
+      width: 400px;
+      margin-right: auto;
+      margin-left: auto;
+      display: grid;
+      grid-template-columns: 356px;
+      grid-auto-flow: dense;
+      grid-gap: 79px;
+    }
   }
 }
 
