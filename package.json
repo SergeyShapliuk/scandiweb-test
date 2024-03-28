@@ -69,5 +69,8 @@
     "eslint-plugin-react": "^7.29.4",
     "gh-pages": "^4.0.0",
     "prettier": "^2.6.2"
+  },
+    "engines": {
+    "node": "20.10.0"
   }
 }
