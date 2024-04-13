@@ -1,6 +1,6 @@
 {
-  "name": "scandiweb-test",
-  "homepage": "https://SergeyShapliuk.github.io/shop-test/",
+  "name": "shop",
+  "homepage": "https://SergeyShapliuk.github.io/shop/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
