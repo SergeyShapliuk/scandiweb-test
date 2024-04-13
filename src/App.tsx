@@ -22,8 +22,8 @@ import Cart from './views/cart/Cart';
 
 class App extends PureComponent<WithRouterProps> {
   componentDidMount() {
-    if (this.props.location.pathname !== '/shop-test') {
-      this.props.history.push('/shop-test');
+    if (this.props.location.pathname !== '/shop') {
+      this.props.history.push('/shop');
     }
   }
 
@@ -33,11 +33,11 @@ class App extends PureComponent<WithRouterProps> {
         <Header />
         <Routes>
           {/* <Route path="/" element={<Layout />}> */}
-          <Route path="/shop-test" element={<Welcome />} />
+          <Route path="/shop" element={<Welcome />} />
           <Route path="/:categoryName" element={<CategoryProductsQuery />} />
           <Route path="/:categoryName/:productsId" element={<ProductPageQuery />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="*" element={<Navigate to="/shop-test" />} />
+          <Route path="*" element={<Navigate to="/shop" />} />
           {/* </Route> */}
         </Routes>
       </div>

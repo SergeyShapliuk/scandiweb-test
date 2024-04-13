@@ -29,7 +29,7 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
   }
 
   componentDidUpdate(prevProps: Readonly<CategoryProductsType>) {
-    if (this.props.match.params.categoryName !== prevProps.match.params.categoryName) {
+    if (this.props.match.params?.categoryName !== prevProps.match.params?.categoryName) {
       this.getCategory();
     }
   }
@@ -46,9 +46,9 @@ class CategoryProductsQuery extends PureComponent<CategoryProductsType> {
       return <Preloader />;
     }
     return (
-      data.name === params.categoryName && (
+      data?.name === params.categoryName && (
         <div>
-          <ProductsList data={data} key={data.name} />
+          <ProductsList data={data} key={data?.name} />
         </div>
       )
     );
